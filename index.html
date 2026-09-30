@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v11.0</title>
+<title>ELIPS NOVA GAME v12.0</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -59,13 +59,15 @@
     50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
   }
   .nav {
-    display:grid; grid-template-columns:repeat(6,1fr); gap:4px; margin-top:10px;
+    display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-top:10px;
   }
   .nav button {
-    padding:9px 2px; font-size:0.62rem; border-radius:10px; border:1px solid #4a3f9f;
+    padding:8px 2px; font-size:0.58rem; border-radius:10px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
   }
   .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
+  .nav button.prestige-nav { border-color:#ffb300; color:#ffb300; }
+  .nav button.prestige-nav.active { background:linear-gradient(135deg,#ffb300,#ff6600); color:#111; }
   .panel {
     background:rgba(20,15,55,0.85); border:1px solid #3a2f80; border-radius:14px;
     padding:12px; margin-top:12px; max-height:65vh; overflow-y:auto;
@@ -388,11 +390,7 @@
     border-color:#ffb300 !important;
     box-shadow:0 0 50px rgba(255,180,0,0.6) !important;
   }
-  .apology-modal h2 {
-    color:#ffb300 !important;
-    text-align:center;
-    justify-content:center;
-  }
+  .apology-modal h2 { color:#ffb300 !important; text-align:center; justify-content:center; }
   .apology-modal p {
     background:rgba(255,180,0,0.1) !important;
     border-left-color:#ffb300 !important;
@@ -401,82 +399,44 @@
   }
   .discount-banner {
     background:linear-gradient(135deg, #ff2b6b, #ff5050, #ffb300);
-    border-radius:12px;
-    padding:12px;
-    margin-bottom:10px;
-    text-align:center;
-    font-weight:bold;
-    color:white;
-    font-size:0.9rem;
+    border-radius:12px; padding:12px; margin-bottom:10px;
+    text-align:center; font-weight:bold; color:white; font-size:0.9rem;
     box-shadow:0 0 20px rgba(255,60,120,0.5);
     animation: discountPulse 1.5s infinite;
-    position:relative;
-    overflow:hidden;
+    position:relative; overflow:hidden;
   }
   @keyframes discountPulse {
     0%,100% { box-shadow:0 0 20px rgba(255,60,120,0.5); }
     50%     { box-shadow:0 0 35px rgba(255,180,0,0.8); }
   }
   .discount-banner::before {
-    content:'';
-    position:absolute;
-    top:0; left:-100%;
+    content:''; position:absolute; top:0; left:-100%;
     width:100%; height:100%;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
     animation: shine 2.5s infinite;
   }
-  @keyframes shine {
-    0%   { left:-100%; }
-    100% { left:100%; }
-  }
-  .discount-banner .big {
-    display:block;
-    font-size:1.5rem;
-    letter-spacing:2px;
-    text-shadow:0 0 10px rgba(0,0,0,0.3);
-    margin:4px 0;
-  }
-  .discount-banner .timer {
-    display:block;
-    font-size:0.75rem;
-    color:#fff8;
-    margin-top:4px;
-    font-weight:normal;
-  }
-  .price-strike {
-    text-decoration:line-through;
-    color:#888;
-    font-size:0.75rem;
-    margin-right:4px;
-  }
-  .price-discount {
-    color:#00ff90;
-    font-weight:bold;
-  }
+  @keyframes shine { 0%{left:-100%;} 100%{left:100%;} }
+  .discount-banner .big { display:block; font-size:1.5rem; letter-spacing:2px; margin:4px 0; }
+  .discount-banner .timer { display:block; font-size:0.75rem; color:#fff8; margin-top:4px; font-weight:normal; }
+  .price-strike { text-decoration:line-through; color:#888; font-size:0.75rem; margin-right:4px; }
+  .price-discount { color:#00ff90; font-weight:bold; }
   .discount-tag {
     display:inline-block;
     background:linear-gradient(135deg,#ff2b6b,#ff5050);
-    color:white;
-    font-size:0.65rem;
-    padding:2px 6px;
-    border-radius:6px;
-    margin-left:4px;
-    font-weight:bold;
+    color:white; font-size:0.65rem;
+    padding:2px 6px; border-radius:6px;
+    margin-left:4px; font-weight:bold;
     animation: tagPulse 1s infinite;
   }
-  @keyframes tagPulse {
-    0%,100% { transform:scale(1); }
-    50%     { transform:scale(1.1); }
-  }
+  @keyframes tagPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
 
-  /* ============ v11.0: FRIEND SYSTEM ============ */
+  /* FRIEND */
   .online-dot {
     display:inline-block; width:8px; height:8px; border-radius:50%;
     margin-right:4px;
   }
   .online-dot.on { background:#00ff90; box-shadow:0 0 6px #00ff90; }
   .online-dot.off { background:#666; }
-
   .friend-tabs {
     display:grid; grid-template-columns:repeat(3,1fr); gap:4px;
     margin-bottom:10px;
@@ -507,34 +467,21 @@
   .btn-small-blue { background:linear-gradient(135deg,#0040c0,#4090ff); color:white; }
   .btn-small-purple { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
   .btn-small-gray { background:#444; color:#aaa; cursor:not-allowed !important; }
-
   .profile-card {
     background:linear-gradient(135deg, rgba(100,50,200,0.35), rgba(200,50,150,0.35));
     border:1px solid #a06bff;
-    border-radius:14px;
-    padding:16px;
-    text-align:center;
-    margin-bottom:12px;
+    border-radius:14px; padding:16px; text-align:center; margin-bottom:12px;
   }
-  .profile-card .avatar {
-    font-size:3rem; margin-bottom:6px;
-  }
-  .profile-card h3 {
-    color:#7fd4ff; font-size:1.1rem; margin-bottom:4px;
-  }
-  .profile-card .meta {
-    font-size:0.75rem; color:#aaa; margin-top:4px;
-  }
+  .profile-card .avatar { font-size:3rem; margin-bottom:6px; }
+  .profile-card h3 { color:#7fd4ff; font-size:1.1rem; margin-bottom:4px; }
+  .profile-card .meta { font-size:0.75rem; color:#aaa; margin-top:4px; }
   .profile-card .meta b { color:#ffb300; }
-
   .private-chat {
     height:260px; overflow-y:auto;
     background:rgba(0,0,0,0.4); border-radius:10px;
     padding:8px; margin-bottom:8px;
     border:1px solid #3a2f80;
   }
-
-  /* Owner Transfer Modal */
   .transfer-list-item {
     display:flex; justify-content:space-between; align-items:center;
     padding:10px; margin-bottom:6px; border-radius:10px;
@@ -547,8 +494,6 @@
     cursor:pointer; font-weight:bold;
     background:linear-gradient(135deg,#ffb300,#ff6600); color:#111;
   }
-
-  /* Mute menu */
   .mute-options {
     display:grid; grid-template-columns:repeat(3,1fr); gap:6px;
     margin:8px 0;
@@ -562,6 +507,158 @@
     background:linear-gradient(135deg,#ff2b6b,#ff5050); color:white;
     border-color:#ff4060;
   }
+
+  /* ★ v12.0: PRESTIGE */
+  .prestige-hero {
+    text-align:center;
+    padding:20px 14px;
+    background:linear-gradient(135deg, #ffb300, #ff6600, #a02bff);
+    border-radius:16px;
+    margin-bottom:14px;
+    color:#111;
+    box-shadow:0 0 30px rgba(255,180,0,0.5);
+    animation: prestigeGlow 3s infinite;
+  }
+  @keyframes prestigeGlow {
+    0%,100% { box-shadow:0 0 30px rgba(255,180,0,0.5); }
+    50%     { box-shadow:0 0 45px rgba(255,140,0,0.9); }
+  }
+  .prestige-hero .big-p {
+    font-size:2.5rem;
+    font-weight:bold;
+    text-shadow:0 2px 4px rgba(0,0,0,0.3);
+    letter-spacing:2px;
+  }
+  .prestige-hero .label {
+    font-size:0.8rem;
+    font-weight:bold;
+    letter-spacing:3px;
+    opacity:0.8;
+  }
+  .prestige-hero .judul {
+    margin-top:6px;
+    font-size:0.9rem;
+    font-weight:bold;
+  }
+  .prestige-stats {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .prestige-stat {
+    background:rgba(255,180,0,0.15);
+    border:1px solid #ffb300;
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    font-size:0.8rem;
+  }
+  .prestige-stat .value {
+    display:block;
+    font-size:1.2rem;
+    font-weight:bold;
+    color:#ffb300;
+    margin-top:4px;
+  }
+  .prestige-requirements {
+    background:rgba(0,0,0,0.3);
+    border:1px solid #3a2f80;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    font-size:0.8rem;
+  }
+  .prestige-requirements h4 {
+    color:#7fd4ff;
+    font-size:0.85rem;
+    margin-bottom:8px;
+  }
+  .req-row {
+    display:flex;
+    justify-content:space-between;
+    padding:5px 0;
+    border-bottom:1px dashed #2a1a4a;
+  }
+  .req-row:last-child { border-bottom:none; }
+  .req-row .check { color:#00ff90; }
+  .req-row .cross { color:#ff4060; }
+  .prestige-btn {
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    font-size:1.1rem;
+    font-weight:bold;
+    cursor:pointer;
+    color:#111;
+    background:linear-gradient(135deg, #ffb300, #ff6600);
+    box-shadow:0 0 25px rgba(255,180,0,0.6);
+    transition: transform 0.1s;
+    letter-spacing:1px;
+    animation: prestigeGlow 2s infinite;
+  }
+  .prestige-btn:active { transform: scale(0.97); }
+  .prestige-btn:disabled {
+    background: #444;
+    color: #888;
+    box-shadow: none;
+    cursor: not-allowed;
+    animation: none;
+  }
+  .prestige-warning {
+    background:rgba(255,60,90,0.15);
+    border:1px solid #ff4060;
+    border-radius:10px;
+    padding:10px;
+    margin-top:12px;
+    font-size:0.75rem;
+    color:#ffb0b0;
+    line-height:1.5;
+  }
+  .prestige-badge {
+    display:inline-block;
+    background:linear-gradient(135deg, #ffb300, #ff6600);
+    color:#111;
+    font-size:0.7rem;
+    padding:2px 8px;
+    border-radius:8px;
+    font-weight:bold;
+    margin-left:4px;
+  }
+  .prestige-badge.lvl-1 { background:linear-gradient(135deg,#7fd4ff,#5b3fff); color:white; }
+  .prestige-badge.lvl-2 { background:linear-gradient(135deg,#a06bff,#5b3fff); color:white; }
+  .prestige-badge.lvl-3 { background:linear-gradient(135deg,#ff5050,#a01030); color:white; }
+  .prestige-badge.lvl-4 { background:linear-gradient(135deg,#ffb300,#ff6600); color:#111; }
+  .prestige-badge.lvl-5 { background:linear-gradient(135deg,#00ff90,#00c060); color:#111; }
+  .prestige-badge.lvl-6 { background:linear-gradient(135deg,#ff2b6b,#a02bff); color:white; }
+  .prestige-badge.lvl-max {
+    background:linear-gradient(90deg, #ff2b6b, #ffb300, #00ff90, #5b3fff, #ff2b6b);
+    background-size: 400% 100%;
+    color:white;
+    animation: rainbowMove 3s linear infinite;
+  }
+  @keyframes rainbowMove {
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 400% 50%; }
+  }
+  .prestige-modal-hero {
+    text-align:center;
+    padding:16px;
+    background:linear-gradient(135deg, #ffb300, #ff6600, #a02bff);
+    border-radius:12px;
+    margin-bottom:14px;
+    color:#111;
+  }
+  .prestige-modal-hero .big {
+    font-size:2rem;
+    font-weight:bold;
+    letter-spacing:2px;
+  }
+  .prestige-modal-hero .small {
+    font-size:0.85rem;
+    margin-top:4px;
+  }
 </style>
 </head>
 <body>
@@ -573,10 +670,11 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v11.0 — FRIEND & CLAN UPGRADE</div>
+<div class="version">v12.0 — PRESTIGE SYSTEM</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="player-name-display">
   👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
+  <span id="prestigeTagHeader"></span>
 </div>
 <div class="dev-active-tag" id="devActiveTag" style="display:none">
   <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
@@ -592,6 +690,7 @@
 
 <button class="click-btn" id="clickBtn">👆 KLIK UNTUK CEPAT!</button>
 <div style="text-align:center;font-size:0.75rem;color:#888;margin-top:-6px" id="boostInfo"></div>
+<div style="text-align:center;font-size:0.7rem;color:#ffb300;margin-top:2px" id="prestigeBonusInfo"></div>
 
 <div class="auto-panel" id="autoPanel">
   <div class="row">
@@ -606,6 +705,7 @@
   <button data-panel="event">⭐ Event</button>
   <button data-panel="clan">🏰 Clan</button>
   <button data-panel="friend">👥 Teman</button>
+  <button data-panel="prestige" class="prestige-nav">♻️ Prestige</button>
   <button data-panel="redeem">🎁 Redeem</button>
 </div>
 
@@ -614,6 +714,7 @@
 <div class="panel hidden" id="panel-event"></div>
 <div class="panel hidden" id="panel-clan"></div>
 <div class="panel hidden" id="panel-friend"></div>
+<div class="panel hidden" id="panel-prestige"></div>
 <div class="panel hidden" id="panel-redeem">
   <h3>🎁 Kode Redeem</h3>
   <input type="text" id="redeemInput" placeholder="Masukkan kode...">
@@ -697,9 +798,6 @@
     <h2 style="color:#7fd4ff">👤 Edit Profil</h2>
     <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
     <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
-    <div style="font-size:0.7rem;color:#888;margin-top:4px;margin-bottom:8px">
-      Nama ini akan muncul di chat clan, chat teman, dan daftar member.
-    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
       <button class="btn-primary" onclick="savePlayerName()">Simpan</button>
@@ -734,9 +832,6 @@
       <br><br>
       Menu <b>"⭐ Legendary"</b> ini akan berubah menjadi
       <b>"🎉 Menu Event"</b> pada update berikutnya.
-      <br><br>
-      Di menu baru nanti akan ada banyak sub-event seru seperti
-      🎃 Halloween, 🎄 Natal, 🎆 Tahun Baru, dan lain-lain!
     </p>
     <div class="modal-actions" style="grid-template-columns:1fr">
       <button class="btn-primary" onclick="closeEventNoticeModal()">Siap, Tunggu!</button>
@@ -744,12 +839,12 @@
   </div>
 </div>
 
-<!-- ★ v11.0: Modal Transfer Ownership -->
+<!-- Modal Transfer -->
 <div class="modal-overlay" id="transferModal">
   <div class="modal-box" style="border-color:#ffb300;">
     <h2 style="color:#ffb300">👑 Transfer Kepemilikan Clan</h2>
     <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
-      Pilih anggota yang akan menjadi <b>Owner baru</b>. Setelah transfer, kamu akan menjadi <b>Admin</b>.
+      Pilih anggota yang akan menjadi <b>Owner baru</b>.
     </p>
     <div id="transferList" style="max-height:300px; overflow-y:auto;"></div>
     <div class="modal-actions" style="margin-top:12px">
@@ -758,13 +853,12 @@
   </div>
 </div>
 
-<!-- ★ v11.0: Modal Mute Member -->
+<!-- Modal Mute -->
 <div class="modal-overlay" id="muteModal">
   <div class="modal-box" style="border-color:#ff4060;">
     <h2 style="color:#ff4060">🔇 Bisukan Anggota</h2>
     <p style="background:rgba(255,60,90,0.1);border-left-color:#ff4060;color:#ffb0b0;">
       Pilih durasi mute untuk <b id="muteTargetName">Pemain</b>.
-      <br>Anggota yang dibisukan tidak bisa mengirim pesan di chat clan.
     </p>
     <div class="mute-options" id="muteOptions">
       <button data-days="1" onclick="selectMuteDays(1)">🔇 1 Hari</button>
@@ -778,7 +872,7 @@
   </div>
 </div>
 
-<!-- ★ v11.0: Modal Profil Pemain -->
+<!-- Modal Profile -->
 <div class="modal-overlay" id="profileModal">
   <div class="modal-box" style="border-color:#a06bff;">
     <h2 style="color:#c47bff">👤 Profil Pemain</h2>
@@ -789,7 +883,7 @@
   </div>
 </div>
 
-<!-- ★ v11.0: Modal Private Chat -->
+<!-- Modal Private Chat -->
 <div class="modal-overlay" id="privateChatModal">
   <div class="modal-box" style="border-color:#7fd4ff; max-width:480px;">
     <h2 style="color:#7fd4ff">💬 <span id="privateChatName">-</span></h2>
@@ -804,6 +898,33 @@
     </div>
     <div class="modal-actions" style="margin-top:8px; grid-template-columns:1fr;">
       <button class="btn-cancel" onclick="closePrivateChat()">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ★ v12.0: Modal Konfirmasi Prestige -->
+<div class="modal-overlay" id="prestigeConfirmModal">
+  <div class="modal-box" style="border-color:#ffb300; box-shadow:0 0 50px rgba(255,180,0,0.6);">
+    <h2 style="color:#ffb300">♻️ Konfirmasi Prestige</h2>
+    <div class="prestige-modal-hero">
+      <div class="big">♻️ PRESTIGE</div>
+      <div class="small">Kamu akan memulai perjalanan baru dengan bonus permanen!</div>
+    </div>
+    <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
+      <b>⚠️ PERHATIAN!</b> Setelah prestige:
+      <br><br>
+      ❌ Level kembali ke 1<br>
+      ❌ Uang hilang semua<br>
+      ❌ Token & Diamond hilang<br>
+      ❌ Skin Legendary hilang (kecuali skin Prestige)
+      <br><br>
+      ✅ Prestige Point <b>+1</b><br>
+      ✅ Bonus income permanen meningkat<br>
+      ✅ Judul prestige baru
+    </p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closePrestigeConfirm()">Batal</button>
+      <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmPrestige()">Ya, Prestige!</button>
     </div>
   </div>
 </div>
@@ -842,35 +963,71 @@ const auth = getAuth(app);
    ============================================================ */
 const LEGENDARY_EVENT = {
   endDate: new Date('2026-10-02T22:00:00+07:00').getTime(),
-  openHour: 20,
-  closeHour: 22,
-  noticeHour: 23,
+  openHour: 20, closeHour: 22, noticeHour: 23,
   hardEndDate: new Date('2026-10-02T22:00:00+07:00').getTime()
 };
-
 const TOKEN_DISCOUNT = {
   percent: 80,
   endDate: new Date('2026-10-01T22:00:00+07:00').getTime()
 };
-
 const TOKEN_PRICE_NORMAL = { money: 5000, diamond: 40 };
-
-// ★ v11.0: Konfigurasi Punch Money Fast baru
-const BOOST_CONFIG = {
-  price: 800,
-  duration: 800000,      // 800 detik
-  cooldown: 240000,      // 4 menit
-  clickPower: 100        // ★ Berubah dari 50 → 100
-};
-
-// ★ v11.0: Konfigurasi Helping Hand baru
+const BOOST_CONFIG = { price: 800, duration: 800000, cooldown: 240000, clickPower: 100 };
 const HELPING_HAND_CONFIG = {
-  priceToken: 5,         // ★ Berubah dari 25 → 5
-  priceDiamond: 25,      // ★ Opsi beli dengan diamond
-  duration: 2*60*1000,   // ★ Berubah dari 10 menit → 2 menit
-  clickPowerMin: 50,     // ★ Bonus +50
-  clickPowerMax: 80      // ★ Sampai +80 (variatif)
+  priceToken: 5, priceDiamond: 25,
+  duration: 2*60*1000,
+  clickPowerMin: 50, clickPowerMax: 80
 };
+
+/* ★ v12.0: PRESTIGE CONFIG */
+const PRESTIGE_CONFIG = {
+  // Milestone: prestige ke-berapa → syarat level minimum
+  levelRequirements: {
+    1: 50, 2: 50, 3: 60, 4: 65, 5: 70,
+    10: 80, 20: 90, 50: 100, 100: 100
+  },
+  // Bonus income per prestige point
+  bonusPerPoint: 0.10, // 10% per PP
+  // Judul berdasarkan prestige count
+  titles: [
+    { min: 0, title: 'Pemula', cls: '' },
+    { min: 1, title: '🌱 Pemula Baru', cls: 'lvl-1' },
+    { min: 3, title: '🌿 Petualang', cls: 'lvl-2' },
+    { min: 5, title: '🌳 Veteran', cls: 'lvl-2' },
+    { min: 10, title: '⭐ Master', cls: 'lvl-3' },
+    { min: 20, title: '🌟 Grandmaster', cls: 'lvl-4' },
+    { min: 50, title: '👑 Legenda', cls: 'lvl-5' },
+    { min: 100, title: '🌌 Dewa Nova', cls: 'lvl-max' }
+  ]
+};
+
+function getPrestigeLevelRequirement(currentPrestige){
+  // Cari syarat untuk prestige berikutnya
+  const nextPrestige = currentPrestige + 1;
+  let req = 50;
+  for (const [key, val] of Object.entries(PRESTIGE_CONFIG.levelRequirements)){
+    if (nextPrestige >= parseInt(key)){
+      req = Math.max(req, val);
+    }
+  }
+  return req;
+}
+
+function getPrestigeBonus(prestigeCount){
+  return prestigeCount * PRESTIGE_CONFIG.bonusPerPoint;
+}
+
+function getPrestigeTitle(prestigeCount){
+  let title = PRESTIGE_CONFIG.titles[0];
+  for (const t of PRESTIGE_CONFIG.titles){
+    if (prestigeCount >= t.min) title = t;
+  }
+  return title;
+}
+
+// ★ Income multiplier: (1 + prestige * 0.10)
+function getIncomeMultiplier(){
+  return 1 + getPrestigeBonus(S.prestigeCount || 0);
+}
 
 function getTokenPrice(){
   const now = Date.now();
@@ -886,16 +1043,8 @@ function getTokenPrice(){
   return { ...TOKEN_PRICE_NORMAL, discount: 0, active: false };
 }
 
-function formatDiscountEndDate(){
-  const d = new Date(TOKEN_DISCOUNT.endDate);
-  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • 22:00 WIB`;
-}
-
 function formatDiscountCountdown(){
-  const now = Date.now();
-  const remain = TOKEN_DISCOUNT.endDate - now;
+  const remain = TOKEN_DISCOUNT.endDate - Date.now();
   if (remain <= 0) return null;
   const days = Math.floor(remain / 86400000);
   const hours = Math.floor((remain % 86400000) / 3600000);
@@ -923,12 +1072,17 @@ const DEFAULT_STATE = {
   playerName: 'Pemain',
   apologyShown: false,
   eventNoticeShown: false,
+  friends: {},
+  friendRequests: {},
+  sentRequests: {},
+  lastOnline: 0,
 
-  // ★ v11.0
-  friends: {},           // { uid: { name, addedAt } }
-  friendRequests: {},    // { fromUid: { name, sentAt } }
-  sentRequests: {},      // { toUid: { sentAt } }
-  lastOnline: 0,         // timestamp terakhir aktif
+  // ★ v12.0: PRESTIGE
+  prestigeCount: 0,          // total prestige
+  prestigePoints: 0,         // sama dengan prestigeCount, bisa beda kalau ada sistem poin tambahan
+  prestigeSkinIds: [],       // skin prestige yang dimiliki (tidak hilang saat prestige)
+  prestigeHistory: [],       // log prestige
+  totalPrestigeBonus: 0,     // akumulasi bonus (untuk display)
 
   lastSeen: Date.now()
 };
@@ -941,13 +1095,11 @@ let currentClanTab = 'info';
 let currentClanData = null;
 let savedSearchResult = null;
 let discountTimerInterval = null;
-
-// ★ v11.0
-let currentFriendTab = 'list';   // 'list' | 'requests' | 'add'
+let currentFriendTab = 'list';
 let currentPrivateChatUid = null;
 let privateChatUnsubscribe = null;
 let privateChatTimerInterval = null;
-let onlineUsersCache = {};       // { uid: lastSeenTimestamp }
+let onlineUsersCache = {};
 
 /* ================= UTIL ================= */
 function toast(msg){
@@ -973,9 +1125,7 @@ function formatChatTime(ts){
   if (!ts) return '';
   try {
     const d = new Date(ts);
-    const hh = d.getHours().toString().padStart(2, '0');
-    const mm = d.getMinutes().toString().padStart(2, '0');
-    return `${hh}:${mm}`;
+    return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
   } catch(e){ return ''; }
 }
 function escapeHtml(str){
@@ -994,27 +1144,22 @@ function updateOnlineTag(){
   }
 }
 
-// ★ v11.0: Cek online/offline user
-const ONLINE_THRESHOLD = 60000; // 60 detik = dianggap online
+const ONLINE_THRESHOLD = 60000;
 function isUserOnline(uid, lastSeenTs){
   if (!lastSeenTs) return false;
   return (Date.now() - lastSeenTs) < ONLINE_THRESHOLD;
 }
 
-// Update lastSeen kita sendiri tiap 30 detik
 function startOnlineHeartbeat(){
   const uid = Storage.getUserId();
   const updateLastSeen = async () => {
     if (!uid || uid === 'local_player') return;
-    try {
-      await set(ref(db, `users/${uid}/lastOnline`), Date.now());
-    } catch(e){}
+    try { await set(ref(db, `users/${uid}/lastOnline`), Date.now()); } catch(e){}
   };
   updateLastSeen();
-  setInterval(updateLastSeen, 30000); // tiap 30 detik
+  setInterval(updateLastSeen, 30000);
 }
 
-// Ambil lastSeen user lain
 async function fetchUserLastSeen(uid){
   if (onlineUsersCache[uid] && (Date.now() - onlineUsersCache[uid].fetchedAt) < 15000){
     return onlineUsersCache[uid].ts;
@@ -1032,26 +1177,21 @@ async function fetchUserProfile(uid){
     const snap = await get(ref(db, `users/${uid}`));
     const data = snap.val();
     if (!data) return null;
-    // Ambil info clan
-    let clanName = '-';
-    let clanTag = '-';
+    let clanName = '-', clanTag = '-';
     if (data.clanId){
       try {
         const clanSnap = await get(ref(db, `clans/${data.clanId}`));
         const clan = clanSnap.val();
-        if (clan){
-          clanName = clan.name || '-';
-          clanTag = clan.tag || '-';
-        }
+        if (clan){ clanName = clan.name || '-'; clanTag = clan.tag || '-'; }
       } catch(e){}
     }
     return {
       uid,
       name: data.playerName || 'Pemain',
       level: data.level || 1,
-      clanName,
-      clanTag,
-      lastOnline: data.lastOnline || 0
+      clanName, clanTag,
+      lastOnline: data.lastOnline || 0,
+      prestigeCount: data.prestigeCount || 0
     };
   } catch(e){ return null; }
 }
@@ -1066,12 +1206,6 @@ function getEventStatus(){
   const h = wib.getHours();
   if (h >= LEGENDARY_EVENT.openHour && h < LEGENDARY_EVENT.closeHour) return 'open';
   return 'closed';
-}
-function formatEventEndDate(){
-  const d = new Date(LEGENDARY_EVENT.endDate);
-  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • 22:00 WIB`;
 }
 function shouldShowEventNotice(){
   const now = Date.now();
@@ -1103,9 +1237,7 @@ const Storage = {
   async save(data) {
     localStorage.setItem('enova_cache', JSON.stringify(data));
     if (currentUid && isOnline){
-      try {
-        await set(ref(db, `users/${currentUid}`), data);
-      } catch(e){}
+      try { await set(ref(db, `users/${currentUid}`), data); } catch(e){}
     }
   },
   async wipe() {
@@ -1218,79 +1350,48 @@ const ClanStorage = {
       orderByChild('ts'),
       limitToLast(200)
     );
-    const unsub = onValue(chatQuery, snap => {
-      callback(snap.val() || {});
-    });
-    return unsub;
+    return onValue(chatQuery, snap => callback(snap.val() || {}));
   }
 };
 
 /* ============================================================
-   FRIEND STORAGE (v11.0)
+   FRIEND STORAGE
    ============================================================ */
 const FriendStorage = {
   async sendRequest(toUid, fromName){
     const fromUid = Storage.getUserId();
     if (!fromUid || fromUid === 'local_player') return false;
     if (toUid === fromUid) return false;
-
-    // Cek apakah sudah teman
     if (S.friends && S.friends[toUid]) return false;
-
-    // Kirim request ke user target
     try {
       await set(ref(db, `users/${toUid}/friendRequests/${fromUid}`), {
-        name: fromName,
-        sentAt: Date.now()
+        name: fromName, sentAt: Date.now()
       });
-      // Simpan juga di sisi kita (sentRequests)
-      await set(ref(db, `users/${fromUid}/sentRequests/${toUid}`), {
-        sentAt: Date.now()
-      });
+      await set(ref(db, `users/${fromUid}/sentRequests/${toUid}`), { sentAt: Date.now() });
       return true;
     } catch(e){ return false; }
   },
-
   async acceptRequest(fromUid){
     const myUid = Storage.getUserId();
-    if (!myUid || myUid === 'local_player') return false;
-
     try {
-      // Ambil info dari user yang minta
       const reqSnap = await get(ref(db, `users/${myUid}/friendRequests/${fromUid}`));
       const req = reqSnap.val();
       if (!req) return false;
-
-      // Ambil nama kita
       const myName = S.playerName || 'Pemain';
-      const myLevel = S.level || 1;
-
-      // Tambah ke friends (sisi kita)
       await set(ref(db, `users/${myUid}/friends/${fromUid}`), {
-        name: req.name || 'Pemain',
-        addedAt: Date.now()
+        name: req.name || 'Pemain', addedAt: Date.now()
       });
-
-      // Tambah ke friends (sisi mereka)
       await set(ref(db, `users/${fromUid}/friends/${myUid}`), {
-        name: myName,
-        addedAt: Date.now()
+        name: myName, addedAt: Date.now()
       });
-
-      // Hapus request
       await remove(ref(db, `users/${myUid}/friendRequests/${fromUid}`));
-      // Hapus sentRequests mereka
       await remove(ref(db, `users/${fromUid}/sentRequests/${myUid}`));
-
-      // Update state lokal
       S.friends = S.friends || {};
       S.friends[fromUid] = { name: req.name || 'Pemain', addedAt: Date.now() };
       if (S.friendRequests) delete S.friendRequests[fromUid];
-
       return true;
     } catch(e){ return false; }
   },
-
   async rejectRequest(fromUid){
     const myUid = Storage.getUserId();
     try {
@@ -1300,7 +1401,6 @@ const FriendStorage = {
       return true;
     } catch(e){ return false; }
   },
-
   async removeFriend(friendUid){
     const myUid = Storage.getUserId();
     try {
@@ -1310,78 +1410,50 @@ const FriendStorage = {
       return true;
     } catch(e){ return false; }
   },
-
-  // Cari user by nama (cari di semua user)
   async searchUserByName(name){
     const results = [];
     try {
       const snap = await get(ref(db, 'users'));
       const allUsers = snap.val();
       if (!allUsers) return results;
-      
       const searchLower = name.toLowerCase();
       const myUid = Storage.getUserId();
-      
       for (const [uid, data] of Object.entries(allUsers)){
         if (uid === myUid) continue;
         const playerName = (data.playerName || 'Pemain').toLowerCase();
         if (playerName.includes(searchLower)){
-          // Ambil info clan
-          let clanName = '-';
-          let clanTag = '-';
+          let clanName = '-', clanTag = '-';
           if (data.clanId){
             try {
               const clanSnap = await get(ref(db, `clans/${data.clanId}`));
               const clan = clanSnap.val();
-              if (clan){
-                clanName = clan.name || '-';
-                clanTag = clan.tag || '-';
-              }
+              if (clan){ clanName = clan.name || '-'; clanTag = clan.tag || '-'; }
             } catch(e){}
           }
           results.push({
-            uid,
-            name: data.playerName || 'Pemain',
-            level: data.level || 1,
-            clanName,
-            clanTag,
-            lastOnline: data.lastOnline || 0
+            uid, name: data.playerName || 'Pemain', level: data.level || 1,
+            clanName, clanTag, lastOnline: data.lastOnline || 0,
+            prestigeCount: data.prestigeCount || 0
           });
         }
       }
-    } catch(e){ console.warn('searchUser error', e); }
+    } catch(e){}
     return results;
   },
-
-  // Chat pribadi
   async sendPrivateMsg(toUid, text){
     const myUid = Storage.getUserId();
     const roomId = [myUid, toUid].sort().join('_');
     try {
-      const chatRef = ref(db, `privateChats/${roomId}/messages`);
-      const newRef = push(chatRef);
-      await set(newRef, {
-        from: myUid,
-        to: toUid,
-        text: text.slice(0, 200),
-        ts: Date.now()
-      });
+      const newRef = push(ref(db, `privateChats/${roomId}/messages`));
+      await set(newRef, { from: myUid, to: toUid, text: text.slice(0,200), ts: Date.now() });
       return true;
     } catch(e){ return false; }
   },
-
   listenPrivateChat(otherUid, callback){
     const myUid = Storage.getUserId();
     const roomId = [myUid, otherUid].sort().join('_');
-    const q = query(
-      ref(db, `privateChats/${roomId}/messages`),
-      orderByChild('ts'),
-      limitToLast(100)
-    );
-    const unsub = onValue(q, snap => {
-      callback(snap.val() || {});
-    });
-    return unsub;
+    const q = query(ref(db, `privateChats/${roomId}/messages`), orderByChild('ts'), limitToLast(100));
+    return onValue(q, snap => callback(snap.val() || {}));
   }
 };
 
@@ -1448,6 +1520,199 @@ function hasDuplicateSkins(){
 }
 
 /* ============================================================
+   ★ v12.0: PRESTIGE FUNCTIONS
+   ============================================================ */
+function canPrestige(){
+  const currentPrestige = S.prestigeCount || 0;
+  const reqLevel = getPrestigeLevelRequirement(currentPrestige);
+  return S.level >= reqLevel;
+}
+
+function renderPrestigePanel(){
+  const panel = document.getElementById('panel-prestige');
+  if (!panel) return;
+
+  const currentPrestige = S.prestigeCount || 0;
+  const reqLevel = getPrestigeLevelRequirement(currentPrestige);
+  const nextPrestige = currentPrestige + 1;
+  const nextBonus = getPrestigeBonus(nextPrestige) * 100;
+  const currBonus = getPrestigeBonus(currentPrestige) * 100;
+  const titleInfo = getPrestigeTitle(currentPrestige);
+  const canP = canPrestige();
+
+  panel.innerHTML = `
+    <div class="prestige-hero">
+      <div class="label">♻️ PRESTIGE LEVEL</div>
+      <div class="big-p">${currentPrestige}</div>
+      <div class="judul">${titleInfo.title}</div>
+    </div>
+
+    <div class="prestige-stats">
+      <div class="prestige-stat">
+        💰 Bonus Income
+        <span class="value">+${currBonus}%</span>
+      </div>
+      <div class="prestige-stat">
+        🎯 Prestige Berikutnya
+        <span class="value">+${nextBonus}%</span>
+      </div>
+    </div>
+
+    <div class="prestige-requirements">
+      <h4>📋 Syarat Prestige #${nextPrestige}</h4>
+      <div class="req-row">
+        <span>Level Minimal ${reqLevel}</span>
+        <span class="${S.level >= reqLevel ? 'check':'cross'}">
+          ${S.level >= reqLevel ? '✅':'❌'} Lv.${S.level}
+        </span>
+      </div>
+      <div class="req-row">
+        <span>Uang & Progres</span>
+        <span style="color:#ff8080">⚠️ Akan di-reset</span>
+      </div>
+    </div>
+
+    <button class="prestige-btn" onclick="showPrestigeConfirm()" ${!canP?'disabled':''}>
+      ${canP ? '♻️ PRESTIGE SEKARANG' : `🔒 Butuh Level ${reqLevel}`}
+    </button>
+
+    <div class="prestige-warning">
+      ⚠️ <b>Perhatian:</b> Prestige akan menghapus <b>level, uang, token, diamond, dan skin Legendary</b> kamu.
+      Tapi kamu akan mendapat <b>bonus income permanen +10%</b> dan <b>judul Prestige</b> baru.
+      <br><br>
+      ✅ Yang <b>tidak hilang</b>: Prestige Point, Clan, Teman, Skin Prestige (eksklusif).
+    </div>
+
+    ${currentPrestige > 0 ? `
+      <div class="prestige-stats" style="margin-top:14px">
+        <div class="prestige-stat">
+          🏆 Total Prestige
+          <span class="value">${currentPrestige}</span>
+        </div>
+        <div class="prestige-stat">
+          ⭐ Judul Aktif
+          <span class="value" style="font-size:0.9rem">${titleInfo.title.split(' ').slice(1).join(' ') || '-'}</span>
+        </div>
+      </div>
+    ` : ''}
+
+    <div style="margin-top:14px;font-size:0.7rem;color:#888;text-align:center">
+      Prestige #${nextPrestige} → +${nextBonus}% income<br>
+      Total income sekarang: <b style="color:#ffb300">×${getIncomeMultiplier().toFixed(2)}</b>
+    </div>
+  `;
+}
+
+window.showPrestigeConfirm = function(){
+  if (!canPrestige()){
+    const reqLevel = getPrestigeLevelRequirement(S.prestigeCount || 0);
+    return toast(`🔒 Butuh Level ${reqLevel} untuk prestige`);
+  }
+  document.getElementById('prestigeConfirmModal').classList.add('show');
+};
+window.closePrestigeConfirm = function(){
+  document.getElementById('prestigeConfirmModal').classList.remove('show');
+};
+
+window.confirmPrestige = async function(){
+  document.getElementById('prestigeConfirmModal').classList.remove('show');
+  
+  if (!canPrestige()){
+    return toast('❌ Tidak memenuhi syarat');
+  }
+
+  const currentPrestige = S.prestigeCount || 0;
+  const newPrestige = currentPrestige + 1;
+
+  // ★ Reset state (kecuali yang permanen)
+  S.money = 0;
+  S.token = 0;
+  S.diamond = 0;
+  S.exp = 0;
+  S.level = 1;
+  S.inventory = S.inventory.filter(it => {
+    // Keep: helping_hand, skin prestige
+    if (it.id === 'helping_hand') return true;
+    if (S.prestigeSkinIds && S.prestigeSkinIds.includes(it.id)) return true;
+    return false;
+  });
+  // Reset cooldown
+  S.boostEnd = 0;
+  S.boostCooldown = 0;
+  S.mysteryCooldown = 0;
+  S.mysteryOpened = false;
+  S.autoEnd = 0;
+
+  // ★ Tambah prestige
+  S.prestigeCount = newPrestige;
+  S.prestigePoints = newPrestige;
+  S.totalPrestigeBonus = getPrestigeBonus(newPrestige) * 100;
+
+  // Log
+  S.prestigeHistory = S.prestigeHistory || [];
+  S.prestigeHistory.push({
+    prestige: newPrestige,
+    at: Date.now()
+  });
+
+  await Storage.save(S);
+
+  // Update nama judul di header
+  renderPrestigeTag();
+
+  // Toast
+  const titleInfo = getPrestigeTitle(newPrestige);
+  toast(`♻️ PRESTIGE ${newPrestige}! ${titleInfo.title}`);
+
+  // Efek visual
+  showPrestigeCelebration(newPrestige);
+
+  render();
+};
+
+function showPrestigeCelebration(prestige){
+  // Overlay celebration
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position:fixed; inset:0;
+    background:radial-gradient(circle, rgba(255,180,0,0.3), rgba(0,0,0,0.9));
+    z-index:9999; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center; padding:20px;
+    animation: fadeIn 0.5s;
+  `;
+  overlay.innerHTML = `
+    <div style="font-size:4rem; animation: popUp 1s;">♻️</div>
+    <div style="font-size:2rem; font-weight:bold; color:#ffb300; margin:20px 0; letter-spacing:3px;">
+      PRESTIGE ${prestige}
+    </div>
+    <div style="color:#fff; font-size:1.1rem; margin-bottom:20px;">
+      ${getPrestigeTitle(prestige).title}
+    </div>
+    <div style="color:#ffe0a0; font-size:0.9rem;">
+      Bonus Income: +${getPrestigeBonus(prestige)*100}%
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  setTimeout(() => {
+    overlay.style.transition = 'opacity 0.5s';
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.remove(), 500);
+  }, 3000);
+}
+
+function renderPrestigeTag(){
+  const el = document.getElementById('prestigeTagHeader');
+  if (!el) return;
+  const prestige = S.prestigeCount || 0;
+  if (prestige === 0){
+    el.innerHTML = '';
+    return;
+  }
+  const title = getPrestigeTitle(prestige);
+  el.innerHTML = `<span class="prestige-badge ${title.cls}" title="${title.title}">♻️ ${prestige}</span>`;
+}
+
+/* ============================================================
    PROFILE / EDIT NAME
    ============================================================ */
 window.showEditNameModal = function(){
@@ -1466,7 +1731,6 @@ window.savePlayerName = async function(){
   S.playerName = name;
   await Storage.save(S);
   document.getElementById('playerNameDisplay').textContent = name;
-  // Update nama di clan member list
   if (S.clanId){
     const uid = Storage.getUserId();
     try {
@@ -1500,15 +1764,13 @@ window.closeEventNoticeModal = async function(){
   await Storage.save(S);
 };
 function showApologyModalIfNeeded(hadDuplicates){
-  if (S.apologyShown) return;
-  if (!hadDuplicates) return;
+  if (S.apologyShown || !hadDuplicates) return;
   setTimeout(() => {
     document.getElementById('apologyModal').classList.add('show');
   }, 1500);
 }
 function showEventNoticeIfNeeded(){
-  if (S.eventNoticeShown) return;
-  if (!shouldShowEventNotice()) return;
+  if (S.eventNoticeShown || !shouldShowEventNotice()) return;
   setTimeout(() => {
     document.getElementById('eventNoticeModal').classList.add('show');
   }, 2000);
@@ -1531,14 +1793,27 @@ function render(){
   const nameDisplay = document.getElementById('playerNameDisplay');
   if (nameDisplay) nameDisplay.textContent = S.playerName || 'Pemain';
 
+  renderPrestigeTag();
+
   document.getElementById('devActiveTag').style.display = S.devMode ? 'block' : 'none';
 
   const btn = document.getElementById('clickBtn');
   const now = Date.now();
   const info = document.getElementById('boostInfo');
+  const prestigeInfo = document.getElementById('prestigeBonusInfo');
+  
+  // ★ Tampilkan bonus prestige
+  const prestigeBonus = getPrestigeBonus(S.prestigeCount || 0);
+  if (prestigeBonus > 0 && prestigeInfo){
+    prestigeInfo.textContent = `♻️ Bonus Prestige: +${(prestigeBonus*100).toFixed(0)}% income`;
+  } else if (prestigeInfo){
+    prestigeInfo.textContent = '';
+  }
+
   if (S.boostEnd > now){
     btn.classList.add('boost');
-    info.textContent = `🥊 BOOST AKTIF! €${BOOST_CONFIG.clickPower}/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
+    const boostActual = Math.floor(BOOST_CONFIG.clickPower * getIncomeMultiplier());
+    info.textContent = `🥊 BOOST AKTIF! €${boostActual}/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
   } else {
     btn.classList.remove('boost');
     info.textContent = '';
@@ -1551,15 +1826,16 @@ function render(){
   if (statEl) statEl.textContent = fmt(S.totalDiamondFromLevel || 0);
 
   renderPanels();
-  if (!isUserTypingInClan()){
-    renderClanPanel();
-  }
-  // Render friend panel kalau aktif
+  if (!isUserTypingInClan()) renderClanPanel();
+  
   const friendPanel = document.getElementById('panel-friend');
   if (friendPanel && !friendPanel.classList.contains('hidden')){
-    if (!isUserTypingInFriends()){
-      renderFriendPanel();
-    }
+    if (!isUserTypingInFriends()) renderFriendPanel();
+  }
+  
+  const prestigePanel = document.getElementById('panel-prestige');
+  if (prestigePanel && !prestigePanel.classList.contains('hidden')){
+    renderPrestigePanel();
   }
 }
 
@@ -1575,17 +1851,17 @@ function isUserTypingInFriends(){
   const panel = document.getElementById('panel-friend');
   if (!panel) return false;
   if (panel.classList.contains('hidden')) return false;
-  return panel.contains(active) &&
-         (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+  return panel.contains(active) && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
 }
 
 /* ============================================================
-   AUTO CLICKER (v11.0 — tanpa pause, bonus 50-80)
+   AUTO CLICKER
    ============================================================ */
 function updateAutoUI(now){
   const panel = document.getElementById('autoPanel');
   const timer = document.getElementById('autoTimer');
   const btn = document.getElementById('clickBtn');
+  const bonus = document.getElementById('autoBonus');
   const active = S.autoEnd > now;
 
   if (!active){
@@ -1597,15 +1873,21 @@ function updateAutoUI(now){
   btn.classList.add('auto');
   timer.textContent = formatDuration(S.autoEnd - now);
   timer.style.color = '#00ffc0';
+  
+  if (bonus){
+    const min = Math.floor(HELPING_HAND_CONFIG.clickPowerMin * getIncomeMultiplier());
+    const max = Math.floor(HELPING_HAND_CONFIG.clickPowerMax * getIncomeMultiplier());
+    bonus.textContent = `+€${min}-${max}/klik`;
+  }
 }
 
 function doAutoClick(){
   const now = Date.now();
   if (S.autoEnd <= now) return;
-  // ★ v11.0: Bonus 50-80 variatif
-  const bonus = HELPING_HAND_CONFIG.clickPowerMin +
+  const base = HELPING_HAND_CONFIG.clickPowerMin +
                 Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
-  S.money += bonus;
+  const gain = Math.floor(base * getIncomeMultiplier());
+  S.money += gain;
   addExp(2);
   const btn = document.getElementById('clickBtn');
   btn.style.transform = 'scale(0.97)';
@@ -1633,18 +1915,17 @@ function startAutoLoop(){
 const clickBtn = document.getElementById('clickBtn');
 clickBtn.addEventListener('click', () => {
   const now = Date.now();
-  let gain;
+  let baseGain;
   if (S.autoEnd > now){
-    // ★ Saat Helping Hand aktif → bonus 50-80
-    gain = HELPING_HAND_CONFIG.clickPowerMin +
-           Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
+    baseGain = HELPING_HAND_CONFIG.clickPowerMin +
+               Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
   } else if (S.boostEnd > now){
-    // Boost aktif → 100
-    gain = BOOST_CONFIG.clickPower;
+    baseGain = BOOST_CONFIG.clickPower;
   } else {
-    // Normal → 10-25
-    gain = 10 + Math.floor(Math.random()*16);
+    baseGain = 10 + Math.floor(Math.random()*16);
   }
+  // ★ Apply prestige multiplier
+  const gain = Math.floor(baseGain * getIncomeMultiplier());
   S.money += gain;
   addExp(2);
   render(); save();
@@ -1778,18 +2059,11 @@ function renderPanels(){
   } else if (status === 'closed'){
     statusHtml = `<div class="event-status event-closed">🔒 Event tertutup. Buka tiap 20.00–22.00 WIB</div>`;
   } else if (status === 'ended'){
-    statusHtml = `<div class="event-status event-closed" style="background:rgba(120,120,120,0.2);border-color:#666;color:#aaa">🏁 EVENT LEGENDARY TELAH SELESAI PERMANEN</div>
-    <div class="notice-banner">
-      <b>📢 Info:</b> Legendary Event resmi berakhir pada <b>2 Oktober 2026, 22.00 WIB</b>.
-      Menu ini akan berubah menjadi <b>🎉 Menu Event</b> pada update mendatang!
-    </div>`;
+    statusHtml = `<div class="event-status event-closed" style="background:rgba(120,120,120,0.2);border-color:#666;color:#aaa">🏁 EVENT LEGENDARY TELAH SELESAI PERMANEN</div>`;
   }
 
   ev.innerHTML = `
     ${statusHtml}${countdownHtml}
-    <div style="text-align:center;font-size:0.75rem;color:#aaa;margin-bottom:10px">
-      📅 Event berakhir: <b style="color:#ffb300">${formatEventEndDate()}</b>
-    </div>
     ${skins.map(sk=>{
       const owned = S.inventory.some(item => item.id === sk.id);
       const canBuy = (status === 'open') && !owned && (S.token >= sk.price);
@@ -1827,7 +2101,7 @@ window.buyBoost = function(){
   S.money -= BOOST_CONFIG.price;
   S.boostEnd = now + BOOST_CONFIG.duration;
   S.boostCooldown = now + BOOST_CONFIG.cooldown;
-  toast(`🥊 Boost aktif! €${BOOST_CONFIG.clickPower}/klik`);
+  toast(`🥊 Boost aktif!`);
   render(); save();
 };
 
@@ -1843,11 +2117,9 @@ window.openMystery = function(){
   render(); save();
 };
 
-// ★ v11.0: Beli Helping Hand dengan token atau diamond
 window.buyHelpingHand = function(mode){
   const now = Date.now();
   if (S.autoEnd > now) return toast('Masih aktif!');
-
   if (mode === 'token'){
     if (S.token < HELPING_HAND_CONFIG.priceToken) return toast('Token kurang!');
     S.token -= HELPING_HAND_CONFIG.priceToken;
@@ -1862,14 +2134,14 @@ window.buyHelpingHand = function(mode){
   if (!S.inventory.some(i=>i.id==='helping_hand')){
     S.inventory.push({ id:'helping_hand', name:'👌 Helping Hand', type:'Consumable', rarity:'UTILITY', qty:1 });
   }
-  toast('👌 Helping Hand aktif! Bonus €50-80/klik');
+  toast('👌 Helping Hand aktif!');
   render(); save();
 };
 
 window.buySkin = function(id){
   const status = getEventStatus();
   if (status === 'ended') return toast('🏁 Event Legendary telah selesai permanen');
-  if (status !== 'open') return toast('🔒 Event tertutup! Buka 20.00–22.00 WIB');
+  if (status !== 'open') return toast('🔒 Event tertutup!');
 
   const skins = {
     plasma:{name:'Plasma Enduro', price:50, type:'Skin', rarity:'RARE', cls:'skin-plasma'},
@@ -1880,10 +2152,7 @@ window.buySkin = function(id){
   if (!sk) return;
 
   const alreadyOwned = S.inventory.some(item => item.id === id);
-  if (alreadyOwned){
-    toast(`⚠️ Kamu sudah punya ${sk.name}!`);
-    return;
-  }
+  if (alreadyOwned) return toast(`⚠️ Kamu sudah punya ${sk.name}!`);
   if (S.token < sk.price) return toast('✴️ Token Light tidak cukup!');
 
   S.token -= sk.price;
@@ -1896,7 +2165,7 @@ window.buySkin = function(id){
 };
 
 /* ============================================================
-   CLAN SYSTEM (v11.0 — Tambah Transfer & Mute)
+   CLAN SYSTEM
    ============================================================ */
 function isUserTypingInClan(){
   const active = document.activeElement;
@@ -1971,7 +2240,6 @@ async function renderClanPanel(){
       return (order[a[1].role]||9) - (order[b[1].role]||9);
     });
 
-    // Ambil status online untuk semua member
     const memberUids = members.map(([muid])=>muid);
     const onlineStatuses = {};
     await Promise.all(memberUids.map(async (muid) => {
@@ -2007,7 +2275,6 @@ async function renderClanPanel(){
     }
   }
   else if (currentClanTab === 'chat'){
-    // ★ v11.0: Cek apakah kita di-mute
     const me = clan.members[uid];
     const isMuted = me.mutedUntil && me.mutedUntil > Date.now();
     let muteInfo = '';
@@ -2171,7 +2438,6 @@ window.kickMember = async function(targetUid){
   renderClanPanel();
 };
 
-// ★ v11.0: Transfer ownership
 window.showTransferModal = async function(){
   if (!S.clanId) return;
   const clan = await ClanStorage.getClan(S.clanId);
@@ -2198,12 +2464,9 @@ window.closeTransferModal = function(){
 };
 window.showTransferConfirm = async function(targetUid, targetName){
   if (!S.clanId) return;
-  const clan = await ClanStorage.getClan(S.clanId);
-  if (!clan) return;
   document.getElementById('transferList').innerHTML = `
     <div style="text-align:center;padding:10px">
       <div style="font-size:1rem;margin-bottom:10px">Yakin transfer kepemilikan ke <b>${escapeHtml(targetName)}</b>?</div>
-      <div style="font-size:0.8rem;color:#888;margin-bottom:14px">Kamu akan menjadi Admin setelah ini.</div>
       <div class="modal-actions">
         <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
         <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmTransfer('${targetUid}', '${escapeHtml(targetName)}')">Ya, Transfer</button>
@@ -2219,13 +2482,12 @@ window.confirmTransfer = async function(targetUid, targetName){
   const uid = Storage.getUserId();
   if (clan.members[uid].role !== 'owner') return;
 
-  // Update role: new owner
-  const newOwnerData = { ...clan.members[targetUid], role:'owner' };
-  await ClanStorage.updateClan(S.clanId, `members/${targetUid}`, newOwnerData);
-  // Update role: kita jadi admin
-  const myData = { ...clan.members[uid], role:'admin' };
-  await ClanStorage.updateClan(S.clanId, `members/${uid}`, myData);
-  // Update ownerUid clan
+  await ClanStorage.updateClan(S.clanId, `members/${targetUid}`, {
+    ...clan.members[targetUid], role:'owner'
+  });
+  await ClanStorage.updateClan(S.clanId, `members/${uid}`, {
+    ...clan.members[uid], role:'admin'
+  });
   await ClanStorage.updateClan(S.clanId, 'ownerUid', targetUid);
 
   closeTransferModal();
@@ -2233,7 +2495,6 @@ window.confirmTransfer = async function(targetUid, targetName){
   renderClanPanel();
 };
 
-// ★ v11.0: Mute member
 let muteTargetUid = null;
 let muteSelectedDays = 1;
 window.showMuteModal = function(targetUid, targetName){
@@ -2256,10 +2517,7 @@ window.selectMuteDays = function(days){
   });
 };
 window.confirmMute = async function(){
-  if (!muteTargetUid || !S.clanId){
-    closeMuteModal();
-    return;
-  }
+  if (!muteTargetUid || !S.clanId){ closeMuteModal(); return; }
   const clan = await ClanStorage.getClan(S.clanId);
   if (!clan) { closeMuteModal(); return; }
   const uid = Storage.getUserId();
@@ -2268,9 +2526,7 @@ window.confirmMute = async function(){
   const mutedUntil = Date.now() + (muteSelectedDays * 24 * 60 * 60 * 1000);
   const target = clan.members[muteTargetUid];
   await ClanStorage.updateClan(S.clanId, `members/${muteTargetUid}`, {
-    ...target,
-    mutedUntil,
-    mutedBy: uid
+    ...target, mutedUntil, mutedBy: uid
   });
   closeMuteModal();
   toast(`🔇 ${target.name||'Member'} dibisukan ${muteSelectedDays} hari`);
@@ -2353,7 +2609,6 @@ window.sendChatMsg = async function(){
   const text = (input.value || '').trim();
   if (!text || !S.clanId) return;
 
-  // ★ v11.0: Cek apakah kita di-mute
   const clan = await ClanStorage.getClan(S.clanId);
   if (clan){
     const me = clan.members[Storage.getUserId()];
@@ -2373,8 +2628,11 @@ window.sendChatMsg = async function(){
 };
 
 /* ============================================================
-   ★ v11.0: FRIEND SYSTEM
+   FRIEND SYSTEM
    ============================================================ */
+let savedFriendQuery = '';
+let savedFriendResultHtml = '';
+
 function renderFriendPanel(){
   const panel = document.getElementById('panel-friend');
   if (!panel) return;
@@ -2399,7 +2657,7 @@ function renderFriendPanel(){
             <div class="left">
               <span class="online-dot off"></span>
               <span class="name">${escapeHtml(f.name)}</span>
-              <div class="sub" id="friendSub-${fuid}">Memeriksa status...</div>
+              <div class="sub" id="friendSub-${fuid}">Memeriksa...</div>
             </div>
             <div class="actions">
               <button class="btn-small-blue" onclick="openProfile('${fuid}')">👤</button>
@@ -2414,33 +2672,21 @@ function renderFriendPanel(){
   else if (currentFriendTab === 'requests'){
     const requests = Object.entries(S.friendRequests || {});
     if (!requests.length){
-      html += '<div style="text-align:center;color:#888;padding:20px">Tidak ada permintaan pertemanan.</div>';
+      html += '<div style="text-align:center;color:#888;padding:20px">Tidak ada permintaan.</div>';
     } else {
       for (const [ruid, req] of requests){
         html += `
           <div class="friend-row">
             <div class="left">
               <span class="name">${escapeHtml(req.name || 'Pemain')}</span>
-              <div class="sub">Ingin berteman • ${formatChatTime(req.sentAt)}</div>
+              <div class="sub">Ingin berteman</div>
             </div>
             <div class="actions">
-              <button class="btn-small-green" onclick="acceptFriend('${ruid}')">✓ Terima</button>
-              <button class="btn-small-red" onclick="rejectFriend('${ruid}')">✕ Tolak</button>
+              <button class="btn-small-green" onclick="acceptFriend('${ruid}')">✓</button>
+              <button class="btn-small-red" onclick="rejectFriend('${ruid}')">✕</button>
             </div>
           </div>
         `;
-      }
-    }
-
-    // Sent requests
-    const sent = Object.entries(S.sentRequests || {});
-    if (sent.length){
-      html += `<div style="margin-top:14px;font-size:0.8rem;color:#888">📤 Terkirim (${sent.length}):</div>`;
-      for (const [suid, _] of sent){
-        html += `<div class="friend-row" style="opacity:0.7">
-          <div class="left"><span class="sub">UID: ${escapeHtml(suid.slice(0,12))}...</span></div>
-          <div class="actions"><button class="btn-small-gray" disabled>Menunggu...</button></div>
-        </div>`;
       }
     }
   }
@@ -2458,15 +2704,8 @@ function renderFriendPanel(){
   }
 
   panel.innerHTML = html;
-
-  // Update status online tiap friend
-  if (currentFriendTab === 'list'){
-    updateFriendOnlineStatuses();
-  }
+  if (currentFriendTab === 'list') updateFriendOnlineStatuses();
 }
-
-let savedFriendQuery = '';
-let savedFriendResultHtml = '';
 
 async function updateFriendOnlineStatuses(){
   const friends = Object.entries(S.friends || {});
@@ -2475,16 +2714,10 @@ async function updateFriendOnlineStatuses(){
     if (!row) continue;
     const dot = row.querySelector('.online-dot');
     const sub = document.getElementById(`friendSub-${fuid}`);
-    
     const ts = await fetchUserLastSeen(fuid);
     const online = isUserOnline(fuid, ts);
-    
-    if (dot){
-      dot.className = 'online-dot ' + (online ? 'on' : 'off');
-    }
-    if (sub){
-      sub.textContent = online ? '🟢 Online' : (ts ? `🕐 Terakhir aktif: ${timeAgo(ts)}` : '⚫ Offline');
-    }
+    if (dot) dot.className = 'online-dot ' + (online ? 'on' : 'off');
+    if (sub) sub.textContent = online ? '🟢 Online' : (ts ? `🕐 ${timeAgo(ts)}` : '⚫ Offline');
   }
 }
 
@@ -2493,19 +2726,15 @@ function timeAgo(ts){
   const diff = Date.now() - ts;
   const m = Math.floor(diff / 60000);
   if (m < 1) return 'baru saja';
-  if (m < 60) return `${m} menit lalu`;
+  if (m < 60) return `${m}m lalu`;
   const h = Math.floor(m / 60);
-  if (h < 24) return `${h} jam lalu`;
-  const d = Math.floor(h / 24);
-  return `${d} hari lalu`;
+  if (h < 24) return `${h}j lalu`;
+  return `${Math.floor(h/24)}h lalu`;
 }
 
 window.switchFriendTab = function(tab){
   currentFriendTab = tab;
-  if (tab !== 'add'){
-    savedFriendQuery = '';
-    savedFriendResultHtml = '';
-  }
+  if (tab !== 'add'){ savedFriendQuery = ''; savedFriendResultHtml = ''; }
   renderFriendPanel();
 };
 
@@ -2525,7 +2754,7 @@ window.searchFriend = async function(){
   const myUid = Storage.getUserId();
 
   if (!users.length){
-    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">❌ Tidak ada pemain ditemukan</div>';
+    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">❌ Tidak ditemukan</div>';
     savedFriendResultHtml = result.innerHTML;
     return;
   }
@@ -2539,21 +2768,16 @@ window.searchFriend = async function(){
     const dotClass = online ? 'on' : 'off';
 
     let actionBtn = '';
-    if (isSelf){
-      actionBtn = '<button class="btn-small-gray" disabled>Kamu</button>';
-    } else if (isFriend){
-      actionBtn = `
-        <button class="btn-small-blue" onclick="openProfile('${u.uid}')">👤</button>
-        <button class="btn-small-purple" onclick="openPrivateChat('${u.uid}', '${escapeHtml(u.name)}')">💬</button>
-      `;
-    } else if (isSent){
-      actionBtn = '<button class="btn-small-gray" disabled>⏳ Menunggu</button>';
-    } else {
-      actionBtn = `
-        <button class="btn-small-blue" onclick="openProfile('${u.uid}')">👤</button>
-        <button class="btn-small-green" onclick="sendFriendRequest('${u.uid}')">➕ Tambah</button>
-      `;
-    }
+    if (isSelf) actionBtn = '<button class="btn-small-gray" disabled>Kamu</button>';
+    else if (isFriend) actionBtn = `
+      <button class="btn-small-blue" onclick="openProfile('${u.uid}')">👤</button>
+      <button class="btn-small-purple" onclick="openPrivateChat('${u.uid}', '${escapeHtml(u.name)}')">💬</button>
+    `;
+    else if (isSent) actionBtn = '<button class="btn-small-gray" disabled>⏳</button>';
+    else actionBtn = `
+      <button class="btn-small-blue" onclick="openProfile('${u.uid}')">👤</button>
+      <button class="btn-small-green" onclick="sendFriendRequest('${u.uid}')">➕</button>
+    `;
 
     html += `
       <div class="friend-row">
@@ -2578,54 +2802,37 @@ window.sendFriendRequest = async function(toUid){
     S.sentRequests = S.sentRequests || {};
     S.sentRequests[toUid] = { sentAt: Date.now() };
     save();
-    toast('📩 Permintaan pertemanan terkirim!');
+    toast('📩 Permintaan terkirim!');
     searchFriend();
-  } else {
-    toast('❌ Gagal kirim permintaan');
-  }
+  } else toast('❌ Gagal');
 };
 
 window.acceptFriend = async function(fromUid){
   const ok = await FriendStorage.acceptRequest(fromUid);
-  if (ok){
-    save();
-    toast('✅ Sekarang kalian berteman!');
-    renderFriendPanel();
-  } else {
-    toast('❌ Gagal menerima');
-  }
+  if (ok){ save(); toast('✅ Berteman!'); renderFriendPanel(); }
+  else toast('❌ Gagal');
 };
 
 window.rejectFriend = async function(fromUid){
   const ok = await FriendStorage.rejectRequest(fromUid);
-  if (ok){
-    save();
-    toast('❌ Permintaan ditolak');
-    renderFriendPanel();
-  }
+  if (ok){ save(); toast('❌ Ditolak'); renderFriendPanel(); }
 };
 
 window.removeFriendConfirm = async function(fuid){
   const f = S.friends[fuid];
   if (!f) return;
-  if (!confirm(`Hapus ${f.name} dari daftar teman?`)) return;
+  if (!confirm(`Hapus ${f.name}?`)) return;
   const ok = await FriendStorage.removeFriend(fuid);
-  if (ok){
-    save();
-    toast('👋 Teman dihapus');
-    renderFriendPanel();
-  }
+  if (ok){ save(); toast('👋 Dihapus'); renderFriendPanel(); }
 };
 
 window.openProfile = async function(uid){
   const profile = await fetchUserProfile(uid);
-  if (!profile) return toast('❌ Profil tidak ditemukan');
-
+  if (!profile) return toast('❌ Tidak ditemukan');
   const online = isUserOnline(uid, profile.lastOnline);
   const statusHtml = online 
     ? '<span style="color:#00ff90">🟢 Online</span>' 
     : `<span style="color:#888">⚫ Offline • ${timeAgo(profile.lastOnline)}</span>`;
-
   const isSelf = uid === Storage.getUserId();
   const isFriend = S.friends && S.friends[uid];
 
@@ -2636,11 +2843,17 @@ window.openProfile = async function(uid){
     actionHtml = `<button class="btn-primary" style="width:100%;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;margin-top:10px" onclick="closeProfileModal();openPrivateChat('${uid}', '${escapeHtml(profile.name)}')">💬 Chat Pribadi</button>`;
   }
 
+  const prestigeTitle = getPrestigeTitle(profile.prestigeCount || 0);
+  const prestigeHtml = profile.prestigeCount > 0 
+    ? `<div class="meta">♻️ Prestige <b>${profile.prestigeCount}</b> — ${prestigeTitle.title}</div>` 
+    : '';
+
   document.getElementById('profileContent').innerHTML = `
     <div class="profile-card">
       <div class="avatar">👤</div>
       <h3>${escapeHtml(profile.name)}</h3>
       <div class="meta">🏆 Level <b>${profile.level}</b></div>
+      ${prestigeHtml}
       <div class="meta">🏰 Clan: <b>[${escapeHtml(profile.clanTag)}] ${escapeHtml(profile.clanName)}</b></div>
       <div class="meta">${statusHtml}</div>
       ${actionHtml}
@@ -2652,26 +2865,17 @@ window.closeProfileModal = function(){
   document.getElementById('profileModal').classList.remove('show');
 };
 
-/* ============================================================
-   ★ v11.0: PRIVATE CHAT
-   ============================================================ */
 window.openPrivateChat = async function(otherUid, otherName){
   currentPrivateChatUid = otherUid;
   document.getElementById('privateChatName').textContent = otherName;
   document.getElementById('privateChatModal').classList.add('show');
-
-  // Cek status
   const ts = await fetchUserLastSeen(otherUid);
   const online = isUserOnline(otherUid, ts);
   document.getElementById('privateChatStatus').innerHTML = online
     ? '<span style="color:#00ff90">🟢 Online</span>'
     : `<span style="color:#888">⚫ Offline • ${timeAgo(ts)}</span>`;
-
-  // Start listener
   stopPrivateChatListener();
   privateChatUnsubscribe = FriendStorage.listenPrivateChat(otherUid, renderPrivateChat);
-
-  // Update status tiap 10 detik
   if (privateChatTimerInterval) clearInterval(privateChatTimerInterval);
   privateChatTimerInterval = setInterval(async () => {
     if (!currentPrivateChatUid) return;
@@ -2694,10 +2898,7 @@ window.closePrivateChat = function(){
 };
 
 function stopPrivateChatListener(){
-  if (privateChatUnsubscribe){
-    privateChatUnsubscribe();
-    privateChatUnsubscribe = null;
-  }
+  if (privateChatUnsubscribe){ privateChatUnsubscribe(); privateChatUnsubscribe = null; }
 }
 
 function renderPrivateChat(chatObj){
@@ -2708,7 +2909,7 @@ function renderPrivateChat(chatObj){
     .sort((a,b) => (a.ts||0) - (b.ts||0));
   const myUid = Storage.getUserId();
   if (!msgs.length){
-    container.innerHTML = '<div style="text-align:center;color:#666;font-size:0.8rem;padding:20px">Belum ada pesan.<br>Mulai ngobrol!</div>';
+    container.innerHTML = '<div style="text-align:center;color:#666;font-size:0.8rem;padding:20px">Belum ada pesan.</div>';
     return;
   }
   const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 50;
@@ -2731,44 +2932,28 @@ window.sendPrivateMsg = async function(){
   const text = (input.value || '').trim();
   if (!text) return;
   const ok = await FriendStorage.sendPrivateMsg(currentPrivateChatUid, text);
-  if (ok){
-    input.value = '';
-    input.focus();
-  } else {
-    toast('❌ Gagal kirim pesan');
-  }
+  if (ok){ input.value = ''; input.focus(); }
+  else toast('❌ Gagal');
 };
 
-// Listen perubahan friend requests & friends dari Firebase
 function startUserDataListener(){
   if (!currentUid) return;
-  // Listen friend requests
   onValue(ref(db, `users/${currentUid}/friendRequests`), snap => {
-    const data = snap.val() || {};
-    S.friendRequests = data;
+    S.friendRequests = snap.val() || {};
     save();
-    // Update panel kalau sedang di tab friend
     const panel = document.getElementById('panel-friend');
     if (panel && !panel.classList.contains('hidden')){
       if (!isUserTypingInFriends()) renderFriendPanel();
     }
-    // Notif kalau ada request baru
-    const count = Object.keys(data).length;
-    if (count > 0 && currentFriendTab !== 'requests'){
-      // Hanya notif sekali
-    }
   });
-  // Listen friends list
   onValue(ref(db, `users/${currentUid}/friends`), snap => {
-    const data = snap.val() || {};
-    S.friends = data;
+    S.friends = snap.val() || {};
     save();
     const panel = document.getElementById('panel-friend');
     if (panel && !panel.classList.contains('hidden')){
       if (!isUserTypingInFriends()) renderFriendPanel();
     }
   });
-  // Listen sent requests
   onValue(ref(db, `users/${currentUid}/sentRequests`), snap => {
     S.sentRequests = snap.val() || {};
     save();
@@ -2872,6 +3057,9 @@ document.getElementById('transferModal').addEventListener('click', (e)=>{
 document.getElementById('muteModal').addEventListener('click', (e)=>{
   if (e.target.id === 'muteModal') closeMuteModal();
 });
+document.getElementById('prestigeConfirmModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'prestigeConfirmModal') closePrestigeConfirm();
+});
 document.addEventListener('keydown', (e)=>{
   if (e.key === 'Escape'){
     closeResetModal();
@@ -2884,6 +3072,7 @@ document.addEventListener('keydown', (e)=>{
     closePrivateChat();
     closeTransferModal();
     closeMuteModal();
+    closePrestigeConfirm();
   }
 });
 
@@ -2898,6 +3087,7 @@ document.querySelectorAll('.nav button').forEach(b=>{
     document.getElementById('panel-'+b.dataset.panel).classList.remove('hidden');
     if (b.dataset.panel === 'clan') renderClanPanel();
     else if (b.dataset.panel === 'friend') renderFriendPanel();
+    else if (b.dataset.panel === 'prestige') renderPrestigePanel();
     else stopChatListener();
   });
 });
@@ -2913,17 +3103,14 @@ async function initFirebase(){
         currentUid = user.uid;
         isOnline = true;
         updateOnlineTag();
-        console.log('Firebase UID:', currentUid);
         resolve();
       } else {
         try {
           document.getElementById('loadingText').textContent = 'Membuat akun anonim...';
           await signInAnonymously(auth);
         } catch(e){
-          console.error('Auth error:', e);
           isOnline = false;
           updateOnlineTag();
-          document.getElementById('loadingText').textContent = 'Gagal konek. Mode offline.';
           resolve();
         }
       }
@@ -2951,18 +3138,18 @@ async function init(){
   const saved = await Storage.load();
   if (saved){
     S = { ...DEFAULT_STATE, ...saved };
-    // Pastikan friends & requests selalu objek
     S.friends = S.friends || {};
     S.friendRequests = S.friendRequests || {};
     S.sentRequests = S.sentRequests || {};
+    S.prestigeCount = S.prestigeCount || 0;
+    S.prestigePoints = S.prestigePoints || 0;
+    S.prestigeSkinIds = S.prestigeSkinIds || [];
+    S.prestigeHistory = S.prestigeHistory || [];
   }
 
   const hadDuplicates = hasDuplicateSkins();
-  if (cleanupDuplicateSkins()){
-    await Storage.save(S);
-  }
+  if (cleanupDuplicateSkins()) await Storage.save(S);
 
-  // Auto-click offline catch-up
   const now = Date.now();
   if (S.autoEnd > 0 && S.autoEnd <= now){
     S.autoEnd = 0;
@@ -2970,12 +3157,12 @@ async function init(){
     const elapsed = now - S.lastAutoTick;
     const ticks = Math.floor(elapsed / 1000);
     if (ticks > 0 && ticks < 3600){
-      const maxCatchup = Math.min(ticks, 120); // max 2 menit
+      const maxCatchup = Math.min(ticks, 120);
       let gainedMoney = 0, gainedExp = 0;
       for (let i=0; i<maxCatchup; i++){
-        const bonus = HELPING_HAND_CONFIG.clickPowerMin +
-                      Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
-        gainedMoney += bonus;
+        const base = HELPING_HAND_CONFIG.clickPowerMin +
+                     Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
+        gainedMoney += Math.floor(base * getIncomeMultiplier());
         gainedExp += 2;
       }
       S.money += gainedMoney;
@@ -3002,6 +3189,12 @@ async function init(){
   const price = getTokenPrice();
   if (price.active){
     setTimeout(() => toast(`🎉 DISKON ${price.discount}% Token Light aktif!`), 1200);
+  }
+
+  // ★ Tampilkan prestise welcome kalau ada
+  if (S.prestigeCount > 0){
+    const title = getPrestigeTitle(S.prestigeCount);
+    setTimeout(() => toast(`♻️ Prestige ${S.prestigeCount} — ${title.title}`), 1800);
   }
 
   toast('🎮 Selamat bermain!');
