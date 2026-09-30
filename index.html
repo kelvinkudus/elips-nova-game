@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v10.0</title>
+<title>ELIPS NOVA GAME v11.0</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -59,10 +59,10 @@
     50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
   }
   .nav {
-    display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:10px;
+    display:grid; grid-template-columns:repeat(6,1fr); gap:4px; margin-top:10px;
   }
   .nav button {
-    padding:10px 4px; font-size:0.7rem; border-radius:10px; border:1px solid #4a3f9f;
+    padding:9px 2px; font-size:0.62rem; border-radius:10px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
   }
   .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
@@ -133,19 +133,8 @@
   .auto-panel.show { display:block; }
   .auto-panel .row {
     display:flex; justify-content:space-between; align-items:center;
-    margin-bottom:6px;
   }
-  .auto-panel .row:last-child { margin-bottom:0; }
   .auto-panel b { color:#00ffc0; }
-  .auto-panel button {
-    padding:6px 10px; font-size:0.75rem; border-radius:8px; border:none;
-    cursor:pointer; font-weight:bold;
-  }
-  .btn-pause { background:linear-gradient(135deg,#ffaa00,#ff6600); color:#111; }
-  .btn-resume { background:linear-gradient(135deg,#00ff90,#00b070); color:#111; }
-  .btn-pause:disabled, .btn-resume:disabled {
-    background:#444; color:#888; cursor:not-allowed;
-  }
   .modal-overlay {
     position:fixed; inset:0; background:rgba(0,0,0,0.75);
     backdrop-filter:blur(6px);
@@ -286,7 +275,7 @@
     display:flex; justify-content:space-between; align-items:center;
     padding:8px; margin-bottom:4px; border-radius:8px;
     background:rgba(60,40,120,0.3); font-size:0.8rem;
-    gap:8px; flex-wrap:wrap;
+    gap:6px; flex-wrap:wrap;
   }
   .clan-member-row .role {
     font-size:0.65rem; padding:2px 6px; border-radius:6px;
@@ -294,6 +283,10 @@
   }
   .role-owner { background:linear-gradient(135deg,#ffb300,#ff6600) !important; color:#111 !important; font-weight:bold; }
   .role-admin { background:linear-gradient(135deg,#5b3fff,#a02bff) !important; color:white !important; }
+  .clan-member-row .muted-badge {
+    font-size:0.6rem; padding:2px 5px; border-radius:5px;
+    background:#ff4060; color:white;
+  }
   .clan-chat {
     height:280px; overflow-y:auto;
     background:rgba(0,0,0,0.4); border-radius:10px;
@@ -406,8 +399,6 @@
     color:#ffe0a0 !important;
     text-align:center;
   }
-
-  /* ★ v10.0: Diskon Banner */
   .discount-banner {
     background:linear-gradient(135deg, #ff2b6b, #ff5050, #ffb300);
     border-radius:12px;
@@ -477,6 +468,100 @@
     0%,100% { transform:scale(1); }
     50%     { transform:scale(1.1); }
   }
+
+  /* ============ v11.0: FRIEND SYSTEM ============ */
+  .online-dot {
+    display:inline-block; width:8px; height:8px; border-radius:50%;
+    margin-right:4px;
+  }
+  .online-dot.on { background:#00ff90; box-shadow:0 0 6px #00ff90; }
+  .online-dot.off { background:#666; }
+
+  .friend-tabs {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:4px;
+    margin-bottom:10px;
+  }
+  .friend-tabs button {
+    padding:8px 4px; font-size:0.72rem; border-radius:8px; border:1px solid #4a3f9f;
+    background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
+  }
+  .friend-tabs button.active {
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
+  }
+  .friend-row {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:8px; margin-bottom:6px; border-radius:10px;
+    background:rgba(60,40,120,0.3); font-size:0.8rem;
+    border:1px solid rgba(120,100,255,0.2);
+  }
+  .friend-row .left { flex:1; min-width:0; }
+  .friend-row .name { color:#7fd4ff; font-weight:bold; }
+  .friend-row .sub { font-size:0.7rem; color:#888; }
+  .friend-row .actions { display:flex; gap:4px; }
+  .friend-row .actions button {
+    padding:5px 10px; font-size:0.7rem; border-radius:6px; border:none;
+    cursor:pointer; font-weight:bold;
+  }
+  .btn-small-green { background:linear-gradient(135deg,#00c060,#00ff90); color:#111; }
+  .btn-small-red { background:linear-gradient(135deg,#c00030,#ff4060); color:white; }
+  .btn-small-blue { background:linear-gradient(135deg,#0040c0,#4090ff); color:white; }
+  .btn-small-purple { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
+  .btn-small-gray { background:#444; color:#aaa; cursor:not-allowed !important; }
+
+  .profile-card {
+    background:linear-gradient(135deg, rgba(100,50,200,0.35), rgba(200,50,150,0.35));
+    border:1px solid #a06bff;
+    border-radius:14px;
+    padding:16px;
+    text-align:center;
+    margin-bottom:12px;
+  }
+  .profile-card .avatar {
+    font-size:3rem; margin-bottom:6px;
+  }
+  .profile-card h3 {
+    color:#7fd4ff; font-size:1.1rem; margin-bottom:4px;
+  }
+  .profile-card .meta {
+    font-size:0.75rem; color:#aaa; margin-top:4px;
+  }
+  .profile-card .meta b { color:#ffb300; }
+
+  .private-chat {
+    height:260px; overflow-y:auto;
+    background:rgba(0,0,0,0.4); border-radius:10px;
+    padding:8px; margin-bottom:8px;
+    border:1px solid #3a2f80;
+  }
+
+  /* Owner Transfer Modal */
+  .transfer-list-item {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px; margin-bottom:6px; border-radius:10px;
+    background:rgba(60,40,120,0.3); border:1px solid rgba(120,100,255,0.2);
+  }
+  .transfer-list-item .info { font-size:0.8rem; flex:1; }
+  .transfer-list-item .info b { color:#7fd4ff; }
+  .transfer-list-item button {
+    padding:6px 12px; font-size:0.72rem; border-radius:8px; border:none;
+    cursor:pointer; font-weight:bold;
+    background:linear-gradient(135deg,#ffb300,#ff6600); color:#111;
+  }
+
+  /* Mute menu */
+  .mute-options {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:6px;
+    margin:8px 0;
+  }
+  .mute-options button {
+    padding:12px 6px; border-radius:10px; border:1px solid #4a3f9f;
+    background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
+    font-size:0.75rem; font-weight:bold;
+  }
+  .mute-options button.selected {
+    background:linear-gradient(135deg,#ff2b6b,#ff5050); color:white;
+    border-color:#ff4060;
+  }
 </style>
 </head>
 <body>
@@ -488,7 +573,7 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v10.0 — LEGENDARY FINAL</div>
+<div class="version">v11.0 — FRIEND & CLAN UPGRADE</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="player-name-display">
   👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
@@ -510,22 +595,17 @@
 
 <div class="auto-panel" id="autoPanel">
   <div class="row">
-    <div>👌 <b>HELPING HAND</b> aktif</div>
+    <div>👌 <b>HELPING HAND</b> aktif — <span id="autoBonus">+€50-80/klik</span></div>
     <div id="autoTimer">--</div>
-  </div>
-  <div class="row">
-    <div style="font-size:0.7rem;color:#aaa">Sisa jeda manual: <b id="autoPauseLeft">2</b>/2</div>
-    <div>
-      <button class="btn-pause" id="autoPauseBtn" onclick="toggleAutoPause()">Jeda</button>
-    </div>
   </div>
 </div>
 
 <div class="nav">
   <button data-panel="shop" class="active">🛒 Toko</button>
-  <button data-panel="inv">🎒 Inventori</button>
-  <button data-panel="event">⭐ Legendary</button>
+  <button data-panel="inv">🎒 Inv</button>
+  <button data-panel="event">⭐ Event</button>
   <button data-panel="clan">🏰 Clan</button>
+  <button data-panel="friend">👥 Teman</button>
   <button data-panel="redeem">🎁 Redeem</button>
 </div>
 
@@ -533,6 +613,7 @@
 <div class="panel hidden" id="panel-inv"></div>
 <div class="panel hidden" id="panel-event"></div>
 <div class="panel hidden" id="panel-clan"></div>
+<div class="panel hidden" id="panel-friend"></div>
 <div class="panel hidden" id="panel-redeem">
   <h3>🎁 Kode Redeem</h3>
   <input type="text" id="redeemInput" placeholder="Masukkan kode...">
@@ -557,6 +638,7 @@
   </div>
 </div>
 
+<!-- Modal Reset -->
 <div class="modal-overlay" id="resetModal">
   <div class="modal-box">
     <h2>⚠️ Konfirmasi Reset Data</h2>
@@ -568,6 +650,7 @@
   </div>
 </div>
 
+<!-- Modal Dev -->
 <div class="modal-overlay" id="devModal">
   <div class="modal-box" style="border-color:#ffb300;">
     <h2 style="color:#ffb300">⚡ DEVELOPER MODE</h2>
@@ -585,6 +668,7 @@
   </div>
 </div>
 
+<!-- Modal Create Clan -->
 <div class="modal-overlay" id="createClanModal">
   <div class="modal-box" style="border-color:#a06bff;">
     <h2 style="color:#c47bff">🏰 Buat Clan Baru</h2>
@@ -596,8 +680,8 @@
     <textarea id="newClanDesc" maxlength="100" placeholder="Deskripsi clan..."></textarea>
     <label style="font-size:0.75rem;color:#aaa">Tipe</label>
     <select id="newClanType">
-      <option value="open">🌐 Open — siapa saja bisa join</option>
-      <option value="closed">🔒 Closed — perlu approval</option>
+      <option value="open">🌐 Open</option>
+      <option value="closed">🔒 Closed</option>
     </select>
     <div style="font-size:0.75rem;color:#ffb300;text-align:center;margin-top:6px">Biaya: 💎 50</div>
     <div class="modal-actions" style="margin-top:12px">
@@ -607,13 +691,14 @@
   </div>
 </div>
 
+<!-- Modal Edit Name -->
 <div class="modal-overlay" id="editNameModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
-    <h2 style="color:#7fd4ff">👤 Ubah Nama Pemain</h2>
+    <h2 style="color:#7fd4ff">👤 Edit Profil</h2>
     <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
     <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
     <div style="font-size:0.7rem;color:#888;margin-top:4px;margin-bottom:8px">
-      Nama ini akan muncul di chat clan dan daftar member.
+      Nama ini akan muncul di chat clan, chat teman, dan daftar member.
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
@@ -622,6 +707,7 @@
   </div>
 </div>
 
+<!-- Modal Apology -->
 <div class="modal-overlay apology-modal" id="apologyModal">
   <div class="modal-box">
     <h2>💛 Permintaan Maaf</h2>
@@ -639,6 +725,7 @@
   </div>
 </div>
 
+<!-- Modal Event Notice -->
 <div class="modal-overlay" id="eventNoticeModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
     <h2 style="color:#7fd4ff">📢 Pemberitahuan</h2>
@@ -650,11 +737,73 @@
       <br><br>
       Di menu baru nanti akan ada banyak sub-event seru seperti
       🎃 Halloween, 🎄 Natal, 🎆 Tahun Baru, dan lain-lain!
-      <br><br>
-      Nantikan ya! ✨
     </p>
     <div class="modal-actions" style="grid-template-columns:1fr">
       <button class="btn-primary" onclick="closeEventNoticeModal()">Siap, Tunggu!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ★ v11.0: Modal Transfer Ownership -->
+<div class="modal-overlay" id="transferModal">
+  <div class="modal-box" style="border-color:#ffb300;">
+    <h2 style="color:#ffb300">👑 Transfer Kepemilikan Clan</h2>
+    <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
+      Pilih anggota yang akan menjadi <b>Owner baru</b>. Setelah transfer, kamu akan menjadi <b>Admin</b>.
+    </p>
+    <div id="transferList" style="max-height:300px; overflow-y:auto;"></div>
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ★ v11.0: Modal Mute Member -->
+<div class="modal-overlay" id="muteModal">
+  <div class="modal-box" style="border-color:#ff4060;">
+    <h2 style="color:#ff4060">🔇 Bisukan Anggota</h2>
+    <p style="background:rgba(255,60,90,0.1);border-left-color:#ff4060;color:#ffb0b0;">
+      Pilih durasi mute untuk <b id="muteTargetName">Pemain</b>.
+      <br>Anggota yang dibisukan tidak bisa mengirim pesan di chat clan.
+    </p>
+    <div class="mute-options" id="muteOptions">
+      <button data-days="1" onclick="selectMuteDays(1)">🔇 1 Hari</button>
+      <button data-days="2" onclick="selectMuteDays(2)">🔇 2 Hari</button>
+      <button data-days="3" onclick="selectMuteDays(3)">🔇 3 Hari</button>
+    </div>
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-cancel" onclick="closeMuteModal()">Batal</button>
+      <button class="btn-confirm" onclick="confirmMute()">Bisukan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ★ v11.0: Modal Profil Pemain -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal-box" style="border-color:#a06bff;">
+    <h2 style="color:#c47bff">👤 Profil Pemain</h2>
+    <div id="profileContent"></div>
+    <div class="modal-actions" style="margin-top:12px; grid-template-columns:1fr;">
+      <button class="btn-cancel" onclick="closeProfileModal()">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ★ v11.0: Modal Private Chat -->
+<div class="modal-overlay" id="privateChatModal">
+  <div class="modal-box" style="border-color:#7fd4ff; max-width:480px;">
+    <h2 style="color:#7fd4ff">💬 <span id="privateChatName">-</span></h2>
+    <div style="font-size:0.75rem; margin-bottom:8px;">
+      Status: <span id="privateChatStatus">-</span>
+    </div>
+    <div class="private-chat" id="privateChatBox"></div>
+    <div class="chat-input-row">
+      <input type="text" id="privateChatInput" placeholder="Ketik pesan..." maxlength="200"
+             onkeydown="if(event.key==='Enter'){event.preventDefault();sendPrivateMsg();}">
+      <button onclick="sendPrivateMsg()">Kirim</button>
+    </div>
+    <div class="modal-actions" style="margin-top:8px; grid-template-columns:1fr;">
+      <button class="btn-cancel" onclick="closePrivateChat()">Tutup</button>
     </div>
   </div>
 </div>
@@ -663,7 +812,7 @@
 
 <script type="module">
 /* ============================================================
-   FIREBASE SDK RESMI
+   FIREBASE SDK
    ============================================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
@@ -689,7 +838,7 @@ const db = getDatabase(app);
 const auth = getAuth(app);
 
 /* ============================================================
-   ★ v10.0: KONFIGURASI EVENT & DISKON
+   KONFIGURASI EVENT & DISKON
    ============================================================ */
 const LEGENDARY_EVENT = {
   endDate: new Date('2026-10-02T22:00:00+07:00').getTime(),
@@ -699,16 +848,30 @@ const LEGENDARY_EVENT = {
   hardEndDate: new Date('2026-10-02T22:00:00+07:00').getTime()
 };
 
-// ★ v10.0: Diskon Token Light 80%
 const TOKEN_DISCOUNT = {
-  percent: 80,                                              // 80% diskon
-  endDate: new Date('2026-10-01T22:00:00+07:00').getTime()  // 1 Okt 2026, 22.00 WIB
+  percent: 80,
+  endDate: new Date('2026-10-01T22:00:00+07:00').getTime()
 };
 
-// Harga normal Token Light
 const TOKEN_PRICE_NORMAL = { money: 5000, diamond: 40 };
 
-// Hitung harga diskon
+// ★ v11.0: Konfigurasi Punch Money Fast baru
+const BOOST_CONFIG = {
+  price: 800,
+  duration: 800000,      // 800 detik
+  cooldown: 240000,      // 4 menit
+  clickPower: 100        // ★ Berubah dari 50 → 100
+};
+
+// ★ v11.0: Konfigurasi Helping Hand baru
+const HELPING_HAND_CONFIG = {
+  priceToken: 5,         // ★ Berubah dari 25 → 5
+  priceDiamond: 25,      // ★ Opsi beli dengan diamond
+  duration: 2*60*1000,   // ★ Berubah dari 10 menit → 2 menit
+  clickPowerMin: 50,     // ★ Bonus +50
+  clickPowerMax: 80      // ★ Sampai +80 (variatif)
+};
+
 function getTokenPrice(){
   const now = Date.now();
   const isDiscountActive = now < TOKEN_DISCOUNT.endDate;
@@ -720,15 +883,9 @@ function getTokenPrice(){
       active: true
     };
   }
-  return {
-    money: TOKEN_PRICE_NORMAL.money,
-    diamond: TOKEN_PRICE_NORMAL.diamond,
-    discount: 0,
-    active: false
-  };
+  return { ...TOKEN_PRICE_NORMAL, discount: 0, active: false };
 }
 
-// Format tanggal akhir diskon
 function formatDiscountEndDate(){
   const d = new Date(TOKEN_DISCOUNT.endDate);
   const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -736,7 +893,6 @@ function formatDiscountEndDate(){
   return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • 22:00 WIB`;
 }
 
-// Format countdown diskon
 function formatDiscountCountdown(){
   const now = Date.now();
   const remain = TOKEN_DISCOUNT.endDate - now;
@@ -750,7 +906,7 @@ function formatDiscountCountdown(){
   return `${minutes}m ${seconds}s`;
 }
 
-/* ================= GLOBAL STATE ================= */
+/* ================= STATE ================= */
 let currentUid = null;
 let isOnline = false;
 
@@ -761,17 +917,23 @@ const DEFAULT_STATE = {
   mysteryCooldown: 0, mysteryOpened: false,
   usedCodes: [],
   totalDiamondFromLevel: 0,
-  autoEnd: 0, autoPaused: false, autoPauseRemain: 2, autoLeftMs: 0, lastAutoTick: 0,
+  autoEnd: 0, lastAutoTick: 0,
   devMode: false, devUsed: false,
   clanId: null,
   playerName: 'Pemain',
   apologyShown: false,
   eventNoticeShown: false,
+
+  // ★ v11.0
+  friends: {},           // { uid: { name, addedAt } }
+  friendRequests: {},    // { fromUid: { name, sentAt } }
+  sentRequests: {},      // { toUid: { sentAt } }
+  lastOnline: 0,         // timestamp terakhir aktif
+
   lastSeen: Date.now()
 };
 
 let S = { ...DEFAULT_STATE };
-let clickPower = 10;
 let autoTickInterval = null;
 let chatUnsubscribe = null;
 let chatHeartbeatInterval = null;
@@ -779,6 +941,13 @@ let currentClanTab = 'info';
 let currentClanData = null;
 let savedSearchResult = null;
 let discountTimerInterval = null;
+
+// ★ v11.0
+let currentFriendTab = 'list';   // 'list' | 'requests' | 'add'
+let currentPrivateChatUid = null;
+let privateChatUnsubscribe = null;
+let privateChatTimerInterval = null;
+let onlineUsersCache = {};       // { uid: lastSeenTimestamp }
 
 /* ================= UTIL ================= */
 function toast(msg){
@@ -825,6 +994,71 @@ function updateOnlineTag(){
   }
 }
 
+// ★ v11.0: Cek online/offline user
+const ONLINE_THRESHOLD = 60000; // 60 detik = dianggap online
+function isUserOnline(uid, lastSeenTs){
+  if (!lastSeenTs) return false;
+  return (Date.now() - lastSeenTs) < ONLINE_THRESHOLD;
+}
+
+// Update lastSeen kita sendiri tiap 30 detik
+function startOnlineHeartbeat(){
+  const uid = Storage.getUserId();
+  const updateLastSeen = async () => {
+    if (!uid || uid === 'local_player') return;
+    try {
+      await set(ref(db, `users/${uid}/lastOnline`), Date.now());
+    } catch(e){}
+  };
+  updateLastSeen();
+  setInterval(updateLastSeen, 30000); // tiap 30 detik
+}
+
+// Ambil lastSeen user lain
+async function fetchUserLastSeen(uid){
+  if (onlineUsersCache[uid] && (Date.now() - onlineUsersCache[uid].fetchedAt) < 15000){
+    return onlineUsersCache[uid].ts;
+  }
+  try {
+    const snap = await get(ref(db, `users/${uid}/lastOnline`));
+    const ts = snap.val();
+    onlineUsersCache[uid] = { ts, fetchedAt: Date.now() };
+    return ts;
+  } catch(e){ return null; }
+}
+
+async function fetchUserProfile(uid){
+  try {
+    const snap = await get(ref(db, `users/${uid}`));
+    const data = snap.val();
+    if (!data) return null;
+    // Ambil info clan
+    let clanName = '-';
+    let clanTag = '-';
+    if (data.clanId){
+      try {
+        const clanSnap = await get(ref(db, `clans/${data.clanId}`));
+        const clan = clanSnap.val();
+        if (clan){
+          clanName = clan.name || '-';
+          clanTag = clan.tag || '-';
+        }
+      } catch(e){}
+    }
+    return {
+      uid,
+      name: data.playerName || 'Pemain',
+      level: data.level || 1,
+      clanName,
+      clanTag,
+      lastOnline: data.lastOnline || 0
+    };
+  } catch(e){ return null; }
+}
+
+/* ============================================================
+   EVENT STATUS
+   ============================================================ */
 function getEventStatus(){
   const now = Date.now();
   if (now >= LEGENDARY_EVENT.hardEndDate) return 'ended';
@@ -833,15 +1067,12 @@ function getEventStatus(){
   if (h >= LEGENDARY_EVENT.openHour && h < LEGENDARY_EVENT.closeHour) return 'open';
   return 'closed';
 }
-function isEventOpen(){ return getEventStatus() === 'open'; }
-
 function formatEventEndDate(){
   const d = new Date(LEGENDARY_EVENT.endDate);
   const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • 22:00 WIB`;
 }
-
 function shouldShowEventNotice(){
   const now = Date.now();
   if (now < LEGENDARY_EVENT.hardEndDate) return false;
@@ -850,7 +1081,7 @@ function shouldShowEventNotice(){
 }
 
 /* ============================================================
-   STORAGE LAYER
+   STORAGE
    ============================================================ */
 const Storage = {
   async load() {
@@ -862,7 +1093,7 @@ const Storage = {
           localStorage.setItem('enova_cache', JSON.stringify(data));
           return data;
         }
-      } catch(e){ console.warn('Firebase load error', e); }
+      } catch(e){}
     }
     try {
       const local = localStorage.getItem('enova_cache');
@@ -874,7 +1105,7 @@ const Storage = {
     if (currentUid && isOnline){
       try {
         await set(ref(db, `users/${currentUid}`), data);
-      } catch(e){ console.warn('Firebase save error', e); }
+      } catch(e){}
     }
   },
   async wipe() {
@@ -987,33 +1218,175 @@ const ClanStorage = {
       orderByChild('ts'),
       limitToLast(200)
     );
-    let receivedFirebaseData = false;
     const unsub = onValue(chatQuery, snap => {
-      receivedFirebaseData = true;
       callback(snap.val() || {});
-    }, (error) => {
-      const interval = setInterval(() => {
-        try {
-          const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
-          callback((all[clanId] && all[clanId].chat) || {});
-        } catch(e){ callback({}); }
-      }, 3000);
-      return () => clearInterval(interval);
     });
-    setTimeout(() => {
-      if (!receivedFirebaseData){
-        try {
-          const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
-          callback((all[clanId] && all[clanId].chat) || {});
-        } catch(e){ callback({}); }
-      }
-    }, 5000);
     return unsub;
   }
 };
 
 /* ============================================================
-   DEVELOPER KEY
+   FRIEND STORAGE (v11.0)
+   ============================================================ */
+const FriendStorage = {
+  async sendRequest(toUid, fromName){
+    const fromUid = Storage.getUserId();
+    if (!fromUid || fromUid === 'local_player') return false;
+    if (toUid === fromUid) return false;
+
+    // Cek apakah sudah teman
+    if (S.friends && S.friends[toUid]) return false;
+
+    // Kirim request ke user target
+    try {
+      await set(ref(db, `users/${toUid}/friendRequests/${fromUid}`), {
+        name: fromName,
+        sentAt: Date.now()
+      });
+      // Simpan juga di sisi kita (sentRequests)
+      await set(ref(db, `users/${fromUid}/sentRequests/${toUid}`), {
+        sentAt: Date.now()
+      });
+      return true;
+    } catch(e){ return false; }
+  },
+
+  async acceptRequest(fromUid){
+    const myUid = Storage.getUserId();
+    if (!myUid || myUid === 'local_player') return false;
+
+    try {
+      // Ambil info dari user yang minta
+      const reqSnap = await get(ref(db, `users/${myUid}/friendRequests/${fromUid}`));
+      const req = reqSnap.val();
+      if (!req) return false;
+
+      // Ambil nama kita
+      const myName = S.playerName || 'Pemain';
+      const myLevel = S.level || 1;
+
+      // Tambah ke friends (sisi kita)
+      await set(ref(db, `users/${myUid}/friends/${fromUid}`), {
+        name: req.name || 'Pemain',
+        addedAt: Date.now()
+      });
+
+      // Tambah ke friends (sisi mereka)
+      await set(ref(db, `users/${fromUid}/friends/${myUid}`), {
+        name: myName,
+        addedAt: Date.now()
+      });
+
+      // Hapus request
+      await remove(ref(db, `users/${myUid}/friendRequests/${fromUid}`));
+      // Hapus sentRequests mereka
+      await remove(ref(db, `users/${fromUid}/sentRequests/${myUid}`));
+
+      // Update state lokal
+      S.friends = S.friends || {};
+      S.friends[fromUid] = { name: req.name || 'Pemain', addedAt: Date.now() };
+      if (S.friendRequests) delete S.friendRequests[fromUid];
+
+      return true;
+    } catch(e){ return false; }
+  },
+
+  async rejectRequest(fromUid){
+    const myUid = Storage.getUserId();
+    try {
+      await remove(ref(db, `users/${myUid}/friendRequests/${fromUid}`));
+      await remove(ref(db, `users/${fromUid}/sentRequests/${myUid}`));
+      if (S.friendRequests) delete S.friendRequests[fromUid];
+      return true;
+    } catch(e){ return false; }
+  },
+
+  async removeFriend(friendUid){
+    const myUid = Storage.getUserId();
+    try {
+      await remove(ref(db, `users/${myUid}/friends/${friendUid}`));
+      await remove(ref(db, `users/${friendUid}/friends/${myUid}`));
+      if (S.friends) delete S.friends[friendUid];
+      return true;
+    } catch(e){ return false; }
+  },
+
+  // Cari user by nama (cari di semua user)
+  async searchUserByName(name){
+    const results = [];
+    try {
+      const snap = await get(ref(db, 'users'));
+      const allUsers = snap.val();
+      if (!allUsers) return results;
+      
+      const searchLower = name.toLowerCase();
+      const myUid = Storage.getUserId();
+      
+      for (const [uid, data] of Object.entries(allUsers)){
+        if (uid === myUid) continue;
+        const playerName = (data.playerName || 'Pemain').toLowerCase();
+        if (playerName.includes(searchLower)){
+          // Ambil info clan
+          let clanName = '-';
+          let clanTag = '-';
+          if (data.clanId){
+            try {
+              const clanSnap = await get(ref(db, `clans/${data.clanId}`));
+              const clan = clanSnap.val();
+              if (clan){
+                clanName = clan.name || '-';
+                clanTag = clan.tag || '-';
+              }
+            } catch(e){}
+          }
+          results.push({
+            uid,
+            name: data.playerName || 'Pemain',
+            level: data.level || 1,
+            clanName,
+            clanTag,
+            lastOnline: data.lastOnline || 0
+          });
+        }
+      }
+    } catch(e){ console.warn('searchUser error', e); }
+    return results;
+  },
+
+  // Chat pribadi
+  async sendPrivateMsg(toUid, text){
+    const myUid = Storage.getUserId();
+    const roomId = [myUid, toUid].sort().join('_');
+    try {
+      const chatRef = ref(db, `privateChats/${roomId}/messages`);
+      const newRef = push(chatRef);
+      await set(newRef, {
+        from: myUid,
+        to: toUid,
+        text: text.slice(0, 200),
+        ts: Date.now()
+      });
+      return true;
+    } catch(e){ return false; }
+  },
+
+  listenPrivateChat(otherUid, callback){
+    const myUid = Storage.getUserId();
+    const roomId = [myUid, otherUid].sort().join('_');
+    const q = query(
+      ref(db, `privateChats/${roomId}/messages`),
+      orderByChild('ts'),
+      limitToLast(100)
+    );
+    const unsub = onValue(q, snap => {
+      callback(snap.val() || {});
+    });
+    return unsub;
+  }
+};
+
+/* ============================================================
+   DEV KEY
    ============================================================ */
 const _DEV_KEY_HASH = (() => {
   const s = "BCE093702";
@@ -1021,7 +1394,6 @@ const _DEV_KEY_HASH = (() => {
   for (let i=0; i<s.length; i++){ h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
   return h;
 })();
-
 function validateDevKey(input){
   const s = (input || '').trim().toUpperCase();
   let h = 0;
@@ -1037,7 +1409,6 @@ function rollLevelDiamond(){
   if (isRare) return 31 + Math.floor(Math.random() * 20);
   return 3 + Math.floor(Math.random() * 28);
 }
-
 function showDiamondPop(amount){
   const el = document.createElement('div');
   el.className = 'diamond-pop';
@@ -1049,7 +1420,7 @@ function showDiamondPop(amount){
 }
 
 /* ============================================================
-   BERSIHKAN SKIN DUPLIKAT
+   SKIN CLEANUP
    ============================================================ */
 function cleanupDuplicateSkins(){
   if (!S.inventory || !S.inventory.length) return false;
@@ -1065,7 +1436,6 @@ function cleanupDuplicateSkins(){
   if (removedCount > 0){ S.inventory = cleaned; return true; }
   return false;
 }
-
 function hasDuplicateSkins(){
   if (!S.inventory || !S.inventory.length) return false;
   const seen = new Set();
@@ -1078,7 +1448,7 @@ function hasDuplicateSkins(){
 }
 
 /* ============================================================
-   NAMA PEMAIN
+   PROFILE / EDIT NAME
    ============================================================ */
 window.showEditNameModal = function(){
   document.getElementById('editNameModal').classList.add('show');
@@ -1096,6 +1466,7 @@ window.savePlayerName = async function(){
   S.playerName = name;
   await Storage.save(S);
   document.getElementById('playerNameDisplay').textContent = name;
+  // Update nama di clan member list
   if (S.clanId){
     const uid = Storage.getUserId();
     try {
@@ -1167,11 +1538,9 @@ function render(){
   const info = document.getElementById('boostInfo');
   if (S.boostEnd > now){
     btn.classList.add('boost');
-    clickPower = 50;
-    info.textContent = `🥊 BOOST AKTIF! € 50/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
+    info.textContent = `🥊 BOOST AKTIF! €${BOOST_CONFIG.clickPower}/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
   } else {
     btn.classList.remove('boost');
-    clickPower = 10;
     info.textContent = '';
   }
 
@@ -1185,6 +1554,13 @@ function render(){
   if (!isUserTypingInClan()){
     renderClanPanel();
   }
+  // Render friend panel kalau aktif
+  const friendPanel = document.getElementById('panel-friend');
+  if (friendPanel && !friendPanel.classList.contains('hidden')){
+    if (!isUserTypingInFriends()){
+      renderFriendPanel();
+    }
+  }
 }
 
 let saveTimeout = null;
@@ -1193,70 +1569,43 @@ function save(){
   saveTimeout = setTimeout(() => Storage.save(S), 500);
 }
 
+function isUserTypingInFriends(){
+  const active = document.activeElement;
+  if (!active) return false;
+  const panel = document.getElementById('panel-friend');
+  if (!panel) return false;
+  if (panel.classList.contains('hidden')) return false;
+  return panel.contains(active) &&
+         (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+}
+
 /* ============================================================
-   AUTO CLICKER
+   AUTO CLICKER (v11.0 — tanpa pause, bonus 50-80)
    ============================================================ */
 function updateAutoUI(now){
   const panel = document.getElementById('autoPanel');
   const timer = document.getElementById('autoTimer');
-  const pauseBtn = document.getElementById('autoPauseBtn');
-  const pauseLeft = document.getElementById('autoPauseLeft');
   const btn = document.getElementById('clickBtn');
   const active = S.autoEnd > now;
 
   if (!active){
     panel.classList.remove('show');
     btn.classList.remove('auto');
-    pauseBtn.disabled = true;
-    pauseBtn.textContent = 'Jeda';
-    pauseBtn.className = 'btn-pause';
-    pauseLeft.textContent = S.autoPauseRemain;
     return;
   }
   panel.classList.add('show');
   btn.classList.add('auto');
-  pauseLeft.textContent = S.autoPauseRemain;
-
-  if (S.autoPaused){
-    timer.textContent = '⏸️ DIJEDA';
-    timer.style.color = '#ffb300';
-    pauseBtn.textContent = 'Lanjut';
-    pauseBtn.className = 'btn-resume';
-    pauseBtn.disabled = S.autoPauseRemain <= 0;
-  } else {
-    timer.textContent = formatDuration(S.autoEnd - now);
-    timer.style.color = '#00ffc0';
-    pauseBtn.textContent = 'Jeda';
-    pauseBtn.className = 'btn-pause';
-    pauseBtn.disabled = S.autoPauseRemain <= 0;
-  }
+  timer.textContent = formatDuration(S.autoEnd - now);
+  timer.style.color = '#00ffc0';
 }
-
-function toggleAutoPause(){
-  const now = Date.now();
-  if (S.autoEnd <= now) return;
-  if (!S.autoPaused){
-    if (S.autoPauseRemain <= 0){ toast('❌ Jatah jeda habis!'); return; }
-    S.autoLeftMs = S.autoEnd - now;
-    S.autoPaused = true;
-    S.autoPauseRemain--;
-    toast(`⏸️ Auto click dijeda (sisa: ${S.autoPauseRemain})`);
-  } else {
-    const remain = S.autoLeftMs > 0 ? S.autoLeftMs : 10*60*1000;
-    S.autoEnd = now + remain;
-    S.autoPaused = false;
-    S.autoLeftMs = 0;
-    toast('▶️ Auto click dilanjutkan');
-  }
-  save(); render();
-}
-window.toggleAutoPause = toggleAutoPause;
 
 function doAutoClick(){
   const now = Date.now();
-  if (S.autoEnd <= now || S.autoPaused) return;
-  const gain = clickPower === 50 ? 50 : (10 + Math.floor(Math.random()*16));
-  S.money += gain;
+  if (S.autoEnd <= now) return;
+  // ★ v11.0: Bonus 50-80 variatif
+  const bonus = HELPING_HAND_CONFIG.clickPowerMin +
+                Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
+  S.money += bonus;
   addExp(2);
   const btn = document.getElementById('clickBtn');
   btn.style.transform = 'scale(0.97)';
@@ -1269,8 +1618,8 @@ function startAutoLoop(){
   if (autoTickInterval) clearInterval(autoTickInterval);
   autoTickInterval = setInterval(()=>{
     const now = Date.now();
-    if (S.autoEnd > now && !S.autoPaused) doAutoClick();
-    if (S.autoEnd > 0 && S.autoEnd <= now && !S.autoPaused){
+    if (S.autoEnd > now) doAutoClick();
+    if (S.autoEnd > 0 && S.autoEnd <= now){
       S.autoEnd = 0;
       toast('👌 Helping Hand selesai.');
       save(); render();
@@ -1283,7 +1632,19 @@ function startAutoLoop(){
    ============================================================ */
 const clickBtn = document.getElementById('clickBtn');
 clickBtn.addEventListener('click', () => {
-  const gain = clickPower === 50 ? 50 : (10 + Math.floor(Math.random()*16));
+  const now = Date.now();
+  let gain;
+  if (S.autoEnd > now){
+    // ★ Saat Helping Hand aktif → bonus 50-80
+    gain = HELPING_HAND_CONFIG.clickPowerMin +
+           Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
+  } else if (S.boostEnd > now){
+    // Boost aktif → 100
+    gain = BOOST_CONFIG.clickPower;
+  } else {
+    // Normal → 10-25
+    gain = 10 + Math.floor(Math.random()*16);
+  }
   S.money += gain;
   addExp(2);
   render(); save();
@@ -1310,7 +1671,7 @@ function addExp(v){
 }
 
 /* ============================================================
-   ★ v10.0: TOKO dengan DISKON Token Light
+   TOKO
    ============================================================ */
 function renderPanels(){
   const shop = document.getElementById('panel-shop');
@@ -1322,7 +1683,6 @@ function renderPanels(){
   const autoActive = S.autoEnd > now;
   const price = getTokenPrice();
 
-  // ★ v10.0: Banner diskon (kalau aktif)
   let discountBannerHtml = '';
   if (price.active){
     const countdown = formatDiscountCountdown() || 'Berakhir...';
@@ -1336,14 +1696,12 @@ function renderPanels(){
     `;
   }
 
-  // ★ v10.0: Harga Token (tampilkan harga diskon kalau aktif)
   let tokenPriceHtml = '';
   if (price.active){
     tokenPriceHtml = `
       <span class="price-strike">€${fmt(TOKEN_PRICE_NORMAL.money)}</span>
       <span class="price-discount">€${fmt(price.money)}</span>
-      <span class="discount-tag">-${price.discount}%</span>
-      <br>
+      <span class="discount-tag">-${price.discount}%</span><br>
       <span class="price-strike">💎${TOKEN_PRICE_NORMAL.diamond}</span>
       <span class="price-discount">💎${price.diamond}</span>
       <span class="discount-tag">-${price.discount}%</span>
@@ -1354,20 +1712,17 @@ function renderPanels(){
 
   shop.innerHTML = `
     ${discountBannerHtml}
-    <div class="item" style="${price.active?'border-color:#ff2b6b;box-shadow:0 0 15px rgba(255,43,107,0.3)':''}">
-      <div class="info">
-        <b>✴️ TOKEN LIGHT</b><br>
-        Harga: ${tokenPriceHtml}
-      </div>
+    <div class="item" style="${price.active?'border-color:#ff2b6b':''}">
+      <div class="info"><b>✴️ TOKEN LIGHT</b><br>Harga: ${tokenPriceHtml}</div>
       <div>
         <button onclick="buyToken('money')" ${S.money<price.money?'disabled':''}>€${fmt(price.money)}</button>
         <button onclick="buyToken('diamond')" ${S.diamond<price.diamond?'disabled':''}>💎${price.diamond}</button>
       </div>
     </div>
     <div class="item">
-      <div class="info"><b>🥊 PUNCH MONEY FAST</b><br>+€50/klik (800s). CD 4 menit.<br>
+      <div class="info"><b>🥊 PUNCH MONEY FAST</b><br>+€${BOOST_CONFIG.clickPower}/klik (800s). CD 4 menit.<br>
       ${boostActive?'<span style="color:#ffb300">AKTIF</span>':boostCd>0?`CD: ${Math.ceil(boostCd/1000)}s`:'Siap'}</div>
-      <button onclick="buyBoost()" ${(boostActive||boostCd>0||S.money<800)?'disabled':''}>€800</button>
+      <button onclick="buyBoost()" ${(boostActive||boostCd>0||S.money<BOOST_CONFIG.price)?'disabled':''}>€${BOOST_CONFIG.price}</button>
     </div>
     <div class="item">
       <div class="info"><b>❔ MISTERY BOX</b><br>Hadiah acak. CD 30 menit.<br>
@@ -1376,9 +1731,12 @@ function renderPanels(){
     </div>
     <div class="item" style="border-color:#00e0a0;">
       <div class="info"><b>👌 HELPING HAND</b><br>
-      Auto klik 10 menit.<br>
+      Auto klik 2 menit, bonus €50-80/klik. Tanpa jeda.<br>
       ${autoActive?`<span style="color:#00ff90">AKTIF — ${formatDuration(S.autoEnd-now)}</span>`:'Belum aktif'}</div>
-      <button onclick="buyHelpingHand()" ${(autoActive||S.token<25)?'disabled':''}>✴️25</button>
+      <div>
+        <button onclick="buyHelpingHand('token')" ${(autoActive||S.token<HELPING_HAND_CONFIG.priceToken)?'disabled':''}>✴️${HELPING_HAND_CONFIG.priceToken}</button>
+        <button onclick="buyHelpingHand('diamond')" ${(autoActive||S.diamond<HELPING_HAND_CONFIG.priceDiamond)?'disabled':''}>💎${HELPING_HAND_CONFIG.priceDiamond}</button>
+      </div>
     </div>
   `;
 
@@ -1423,13 +1781,12 @@ function renderPanels(){
     statusHtml = `<div class="event-status event-closed" style="background:rgba(120,120,120,0.2);border-color:#666;color:#aaa">🏁 EVENT LEGENDARY TELAH SELESAI PERMANEN</div>
     <div class="notice-banner">
       <b>📢 Info:</b> Legendary Event resmi berakhir pada <b>2 Oktober 2026, 22.00 WIB</b>.
-      Menu ini akan berubah menjadi <b>🎉 Menu Event</b> pada update mendatang dengan berbagai event baru!
+      Menu ini akan berubah menjadi <b>🎉 Menu Event</b> pada update mendatang!
     </div>`;
   }
 
   ev.innerHTML = `
-    ${statusHtml}
-    ${countdownHtml}
+    ${statusHtml}${countdownHtml}
     <div style="text-align:center;font-size:0.75rem;color:#aaa;margin-bottom:10px">
       📅 Event berakhir: <b style="color:#ffb300">${formatEventEndDate()}</b>
     </div>
@@ -1439,62 +1796,38 @@ function renderPanels(){
       return `
         <div class="item ${sk.cls} glossy">
           <div class="info">
-            <b>${sk.name}</b><br>
-            ${sk.rarity} • ✴️ ${sk.price}
+            <b>${sk.name}</b><br>${sk.rarity} • ✴️ ${sk.price}
             ${owned ? '<br><span style="color:#00ff90;font-size:0.75rem">✅ Sudah dimiliki</span>' : ''}
           </div>
-          ${owned
-            ? '<button disabled style="opacity:0.5">Dimiliki</button>'
-            : `<button onclick="buySkin('${sk.id}')" ${!canBuy?'disabled':''}>
-                ${status === 'ended' ? 'Selesai' : (status === 'closed' ? 'Tutup' : 'Beli')}
-              </button>`
-          }
+          ${owned ? '<button disabled style="opacity:0.5">Dimiliki</button>'
+                  : `<button onclick="buySkin('${sk.id}')" ${!canBuy?'disabled':''}>${status === 'ended' ? 'Selesai' : (status === 'closed' ? 'Tutup' : 'Beli')}</button>`}
         </div>
       `;
     }).join('')}
   `;
 }
 
-/* ============================================================
-   ★ v10.0: BELI TOKEN dengan HARGA DISKON
-   ============================================================ */
 window.buyToken = function(mode){
   const price = getTokenPrice();
-  
   if (mode === 'money'){
-    if (S.money < price.money){
-      return toast('❌ Uang tidak cukup!');
-    }
-    S.money -= price.money;
-    S.token++;
-    if (price.active){
-      toast(`✴️ +1 Token Light (diskon ${price.discount}%!)`);
-    } else {
-      toast('✴️ +1 Token Light');
-    }
-  }
-  else if (mode === 'diamond'){
-    if (S.diamond < price.diamond){
-      return toast('❌ Diamond tidak cukup!');
-    }
-    S.diamond -= price.diamond;
-    S.token++;
-    if (price.active){
-      toast(`✴️ +1 Token Light (diskon ${price.discount}%!)`);
-    } else {
-      toast('✴️ +1 Token Light');
-    }
-  }
-  else return;
-  
+    if (S.money < price.money) return toast('❌ Uang tidak cukup!');
+    S.money -= price.money; S.token++;
+    toast(price.active ? `✴️ +1 Token (diskon ${price.discount}%!)` : '✴️ +1 Token');
+  } else if (mode === 'diamond'){
+    if (S.diamond < price.diamond) return toast('❌ Diamond tidak cukup!');
+    S.diamond -= price.diamond; S.token++;
+    toast(price.active ? `✴️ +1 Token (diskon ${price.discount}%!)` : '✴️ +1 Token');
+  } else return;
   render(); save();
 };
 
 window.buyBoost = function(){
   const now = Date.now();
-  if (S.boostEnd>now || S.boostCooldown>now || S.money<800) return;
-  S.money-=800; S.boostEnd = now + 800000; S.boostCooldown = now + 240000;
-  toast('🥊 Boost aktif 800 detik!');
+  if (S.boostEnd>now || S.boostCooldown>now || S.money<BOOST_CONFIG.price) return;
+  S.money -= BOOST_CONFIG.price;
+  S.boostEnd = now + BOOST_CONFIG.duration;
+  S.boostCooldown = now + BOOST_CONFIG.cooldown;
+  toast(`🥊 Boost aktif! €${BOOST_CONFIG.clickPower}/klik`);
   render(); save();
 };
 
@@ -1510,18 +1843,26 @@ window.openMystery = function(){
   render(); save();
 };
 
-window.buyHelpingHand = function(){
+// ★ v11.0: Beli Helping Hand dengan token atau diamond
+window.buyHelpingHand = function(mode){
   const now = Date.now();
   if (S.autoEnd > now) return toast('Masih aktif!');
-  if (S.token < 25) return toast('Token kurang!');
-  S.token -= 25;
-  S.autoEnd = now + 10*60*1000;
-  S.autoPaused = false; S.autoPauseRemain = 2; S.autoLeftMs = 0;
+
+  if (mode === 'token'){
+    if (S.token < HELPING_HAND_CONFIG.priceToken) return toast('Token kurang!');
+    S.token -= HELPING_HAND_CONFIG.priceToken;
+  } else if (mode === 'diamond'){
+    if (S.diamond < HELPING_HAND_CONFIG.priceDiamond) return toast('Diamond kurang!');
+    S.diamond -= HELPING_HAND_CONFIG.priceDiamond;
+  } else return;
+
+  S.autoEnd = now + HELPING_HAND_CONFIG.duration;
   S.lastAutoTick = now;
+
   if (!S.inventory.some(i=>i.id==='helping_hand')){
     S.inventory.push({ id:'helping_hand', name:'👌 Helping Hand', type:'Consumable', rarity:'UTILITY', qty:1 });
   }
-  toast('👌 Helping Hand aktif 10 menit!');
+  toast('👌 Helping Hand aktif! Bonus €50-80/klik');
   render(); save();
 };
 
@@ -1543,7 +1884,6 @@ window.buySkin = function(id){
     toast(`⚠️ Kamu sudah punya ${sk.name}!`);
     return;
   }
-
   if (S.token < sk.price) return toast('✴️ Token Light tidak cukup!');
 
   S.token -= sk.price;
@@ -1556,7 +1896,7 @@ window.buySkin = function(id){
 };
 
 /* ============================================================
-   CLAN SYSTEM
+   CLAN SYSTEM (v11.0 — Tambah Transfer & Mute)
    ============================================================ */
 function isUserTypingInClan(){
   const active = document.activeElement;
@@ -1565,15 +1905,14 @@ function isUserTypingInClan(){
   if (!clanPanel) return false;
   if (clanPanel.classList.contains('hidden')) return false;
   return clanPanel.contains(active) &&
-         (active.tagName === 'INPUT' ||
-          active.tagName === 'TEXTAREA' ||
-          active.tagName === 'SELECT');
+         (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT');
 }
 
 async function renderClanPanel(){
   const panel = document.getElementById('panel-clan');
   if (!panel) return;
   const uid = Storage.getUserId();
+
   if (currentClanTab === 'chat' && document.getElementById('clanChat')) return;
   if (isUserTypingInClan()) return;
 
@@ -1610,12 +1949,13 @@ async function renderClanPanel(){
   const myRole = clan.members[uid].role;
   const memberCount = Object.keys(clan.members).length;
   const isOwner = myRole === 'owner';
+  const isAdmin = myRole === 'admin' || isOwner;
 
   let html = `
     <div class="clan-hero">
       <div class="clan-tag">[${escapeHtml(clan.tag)}]</div>
       <h2>${escapeHtml(clan.name)}</h2>
-      <div class="meta">Level <b>${clan.level||1}</b> • <b>${memberCount}</b>/20 member • Role: <b>${myRole.toUpperCase()}</b></div>
+      <div class="meta">Level <b>${clan.level||1}</b> • <b>${memberCount}</b>/20 • Role: <b>${myRole.toUpperCase()}</b></div>
       ${clan.description ? `<div class="meta" style="margin-top:6px;color:#bbb">"${escapeHtml(clan.description)}"</div>` : ''}
     </div>
     <div class="clan-tabs">
@@ -1630,34 +1970,75 @@ async function renderClanPanel(){
       const order = {owner:0, admin:1, member:2};
       return (order[a[1].role]||9) - (order[b[1].role]||9);
     });
+
+    // Ambil status online untuk semua member
+    const memberUids = members.map(([muid])=>muid);
+    const onlineStatuses = {};
+    await Promise.all(memberUids.map(async (muid) => {
+      const ts = await fetchUserLastSeen(muid);
+      onlineStatuses[muid] = isUserOnline(muid, ts);
+    }));
+
     for (const [muid, m] of members){
       const isMe = muid === uid;
       const roleClass = m.role==='owner'?'role-owner':(m.role==='admin'?'role-admin':'');
+      const isOn = onlineStatuses[muid];
+      const dotClass = isOn ? 'on' : 'off';
+      const muted = m.mutedUntil && m.mutedUntil > Date.now();
+      
       html += `
         <div class="clan-member-row">
-          <div>${isMe?'⭐ ':''}<b>${escapeHtml(m.name||'Pemain')}</b><span style="color:#aaa;font-size:0.7rem"> • Lv.${m.level||1}</span></div>
           <div>
+            <span class="online-dot ${dotClass}"></span>
+            ${isMe?'⭐ ':''}<b>${escapeHtml(m.name||'Pemain')}</b>
+            <span style="color:#aaa;font-size:0.7rem"> • Lv.${m.level||1}</span>
+            ${muted ? `<span class="muted-badge">🔇 MUTED</span>` : ''}
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">
             <span class="role ${roleClass}">${m.role.toUpperCase()}</span>
-            ${isOwner && !isMe ? `<button onclick="kickMember('${muid}')" style="margin-left:6px;padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#a01030;color:white;cursor:pointer">Kick</button>` : ''}
+            ${isOwner && !isMe ? `
+              <button onclick="showMuteModal('${muid}', '${escapeHtml(m.name||'Pemain')}')" style="padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#ff4060;color:white;cursor:pointer">🔇</button>
+              <button onclick="showTransferConfirm('${muid}', '${escapeHtml(m.name||'Pemain')}')" style="padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#ffb300;color:#111;cursor:pointer">👑</button>
+              <button onclick="kickMember('${muid}')" style="padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#a01030;color:white;cursor:pointer">Kick</button>
+            ` : ''}
           </div>
         </div>
       `;
     }
   }
   else if (currentClanTab === 'chat'){
+    // ★ v11.0: Cek apakah kita di-mute
+    const me = clan.members[uid];
+    const isMuted = me.mutedUntil && me.mutedUntil > Date.now();
+    let muteInfo = '';
+    if (isMuted){
+      const remain = Math.ceil((me.mutedUntil - Date.now()) / 60000);
+      muteInfo = `<div style="background:rgba(255,60,90,0.2);border:1px solid #ff4060;color:#ffb0b0;padding:8px;border-radius:8px;margin-bottom:8px;font-size:0.75rem;text-align:center">
+        🔇 Kamu sedang dibisukan. Sisa ~${remain} menit.
+      </div>`;
+    }
     html += `
+      ${muteInfo}
       <div class="clan-chat" id="clanChat"></div>
       <div class="chat-input-row">
-        <input type="text" id="chatInput" placeholder="Ketik pesan..." maxlength="200" onkeydown="if(event.key==='Enter'){event.preventDefault();sendChatMsg();}">
-        <button onclick="sendChatMsg()">Kirim</button>
+        <input type="text" id="chatInput" placeholder="${isMuted?'Kamu dibisukan':'Ketik pesan...'}" maxlength="200"
+               ${isMuted?'disabled':''}
+               onkeydown="if(event.key==='Enter'){event.preventDefault();sendChatMsg();}">
+        <button onclick="sendChatMsg()" ${isMuted?'disabled':''}>Kirim</button>
       </div>
     `;
   }
   else {
     html += `<div style="padding:8px 0">
       <button class="btn-red" style="width:100%;padding:12px;border:none;border-radius:10px;cursor:pointer;font-weight:bold;margin-bottom:8px" onclick="leaveClan()">🚪 Keluar dari Clan</button>
-      ${isOwner ? `<button class="danger-btn" onclick="disbandClan()">💥 Bubarkan Clan</button>` : ''}
-      <div style="margin-top:14px;font-size:0.75rem;color:#888"><b>Info Clan:</b><br>ID: ${escapeHtml(S.clanId)}<br>Dibuat: ${new Date(clan.createdAt||Date.now()).toLocaleString('id-ID')}</div>
+      ${isOwner ? `
+        <button class="btn-blue" style="width:100%;padding:12px;border:none;border-radius:10px;cursor:pointer;font-weight:bold;margin-bottom:8px" onclick="showTransferModal()">👑 Transfer Kepemilikan</button>
+        <button class="danger-btn" onclick="disbandClan()">💥 Bubarkan Clan</button>
+      ` : ''}
+      <div style="margin-top:14px;font-size:0.75rem;color:#888">
+        <b>Info Clan:</b><br>ID: ${escapeHtml(S.clanId)}<br>
+        Dibuat: ${new Date(clan.createdAt||Date.now()).toLocaleString('id-ID')}
+      </div>
     </div>`;
   }
 
@@ -1790,6 +2171,112 @@ window.kickMember = async function(targetUid){
   renderClanPanel();
 };
 
+// ★ v11.0: Transfer ownership
+window.showTransferModal = async function(){
+  if (!S.clanId) return;
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (!clan) return;
+  const uid = Storage.getUserId();
+  if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
+
+  const list = document.getElementById('transferList');
+  const others = Object.entries(clan.members).filter(([muid]) => muid !== uid);
+  if (!others.length){
+    list.innerHTML = '<div style="text-align:center;color:#888;padding:20px">Tidak ada anggota lain</div>';
+  } else {
+    list.innerHTML = others.map(([muid, m])=>`
+      <div class="transfer-list-item">
+        <div class="info"><b>${escapeHtml(m.name||'Pemain')}</b><br>Lv.${m.level||1} • ${m.role.toUpperCase()}</div>
+        <button onclick="confirmTransfer('${muid}', '${escapeHtml(m.name||'Pemain')}')">👑 Transfer</button>
+      </div>
+    `).join('');
+  }
+  document.getElementById('transferModal').classList.add('show');
+};
+window.closeTransferModal = function(){
+  document.getElementById('transferModal').classList.remove('show');
+};
+window.showTransferConfirm = async function(targetUid, targetName){
+  if (!S.clanId) return;
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (!clan) return;
+  document.getElementById('transferList').innerHTML = `
+    <div style="text-align:center;padding:10px">
+      <div style="font-size:1rem;margin-bottom:10px">Yakin transfer kepemilikan ke <b>${escapeHtml(targetName)}</b>?</div>
+      <div style="font-size:0.8rem;color:#888;margin-bottom:14px">Kamu akan menjadi Admin setelah ini.</div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
+        <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmTransfer('${targetUid}', '${escapeHtml(targetName)}')">Ya, Transfer</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('transferModal').classList.add('show');
+};
+window.confirmTransfer = async function(targetUid, targetName){
+  if (!S.clanId) return;
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (!clan) return;
+  const uid = Storage.getUserId();
+  if (clan.members[uid].role !== 'owner') return;
+
+  // Update role: new owner
+  const newOwnerData = { ...clan.members[targetUid], role:'owner' };
+  await ClanStorage.updateClan(S.clanId, `members/${targetUid}`, newOwnerData);
+  // Update role: kita jadi admin
+  const myData = { ...clan.members[uid], role:'admin' };
+  await ClanStorage.updateClan(S.clanId, `members/${uid}`, myData);
+  // Update ownerUid clan
+  await ClanStorage.updateClan(S.clanId, 'ownerUid', targetUid);
+
+  closeTransferModal();
+  toast(`👑 Kepemilikan clan ditransfer ke ${targetName}`);
+  renderClanPanel();
+};
+
+// ★ v11.0: Mute member
+let muteTargetUid = null;
+let muteSelectedDays = 1;
+window.showMuteModal = function(targetUid, targetName){
+  muteTargetUid = targetUid;
+  muteSelectedDays = 1;
+  document.getElementById('muteTargetName').textContent = targetName;
+  document.querySelectorAll('#muteOptions button').forEach(b=>{
+    b.classList.toggle('selected', parseInt(b.dataset.days) === 1);
+  });
+  document.getElementById('muteModal').classList.add('show');
+};
+window.closeMuteModal = function(){
+  document.getElementById('muteModal').classList.remove('show');
+  muteTargetUid = null;
+};
+window.selectMuteDays = function(days){
+  muteSelectedDays = days;
+  document.querySelectorAll('#muteOptions button').forEach(b=>{
+    b.classList.toggle('selected', parseInt(b.dataset.days) === days);
+  });
+};
+window.confirmMute = async function(){
+  if (!muteTargetUid || !S.clanId){
+    closeMuteModal();
+    return;
+  }
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (!clan) { closeMuteModal(); return; }
+  const uid = Storage.getUserId();
+  if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
+
+  const mutedUntil = Date.now() + (muteSelectedDays * 24 * 60 * 60 * 1000);
+  const target = clan.members[muteTargetUid];
+  await ClanStorage.updateClan(S.clanId, `members/${muteTargetUid}`, {
+    ...target,
+    mutedUntil,
+    mutedBy: uid
+  });
+  closeMuteModal();
+  toast(`🔇 ${target.name||'Member'} dibisukan ${muteSelectedDays} hari`);
+  renderClanPanel();
+};
+
 window.leaveClan = async function(){
   if (!S.clanId) return;
   const clan = await ClanStorage.getClan(S.clanId);
@@ -1822,7 +2309,7 @@ window.disbandClan = async function(){
 };
 
 /* ============================================================
-   CHAT
+   CHAT CLAN
    ============================================================ */
 function startChatListener(clanId){
   stopChatListener();
@@ -1865,6 +2352,16 @@ window.sendChatMsg = async function(){
   if (!input) return;
   const text = (input.value || '').trim();
   if (!text || !S.clanId) return;
+
+  // ★ v11.0: Cek apakah kita di-mute
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (clan){
+    const me = clan.members[Storage.getUserId()];
+    if (me && me.mutedUntil && me.mutedUntil > Date.now()){
+      return toast('🔇 Kamu sedang dibisukan!');
+    }
+  }
+
   await ClanStorage.sendChat(S.clanId, {
     uid: Storage.getUserId(),
     name: S.playerName || 'Pemain',
@@ -1874,6 +2371,409 @@ window.sendChatMsg = async function(){
   input.value = '';
   input.focus();
 };
+
+/* ============================================================
+   ★ v11.0: FRIEND SYSTEM
+   ============================================================ */
+function renderFriendPanel(){
+  const panel = document.getElementById('panel-friend');
+  if (!panel) return;
+
+  let html = `
+    <div class="friend-tabs">
+      <button class="${currentFriendTab==='list'?'active':''}" onclick="switchFriendTab('list')">👥 Teman</button>
+      <button class="${currentFriendTab==='requests'?'active':''}" onclick="switchFriendTab('requests')">📩 Permintaan</button>
+      <button class="${currentFriendTab==='add'?'active':''}" onclick="switchFriendTab('add')">➕ Tambah</button>
+    </div>
+  `;
+
+  if (currentFriendTab === 'list'){
+    const friends = Object.entries(S.friends || {});
+    if (!friends.length){
+      html += '<div style="text-align:center;color:#888;padding:20px">Belum ada teman.<br>Yuk cari teman di tab "➕ Tambah"!</div>';
+    } else {
+      friends.sort((a,b) => a[1].name.localeCompare(b[1].name));
+      for (const [fuid, f] of friends){
+        html += `
+          <div class="friend-row" data-fuid="${fuid}">
+            <div class="left">
+              <span class="online-dot off"></span>
+              <span class="name">${escapeHtml(f.name)}</span>
+              <div class="sub" id="friendSub-${fuid}">Memeriksa status...</div>
+            </div>
+            <div class="actions">
+              <button class="btn-small-blue" onclick="openProfile('${fuid}')">👤</button>
+              <button class="btn-small-purple" onclick="openPrivateChat('${fuid}', '${escapeHtml(f.name)}')">💬</button>
+              <button class="btn-small-red" onclick="removeFriendConfirm('${fuid}')">✕</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+  else if (currentFriendTab === 'requests'){
+    const requests = Object.entries(S.friendRequests || {});
+    if (!requests.length){
+      html += '<div style="text-align:center;color:#888;padding:20px">Tidak ada permintaan pertemanan.</div>';
+    } else {
+      for (const [ruid, req] of requests){
+        html += `
+          <div class="friend-row">
+            <div class="left">
+              <span class="name">${escapeHtml(req.name || 'Pemain')}</span>
+              <div class="sub">Ingin berteman • ${formatChatTime(req.sentAt)}</div>
+            </div>
+            <div class="actions">
+              <button class="btn-small-green" onclick="acceptFriend('${ruid}')">✓ Terima</button>
+              <button class="btn-small-red" onclick="rejectFriend('${ruid}')">✕ Tolak</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Sent requests
+    const sent = Object.entries(S.sentRequests || {});
+    if (sent.length){
+      html += `<div style="margin-top:14px;font-size:0.8rem;color:#888">📤 Terkirim (${sent.length}):</div>`;
+      for (const [suid, _] of sent){
+        html += `<div class="friend-row" style="opacity:0.7">
+          <div class="left"><span class="sub">UID: ${escapeHtml(suid.slice(0,12))}...</span></div>
+          <div class="actions"><button class="btn-small-gray" disabled>Menunggu...</button></div>
+        </div>`;
+      }
+    }
+  }
+  else if (currentFriendTab === 'add'){
+    html += `
+      <div class="clan-search-box">
+        <h4>🔍 Cari Pemain by Nama</h4>
+        <input type="text" id="friendSearchInput" placeholder="Ketik nama pemain..."
+               value="${escapeHtml(savedFriendQuery)}"
+               onkeydown="if(event.key==='Enter'){event.preventDefault();searchFriend();}">
+        <button class="btn-blue" style="width:100%;padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:bold" onclick="searchFriend()">Cari</button>
+        <div id="friendSearchResult" style="margin-top:10px">${savedFriendResultHtml}</div>
+      </div>
+    `;
+  }
+
+  panel.innerHTML = html;
+
+  // Update status online tiap friend
+  if (currentFriendTab === 'list'){
+    updateFriendOnlineStatuses();
+  }
+}
+
+let savedFriendQuery = '';
+let savedFriendResultHtml = '';
+
+async function updateFriendOnlineStatuses(){
+  const friends = Object.entries(S.friends || {});
+  for (const [fuid, _] of friends){
+    const row = document.querySelector(`.friend-row[data-fuid="${fuid}"]`);
+    if (!row) continue;
+    const dot = row.querySelector('.online-dot');
+    const sub = document.getElementById(`friendSub-${fuid}`);
+    
+    const ts = await fetchUserLastSeen(fuid);
+    const online = isUserOnline(fuid, ts);
+    
+    if (dot){
+      dot.className = 'online-dot ' + (online ? 'on' : 'off');
+    }
+    if (sub){
+      sub.textContent = online ? '🟢 Online' : (ts ? `🕐 Terakhir aktif: ${timeAgo(ts)}` : '⚫ Offline');
+    }
+  }
+}
+
+function timeAgo(ts){
+  if (!ts) return 'lama';
+  const diff = Date.now() - ts;
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return 'baru saja';
+  if (m < 60) return `${m} menit lalu`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} jam lalu`;
+  const d = Math.floor(h / 24);
+  return `${d} hari lalu`;
+}
+
+window.switchFriendTab = function(tab){
+  currentFriendTab = tab;
+  if (tab !== 'add'){
+    savedFriendQuery = '';
+    savedFriendResultHtml = '';
+  }
+  renderFriendPanel();
+};
+
+window.searchFriend = async function(){
+  const input = document.getElementById('friendSearchInput');
+  const result = document.getElementById('friendSearchResult');
+  if (!input || !result) return;
+  const name = (input.value || '').trim();
+  savedFriendQuery = name;
+  if (name.length < 2){
+    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">Minimal 2 karakter</div>';
+    savedFriendResultHtml = result.innerHTML;
+    return;
+  }
+  result.innerHTML = '<div style="color:#aaa;font-size:0.8rem">Mencari...</div>';
+  const users = await FriendStorage.searchUserByName(name);
+  const myUid = Storage.getUserId();
+
+  if (!users.length){
+    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">❌ Tidak ada pemain ditemukan</div>';
+    savedFriendResultHtml = result.innerHTML;
+    return;
+  }
+
+  let html = '';
+  for (const u of users.slice(0, 20)){
+    const isFriend = S.friends && S.friends[u.uid];
+    const isSent = S.sentRequests && S.sentRequests[u.uid];
+    const isSelf = u.uid === myUid;
+    const online = isUserOnline(u.uid, u.lastOnline);
+    const dotClass = online ? 'on' : 'off';
+
+    let actionBtn = '';
+    if (isSelf){
+      actionBtn = '<button class="btn-small-gray" disabled>Kamu</button>';
+    } else if (isFriend){
+      actionBtn = `
+        <button class="btn-small-blue" onclick="openProfile('${u.uid}')">👤</button>
+        <button class="btn-small-purple" onclick="openPrivateChat('${u.uid}', '${escapeHtml(u.name)}')">💬</button>
+      `;
+    } else if (isSent){
+      actionBtn = '<button class="btn-small-gray" disabled>⏳ Menunggu</button>';
+    } else {
+      actionBtn = `
+        <button class="btn-small-blue" onclick="openProfile('${u.uid}')">👤</button>
+        <button class="btn-small-green" onclick="sendFriendRequest('${u.uid}')">➕ Tambah</button>
+      `;
+    }
+
+    html += `
+      <div class="friend-row">
+        <div class="left">
+          <span class="online-dot ${dotClass}"></span>
+          <span class="name">${escapeHtml(u.name)}</span>
+          <div class="sub">Lv.${u.level} • [${escapeHtml(u.clanTag)}] ${escapeHtml(u.clanName)}</div>
+        </div>
+        <div class="actions">${actionBtn}</div>
+      </div>
+    `;
+  }
+  result.innerHTML = html;
+  savedFriendResultHtml = html;
+};
+
+window.sendFriendRequest = async function(toUid){
+  if (S.friends && S.friends[toUid]) return toast('Sudah berteman');
+  if (S.sentRequests && S.sentRequests[toUid]) return toast('Sudah kirim permintaan');
+  const ok = await FriendStorage.sendRequest(toUid, S.playerName || 'Pemain');
+  if (ok){
+    S.sentRequests = S.sentRequests || {};
+    S.sentRequests[toUid] = { sentAt: Date.now() };
+    save();
+    toast('📩 Permintaan pertemanan terkirim!');
+    searchFriend();
+  } else {
+    toast('❌ Gagal kirim permintaan');
+  }
+};
+
+window.acceptFriend = async function(fromUid){
+  const ok = await FriendStorage.acceptRequest(fromUid);
+  if (ok){
+    save();
+    toast('✅ Sekarang kalian berteman!');
+    renderFriendPanel();
+  } else {
+    toast('❌ Gagal menerima');
+  }
+};
+
+window.rejectFriend = async function(fromUid){
+  const ok = await FriendStorage.rejectRequest(fromUid);
+  if (ok){
+    save();
+    toast('❌ Permintaan ditolak');
+    renderFriendPanel();
+  }
+};
+
+window.removeFriendConfirm = async function(fuid){
+  const f = S.friends[fuid];
+  if (!f) return;
+  if (!confirm(`Hapus ${f.name} dari daftar teman?`)) return;
+  const ok = await FriendStorage.removeFriend(fuid);
+  if (ok){
+    save();
+    toast('👋 Teman dihapus');
+    renderFriendPanel();
+  }
+};
+
+window.openProfile = async function(uid){
+  const profile = await fetchUserProfile(uid);
+  if (!profile) return toast('❌ Profil tidak ditemukan');
+
+  const online = isUserOnline(uid, profile.lastOnline);
+  const statusHtml = online 
+    ? '<span style="color:#00ff90">🟢 Online</span>' 
+    : `<span style="color:#888">⚫ Offline • ${timeAgo(profile.lastOnline)}</span>`;
+
+  const isSelf = uid === Storage.getUserId();
+  const isFriend = S.friends && S.friends[uid];
+
+  let actionHtml = '';
+  if (!isSelf && !isFriend){
+    actionHtml = `<button class="btn-primary" style="width:100%;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;margin-top:10px" onclick="closeProfileModal();sendFriendRequest('${uid}')">➕ Tambah Teman</button>`;
+  } else if (isFriend){
+    actionHtml = `<button class="btn-primary" style="width:100%;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;margin-top:10px" onclick="closeProfileModal();openPrivateChat('${uid}', '${escapeHtml(profile.name)}')">💬 Chat Pribadi</button>`;
+  }
+
+  document.getElementById('profileContent').innerHTML = `
+    <div class="profile-card">
+      <div class="avatar">👤</div>
+      <h3>${escapeHtml(profile.name)}</h3>
+      <div class="meta">🏆 Level <b>${profile.level}</b></div>
+      <div class="meta">🏰 Clan: <b>[${escapeHtml(profile.clanTag)}] ${escapeHtml(profile.clanName)}</b></div>
+      <div class="meta">${statusHtml}</div>
+      ${actionHtml}
+    </div>
+  `;
+  document.getElementById('profileModal').classList.add('show');
+};
+window.closeProfileModal = function(){
+  document.getElementById('profileModal').classList.remove('show');
+};
+
+/* ============================================================
+   ★ v11.0: PRIVATE CHAT
+   ============================================================ */
+window.openPrivateChat = async function(otherUid, otherName){
+  currentPrivateChatUid = otherUid;
+  document.getElementById('privateChatName').textContent = otherName;
+  document.getElementById('privateChatModal').classList.add('show');
+
+  // Cek status
+  const ts = await fetchUserLastSeen(otherUid);
+  const online = isUserOnline(otherUid, ts);
+  document.getElementById('privateChatStatus').innerHTML = online
+    ? '<span style="color:#00ff90">🟢 Online</span>'
+    : `<span style="color:#888">⚫ Offline • ${timeAgo(ts)}</span>`;
+
+  // Start listener
+  stopPrivateChatListener();
+  privateChatUnsubscribe = FriendStorage.listenPrivateChat(otherUid, renderPrivateChat);
+
+  // Update status tiap 10 detik
+  if (privateChatTimerInterval) clearInterval(privateChatTimerInterval);
+  privateChatTimerInterval = setInterval(async () => {
+    if (!currentPrivateChatUid) return;
+    const ts2 = await fetchUserLastSeen(currentPrivateChatUid);
+    const online2 = isUserOnline(currentPrivateChatUid, ts2);
+    document.getElementById('privateChatStatus').innerHTML = online2
+      ? '<span style="color:#00ff90">🟢 Online</span>'
+      : `<span style="color:#888">⚫ Offline • ${timeAgo(ts2)}</span>`;
+  }, 10000);
+};
+
+window.closePrivateChat = function(){
+  document.getElementById('privateChatModal').classList.remove('show');
+  stopPrivateChatListener();
+  currentPrivateChatUid = null;
+  if (privateChatTimerInterval){
+    clearInterval(privateChatTimerInterval);
+    privateChatTimerInterval = null;
+  }
+};
+
+function stopPrivateChatListener(){
+  if (privateChatUnsubscribe){
+    privateChatUnsubscribe();
+    privateChatUnsubscribe = null;
+  }
+}
+
+function renderPrivateChat(chatObj){
+  const container = document.getElementById('privateChatBox');
+  if (!container) return;
+  const msgs = Object.entries(chatObj || {})
+    .map(([id,m]) => ({id, ...m}))
+    .sort((a,b) => (a.ts||0) - (b.ts||0));
+  const myUid = Storage.getUserId();
+  if (!msgs.length){
+    container.innerHTML = '<div style="text-align:center;color:#666;font-size:0.8rem;padding:20px">Belum ada pesan.<br>Mulai ngobrol!</div>';
+    return;
+  }
+  const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+  container.innerHTML = msgs.map(m => {
+    const time = formatChatTime(m.ts);
+    const isMe = m.from === myUid;
+    return `
+      <div class="chat-msg ${isMe?'me':''}">
+        ${escapeHtml(m.text||'')}
+        <span class="chat-time">🕐 ${time}</span>
+      </div>
+    `;
+  }).join('');
+  if (isAtBottom) container.scrollTop = container.scrollHeight;
+}
+
+window.sendPrivateMsg = async function(){
+  if (!currentPrivateChatUid) return;
+  const input = document.getElementById('privateChatInput');
+  const text = (input.value || '').trim();
+  if (!text) return;
+  const ok = await FriendStorage.sendPrivateMsg(currentPrivateChatUid, text);
+  if (ok){
+    input.value = '';
+    input.focus();
+  } else {
+    toast('❌ Gagal kirim pesan');
+  }
+};
+
+// Listen perubahan friend requests & friends dari Firebase
+function startUserDataListener(){
+  if (!currentUid) return;
+  // Listen friend requests
+  onValue(ref(db, `users/${currentUid}/friendRequests`), snap => {
+    const data = snap.val() || {};
+    S.friendRequests = data;
+    save();
+    // Update panel kalau sedang di tab friend
+    const panel = document.getElementById('panel-friend');
+    if (panel && !panel.classList.contains('hidden')){
+      if (!isUserTypingInFriends()) renderFriendPanel();
+    }
+    // Notif kalau ada request baru
+    const count = Object.keys(data).length;
+    if (count > 0 && currentFriendTab !== 'requests'){
+      // Hanya notif sekali
+    }
+  });
+  // Listen friends list
+  onValue(ref(db, `users/${currentUid}/friends`), snap => {
+    const data = snap.val() || {};
+    S.friends = data;
+    save();
+    const panel = document.getElementById('panel-friend');
+    if (panel && !panel.classList.contains('hidden')){
+      if (!isUserTypingInFriends()) renderFriendPanel();
+    }
+  });
+  // Listen sent requests
+  onValue(ref(db, `users/${currentUid}/sentRequests`), snap => {
+    S.sentRequests = snap.val() || {};
+    save();
+  });
+}
 
 /* ============================================================
    REDEEM
@@ -1897,7 +2797,7 @@ window.redeemCode = function(){
 };
 
 /* ============================================================
-   DEVELOPER MODE
+   DEV MODE
    ============================================================ */
 window.activateDevMode = function(){
   const input = document.getElementById('devKeyInput');
@@ -1926,7 +2826,7 @@ document.getElementById('devModal').addEventListener('click', (e)=>{
 });
 
 /* ============================================================
-   RESET DATA
+   RESET
    ============================================================ */
 window.showResetModal = function(){ document.getElementById('resetModal').classList.add('show'); };
 window.closeResetModal = function(){ document.getElementById('resetModal').classList.remove('show'); };
@@ -1948,6 +2848,8 @@ window.confirmReset = async function(){
   await Storage.wipe();
   S = { ...DEFAULT_STATE };
   savedSearchResult = null;
+  savedFriendQuery = '';
+  savedFriendResultHtml = '';
   render();
   await Storage.save(S);
   toast('🗑️ Data berhasil direset.');
@@ -1958,6 +2860,18 @@ document.getElementById('resetModal').addEventListener('click', (e)=>{
 document.getElementById('createClanModal').addEventListener('click', (e)=>{
   if (e.target.id === 'createClanModal') closeCreateClanModal();
 });
+document.getElementById('profileModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'profileModal') closeProfileModal();
+});
+document.getElementById('privateChatModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'privateChatModal') closePrivateChat();
+});
+document.getElementById('transferModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'transferModal') closeTransferModal();
+});
+document.getElementById('muteModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'muteModal') closeMuteModal();
+});
 document.addEventListener('keydown', (e)=>{
   if (e.key === 'Escape'){
     closeResetModal();
@@ -1966,6 +2880,10 @@ document.addEventListener('keydown', (e)=>{
     closeEditNameModal();
     closeApologyModal();
     closeEventNoticeModal();
+    closeProfileModal();
+    closePrivateChat();
+    closeTransferModal();
+    closeMuteModal();
   }
 });
 
@@ -1979,6 +2897,7 @@ document.querySelectorAll('.nav button').forEach(b=>{
     document.querySelectorAll('.panel').forEach(p=>p.classList.add('hidden'));
     document.getElementById('panel-'+b.dataset.panel).classList.remove('hidden');
     if (b.dataset.panel === 'clan') renderClanPanel();
+    else if (b.dataset.panel === 'friend') renderFriendPanel();
     else stopChatListener();
   });
 });
@@ -2012,7 +2931,6 @@ async function initFirebase(){
   });
 }
 
-// ★ v10.0: Timer untuk update countdown diskon
 function startDiscountTimer(){
   if (discountTimerInterval) clearInterval(discountTimerInterval);
   discountTimerInterval = setInterval(() => {
@@ -2033,26 +2951,31 @@ async function init(){
   const saved = await Storage.load();
   if (saved){
     S = { ...DEFAULT_STATE, ...saved };
+    // Pastikan friends & requests selalu objek
+    S.friends = S.friends || {};
+    S.friendRequests = S.friendRequests || {};
+    S.sentRequests = S.sentRequests || {};
   }
 
   const hadDuplicates = hasDuplicateSkins();
   if (cleanupDuplicateSkins()){
     await Storage.save(S);
-    console.log('✅ Inventori dibersihkan dari skin duplikat');
   }
 
+  // Auto-click offline catch-up
   const now = Date.now();
-  if (S.autoEnd > 0 && S.autoEnd <= now && !S.autoPaused){
+  if (S.autoEnd > 0 && S.autoEnd <= now){
     S.autoEnd = 0;
-  } else if (S.autoEnd > now && !S.autoPaused && S.lastAutoTick > 0){
+  } else if (S.autoEnd > now && S.lastAutoTick > 0){
     const elapsed = now - S.lastAutoTick;
     const ticks = Math.floor(elapsed / 1000);
     if (ticks > 0 && ticks < 3600){
-      const maxCatchup = Math.min(ticks, 600);
+      const maxCatchup = Math.min(ticks, 120); // max 2 menit
       let gainedMoney = 0, gainedExp = 0;
       for (let i=0; i<maxCatchup; i++){
-        const gain = clickPower === 50 ? 50 : (10 + Math.floor(Math.random()*16));
-        gainedMoney += gain;
+        const bonus = HELPING_HAND_CONFIG.clickPowerMin +
+                      Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
+        gainedMoney += bonus;
         gainedExp += 2;
       }
       S.money += gainedMoney;
@@ -2065,6 +2988,8 @@ async function init(){
   render();
   startAutoLoop();
   startDiscountTimer();
+  startOnlineHeartbeat();
+  startUserDataListener();
   setInterval(render, 1000);
   setInterval(save, 5000);
 
@@ -2074,7 +2999,6 @@ async function init(){
   showApologyModalIfNeeded(hadDuplicates);
   showEventNoticeIfNeeded();
 
-  // ★ v10.0: Notif diskon saat masuk
   const price = getTokenPrice();
   if (price.active){
     setTimeout(() => toast(`🎉 DISKON ${price.discount}% Token Light aktif!`), 1200);
