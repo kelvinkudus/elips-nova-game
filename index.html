@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELIPS NOVA GAME v10.0</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+  body {
+    background: radial-gradient(circle at top, #0b0b2b, #000010 80%);
+    color:#e8e8ff; min-height:100vh; padding:12px; overflow-x:hidden;
+  }
+  h1 {
+    text-align:center; font-size:1.6rem; margin:8px 0;
+    background:linear-gradient(90deg,#7fd4ff,#c47bff,#ffd97f);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 20px rgba(140,120,255,0.5);
+  }
+  .version {
+    text-align:center; font-size:0.7rem; color:#7fd4ff;
+    margin-top:-4px; margin-bottom:6px; letter-spacing:2px;
+  }
+  .online-tag { text-align:center; font-size:0.7rem; margin-bottom:4px; }
+  .online-tag.on { color:#00ff90; }
+  .online-tag.off { color:#ff8080; }
+  .stats {
+    display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
+    margin:10px 0; font-size:0.9rem;
+  }
+  .stat-box {
+    background:rgba(30,20,80,0.6); padding:8px 12px; border-radius:10px;
+    border:1px solid rgba(120,100,255,0.3);
+  }
+  .stat-box span { color:#7fd4ff; font-weight:bold; }
+  .exp-bar {
+    grid-column:span 2; background:rgba(0,0,0,0.5); height:14px;
+    border-radius:8px; overflow:hidden; border:1px solid #3a2f80;
+  }
+  .exp-fill {
+    height:100%; width:0%; background:linear-gradient(90deg,#00e0ff,#a06bff);
+    transition:width 0.3s;
+  }
+  .click-btn {
+    width:100%; padding:30px; margin:12px 0; border:none; border-radius:20px;
+    font-size:1.3rem; font-weight:bold; cursor:pointer; color:white;
+    background:linear-gradient(135deg,#5b3fff,#a02bff,#ff4fa3);
+    box-shadow:0 0 30px rgba(160,60,255,0.6);
+    transition:transform 0.08s;
+    user-select:none; -webkit-tap-highlight-color:transparent;
+  }
+  .click-btn:active { transform:scale(0.96); box-shadow:0 0 15px #ff4fa3; }
+  .click-btn.boost {
+    background:linear-gradient(135deg,#ffb300,#ff5500,#ff003c);
+    box-shadow:0 0 30px rgba(255,120,0,0.7);
+  }
+  .click-btn.auto { animation: autoPulse 1.2s infinite; }
+  @keyframes autoPulse {
+    0%,100% { box-shadow:0 0 30px rgba(0,255,180,0.6), 0 0 20px rgba(160,60,255,0.6); }
+    50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
+  }
+  .nav {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:10px;
+  }
+  .nav button {
+    padding:10px 4px; font-size:0.7rem; border-radius:10px; border:1px solid #4a3f9f;
+    background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
+  }
+  .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
+  .panel {
+    background:rgba(20,15,55,0.85); border:1px solid #3a2f80; border-radius:14px;
+    padding:12px; margin-top:12px; max-height:65vh; overflow-y:auto;
+  }
+  .panel.hidden { display:none; }
+  .item {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px; margin-bottom:8px; border-radius:10px;
+    background:rgba(60,40,120,0.4); border:1px solid rgba(120,100,255,0.25);
+  }
+  .item .info { font-size:0.85rem; flex:1; }
+  .item .info b { color:#7fd4ff; }
+  .item button {
+    padding:6px 10px; font-size:0.75rem; border-radius:8px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
+    margin-left:4px;
+  }
+  .item button:disabled { background:#444; cursor:not-allowed; }
+  .event-status {
+    text-align:center; padding:8px; border-radius:10px; margin-bottom:10px;
+    font-size:0.85rem;
+  }
+  .event-open { background:rgba(0,255,120,0.15); border:1px solid #00ff90; color:#00ff90; }
+  .event-closed { background:rgba(255,60,60,0.15); border:1px solid #ff5050; color:#ff8080; }
+  #toast {
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    background:rgba(0,0,0,0.9); color:white; padding:10px 20px; border-radius:20px;
+    border:1px solid #7fd4ff; font-size:0.85rem; opacity:0; transition:opacity 0.3s;
+    z-index:999; max-width:90%; text-align:center;
+  }
+  #toast.show { opacity:1; }
+  input[type=text], input[type=password], textarea, select {
+    width:100%; padding:10px; border-radius:8px; border:1px solid #4a3f9f;
+    background:rgba(0,0,0,0.4); color:white; margin-bottom:8px;
+    font-family:inherit;
+  }
+  textarea { resize:vertical; min-height:60px; }
+  .skin-plasma { background:linear-gradient(135deg,#001a4d,#0040a0,#0a0050); border:1px solid #4fa8ff; }
+  .skin-danish { background:linear-gradient(135deg,#b8860b,#ffd700,#fff4b0); border:1px solid #ffd700; color:#1a1a1a; }
+  .skin-emberheart { background:linear-gradient(135deg,#fff,#c8e6ff,#e0c8ff,#ffd700); border:1px solid #e0c8ff; color:#1a1a3a; }
+  .glossy { position:relative; overflow:hidden; }
+  .glossy::after {
+    content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+    background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,0.4) 50%,transparent 60%);
+    animation:gloss 3s infinite linear;
+  }
+  @keyframes gloss { 0%{transform:translateX(-100%) rotate(0);} 100%{transform:translateX(100%) rotate(0);} }
+  .badge { font-size:0.7rem; padding:2px 6px; border-radius:6px; background:#0006; }
+  .diamond-pop {
+    position:fixed; font-size:1.5rem; font-weight:bold; pointer-events:none;
+    color:#7fd4ff; text-shadow:0 0 15px #00e0ff, 0 0 30px #a06bff;
+    animation: popUp 1.5s ease-out forwards; z-index:1000;
+  }
+  @keyframes popUp {
+    0%   { opacity:0; transform:translate(-50%, 0) scale(0.5); }
+    30%  { opacity:1; transform:translate(-50%, -40px) scale(1.3); }
+    100% { opacity:0; transform:translate(-50%, -120px) scale(1); }
+  }
+  .auto-panel {
+    background:linear-gradient(135deg, rgba(0,200,150,0.15), rgba(0,100,200,0.15));
+    border:1px solid #00e0a0;
+    border-radius:12px; padding:10px; margin:8px 0;
+    font-size:0.8rem; display:none;
+  }
+  .auto-panel.show { display:block; }
+  .auto-panel .row {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:6px;
+  }
+  .auto-panel .row:last-child { margin-bottom:0; }
+  .auto-panel b { color:#00ffc0; }
+  .auto-panel button {
+    padding:6px 10px; font-size:0.75rem; border-radius:8px; border:none;
+    cursor:pointer; font-weight:bold;
+  }
+  .btn-pause { background:linear-gradient(135deg,#ffaa00,#ff6600); color:#111; }
+  .btn-resume { background:linear-gradient(135deg,#00ff90,#00b070); color:#111; }
+  .btn-pause:disabled, .btn-resume:disabled {
+    background:#444; color:#888; cursor:not-allowed;
+  }
+  .modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.75);
+    backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    z-index:2000; opacity:0; pointer-events:none;
+    transition:opacity 0.25s;
+    padding:16px;
+  }
+  .modal-overlay.show { opacity:1; pointer-events:auto; }
+  .modal-box {
+    background:linear-gradient(180deg, #1a1245, #0d0a25);
+    border:1px solid #ff4fa3; border-radius:16px;
+    max-width:420px; width:100%; padding:20px;
+    box-shadow:0 0 40px rgba(255,60,120,0.4);
+    transform:scale(0.9); transition:transform 0.25s;
+    max-height:90vh; overflow-y:auto;
+  }
+  .modal-overlay.show .modal-box { transform:scale(1); }
+  .modal-box h2 {
+    font-size:1.1rem; margin-bottom:12px; color:#ff8080;
+    display:flex; align-items:center; gap:8px;
+  }
+  .modal-box p {
+    font-size:0.85rem; line-height:1.5; color:#ddd; margin-bottom:16px;
+    background:rgba(255,60,60,0.1); border-left:3px solid #ff5050;
+    padding:10px; border-radius:6px;
+  }
+  .modal-actions {
+    display:grid; grid-template-columns:1fr 1fr; gap:8px;
+  }
+  .modal-actions button {
+    padding:12px; border-radius:10px; border:none; cursor:pointer;
+    font-weight:bold; font-size:0.85rem;
+  }
+  .btn-cancel {
+    background:rgba(120,100,255,0.25); color:#c8c0ff;
+    border:1px solid #5b3fff !important;
+  }
+  .btn-confirm {
+    background:linear-gradient(135deg,#ff2b6b,#ff5050);
+    color:white;
+  }
+  .btn-primary {
+    background:linear-gradient(135deg,#5b3fff,#a02bff);
+    color:white;
+  }
+  .danger-btn {
+    width:100%; padding:12px; margin-top:8px;
+    background:linear-gradient(135deg,#5a0010,#a01030);
+    border:1px solid #ff4f4f; color:#ffb0b0;
+    border-radius:10px; font-weight:bold; cursor:pointer;
+    font-size:0.85rem;
+  }
+  .stats-info {
+    background:rgba(0,0,0,0.3); border-radius:8px;
+    padding:8px; margin-bottom:10px; font-size:0.75rem; color:#aaa;
+  }
+  .stats-info b { color:#7fd4ff; }
+  .dev-zone {
+    margin-top:16px;
+    border-top:1px dashed #2a1a4a;
+    padding-top:12px;
+  }
+  .dev-zone h3 {
+    color:#ffb300; font-size:0.9rem; margin-bottom:8px;
+  }
+  .dev-input { display:flex; gap:6px; }
+  .dev-input input { flex:1; font-family:monospace; letter-spacing:2px; }
+  .dev-input button {
+    padding:10px 14px; border-radius:8px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,#ffb300,#ff6600);
+    color:#111; font-weight:bold; font-size:0.8rem;
+  }
+  .dev-badge {
+    display:inline-block; padding:2px 8px; border-radius:6px;
+    background:linear-gradient(135deg,#ffb300,#ff6600);
+    color:#111; font-weight:bold; font-size:0.7rem;
+  }
+  .dev-active-tag {
+    text-align:center; font-size:0.7rem; color:#ffb300;
+    margin-bottom:6px; letter-spacing:2px;
+  }
+  .clan-hero {
+    text-align:center; padding:14px;
+    background:linear-gradient(135deg, rgba(100,50,200,0.3), rgba(200,50,150,0.3));
+    border:1px solid #a06bff; border-radius:14px;
+    margin-bottom:12px;
+  }
+  .clan-hero .clan-tag {
+    display:inline-block; font-size:0.9rem; font-weight:bold;
+    padding:3px 12px; border-radius:8px;
+    background:linear-gradient(135deg,#ffb300,#ff6600);
+    color:#111; margin-bottom:6px;
+  }
+  .clan-hero h2 { color:#7fd4ff; font-size:1.2rem; margin-bottom:4px; }
+  .clan-hero .meta { font-size:0.75rem; color:#aaa; }
+  .clan-hero .meta b { color:#ffb300; }
+  .clan-btn-row {
+    display:grid; grid-template-columns:1fr 1fr; gap:8px;
+    margin-top:10px;
+  }
+  .clan-btn-row button {
+    padding:10px; border-radius:10px; border:none; cursor:pointer;
+    font-weight:bold; font-size:0.8rem;
+  }
+  .btn-green { background:linear-gradient(135deg,#00c060,#00ff90); color:#111; }
+  .btn-red { background:linear-gradient(135deg,#c00030,#ff4060); color:white; }
+  .btn-blue { background:linear-gradient(135deg,#0040c0,#4090ff); color:white; }
+  .clan-tabs {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:4px;
+    margin-bottom:10px;
+  }
+  .clan-tabs button {
+    padding:8px 4px; font-size:0.75rem; border-radius:8px; border:1px solid #4a3f9f;
+    background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
+  }
+  .clan-tabs button.active {
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
+  }
+  .clan-search-box {
+    background:rgba(0,0,0,0.3); border-radius:10px; padding:10px;
+    margin-bottom:10px;
+  }
+  .clan-search-box h4 { font-size:0.85rem; color:#7fd4ff; margin-bottom:6px; }
+  .clan-list-item {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px; margin-bottom:6px; border-radius:10px;
+    background:rgba(60,40,120,0.4); border:1px solid rgba(120,100,255,0.25);
+  }
+  .clan-list-item .info { font-size:0.8rem; flex:1; }
+  .clan-list-item .info b { color:#ffb300; }
+  .clan-list-item button {
+    padding:6px 12px; font-size:0.75rem; border-radius:8px; border:none;
+    cursor:pointer; background:linear-gradient(135deg,#00c060,#00ff90);
+    color:#111; font-weight:bold;
+  }
+  .clan-member-row {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:8px; margin-bottom:4px; border-radius:8px;
+    background:rgba(60,40,120,0.3); font-size:0.8rem;
+    gap:8px; flex-wrap:wrap;
+  }
+  .clan-member-row .role {
+    font-size:0.65rem; padding:2px 6px; border-radius:6px;
+    background:#0006; color:#ffb300;
+  }
+  .role-owner { background:linear-gradient(135deg,#ffb300,#ff6600) !important; color:#111 !important; font-weight:bold; }
+  .role-admin { background:linear-gradient(135deg,#5b3fff,#a02bff) !important; color:white !important; }
+  .clan-chat {
+    height:280px; overflow-y:auto;
+    background:rgba(0,0,0,0.4); border-radius:10px;
+    padding:8px; margin-bottom:8px;
+    border:1px solid #3a2f80;
+  }
+  .chat-msg {
+    font-size:0.8rem; margin-bottom:6px; padding:6px 8px;
+    background:rgba(60,40,120,0.4); border-radius:8px;
+    word-break:break-word;
+  }
+  .chat-msg.me {
+    background:linear-gradient(135deg, rgba(91,63,255,0.6), rgba(160,43,255,0.6));
+    text-align:right;
+  }
+  .chat-msg b { color:#ffb300; }
+  .chat-msg.me b { color:#fff; }
+  .chat-msg .chat-time {
+    display:block;
+    font-size:0.65rem;
+    color:#888;
+    margin-top:2px;
+  }
+  .chat-msg.me .chat-time {
+    color:#c8c0ff;
+    text-align:right;
+  }
+  .chat-input-row {
+    display:grid; grid-template-columns:1fr auto; gap:6px;
+  }
+  .chat-input-row button {
+    padding:10px 16px; border-radius:10px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
+    font-weight:bold; font-size:0.8rem;
+  }
+  .loading-screen {
+    position:fixed; inset:0; background:radial-gradient(circle at top, #0b0b2b, #000010 80%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    z-index:9999; transition:opacity 0.5s;
+  }
+  .loading-screen.hide { opacity:0; pointer-events:none; }
+  .loading-screen h2 {
+    font-size:1.5rem; color:#7fd4ff; margin-bottom:16px;
+    text-shadow:0 0 20px rgba(140,120,255,0.8);
+  }
+  .loading-spinner {
+    width:50px; height:50px; border:4px solid rgba(120,100,255,0.3);
+    border-top-color:#7fd4ff; border-radius:50%;
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .loading-text {
+    margin-top:12px; font-size:0.85rem; color:#aaa;
+  }
+  .player-name-display {
+    text-align:center;
+    font-size:0.8rem;
+    color:#7fd4ff;
+    margin-bottom:6px;
+  }
+  .player-name-display b {
+    color:#ffb300;
+    cursor:pointer;
+    padding:2px 8px;
+    border-radius:6px;
+    background:rgba(255,180,0,0.15);
+    border:1px solid rgba(255,180,0,0.3);
+  }
+  .notice-banner {
+    background:linear-gradient(135deg, rgba(255,180,0,0.2), rgba(255,80,150,0.2));
+    border:1px solid #ffb300;
+    border-radius:12px;
+    padding:10px 12px;
+    margin-bottom:10px;
+    font-size:0.8rem;
+    line-height:1.5;
+    color:#ffe0a0;
+  }
+  .notice-banner b { color:#ffb300; }
+  .event-countdown {
+    text-align:center;
+    padding:10px;
+    background:linear-gradient(135deg, rgba(255,60,120,0.15), rgba(160,43,255,0.15));
+    border:1px solid #ff4fa3;
+    border-radius:10px;
+    margin-bottom:10px;
+    font-size:0.85rem;
+  }
+  .event-countdown b { color:#ffb300; }
+  .event-countdown .big {
+    display:block;
+    font-size:1.2rem;
+    font-weight:bold;
+    color:#ff4fa3;
+    margin-top:4px;
+    letter-spacing:2px;
+  }
+  .apology-modal .modal-box {
+    border-color:#ffb300 !important;
+    box-shadow:0 0 50px rgba(255,180,0,0.6) !important;
+  }
+  .apology-modal h2 {
+    color:#ffb300 !important;
+    text-align:center;
+    justify-content:center;
+  }
+  .apology-modal p {
+    background:rgba(255,180,0,0.1) !important;
+    border-left-color:#ffb300 !important;
+    color:#ffe0a0 !important;
+    text-align:center;
+  }
+
+  /* ★ v10.0: Diskon Banner */
+  .discount-banner {
+    background:linear-gradient(135deg, #ff2b6b, #ff5050, #ffb300);
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:10px;
+    text-align:center;
+    font-weight:bold;
+    color:white;
+    font-size:0.9rem;
+    box-shadow:0 0 20px rgba(255,60,120,0.5);
+    animation: discountPulse 1.5s infinite;
+    position:relative;
+    overflow:hidden;
+  }
+  @keyframes discountPulse {
+    0%,100% { box-shadow:0 0 20px rgba(255,60,120,0.5); }
+    50%     { box-shadow:0 0 35px rgba(255,180,0,0.8); }
+  }
+  .discount-banner::before {
+    content:'';
+    position:absolute;
+    top:0; left:-100%;
+    width:100%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shine 2.5s infinite;
+  }
+  @keyframes shine {
+    0%   { left:-100%; }
+    100% { left:100%; }
+  }
+  .discount-banner .big {
+    display:block;
+    font-size:1.5rem;
+    letter-spacing:2px;
+    text-shadow:0 0 10px rgba(0,0,0,0.3);
+    margin:4px 0;
+  }
+  .discount-banner .timer {
+    display:block;
+    font-size:0.75rem;
+    color:#fff8;
+    margin-top:4px;
+    font-weight:normal;
+  }
+  .price-strike {
+    text-decoration:line-through;
+    color:#888;
+    font-size:0.75rem;
+    margin-right:4px;
+  }
+  .price-discount {
+    color:#00ff90;
+    font-weight:bold;
+  }
+  .discount-tag {
+    display:inline-block;
+    background:linear-gradient(135deg,#ff2b6b,#ff5050);
+    color:white;
+    font-size:0.65rem;
+    padding:2px 6px;
+    border-radius:6px;
+    margin-left:4px;
+    font-weight:bold;
+    animation: tagPulse 1s infinite;
+  }
+  @keyframes tagPulse {
+    0%,100% { transform:scale(1); }
+    50%     { transform:scale(1.1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <h2>✨ ELIPS NOVA ✨</h2>
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loadingText">Menghubungkan ke server...</div>
+</div>
+
+<h1>✨ ELIPS NOVA GAME ✨</h1>
+<div class="version">v10.0 — LEGENDARY FINAL</div>
+<div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
+<div class="player-name-display">
+  👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
+</div>
+<div class="dev-active-tag" id="devActiveTag" style="display:none">
+  <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
+</div>
+
+<div class="stats">
+  <div class="stat-box">💰 € <span id="money">0</span></div>
+  <div class="stat-box">✴️ <span id="token">0</span> | 💎 <span id="diamond">0</span></div>
+  <div class="stat-box">🏆 Level <span id="level">1</span></div>
+  <div class="stat-box">⭐ Exp <span id="exp">0</span>/<span id="expMax">100</span></div>
+  <div class="exp-bar"><div class="exp-fill" id="expFill"></div></div>
+</div>
+
+<button class="click-btn" id="clickBtn">👆 KLIK UNTUK CEPAT!</button>
+<div style="text-align:center;font-size:0.75rem;color:#888;margin-top:-6px" id="boostInfo"></div>
+
+<div class="auto-panel" id="autoPanel">
+  <div class="row">
+    <div>👌 <b>HELPING HAND</b> aktif</div>
+    <div id="autoTimer">--</div>
+  </div>
+  <div class="row">
+    <div style="font-size:0.7rem;color:#aaa">Sisa jeda manual: <b id="autoPauseLeft">2</b>/2</div>
+    <div>
+      <button class="btn-pause" id="autoPauseBtn" onclick="toggleAutoPause()">Jeda</button>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <button data-panel="shop" class="active">🛒 Toko</button>
+  <button data-panel="inv">🎒 Inventori</button>
+  <button data-panel="event">⭐ Legendary</button>
+  <button data-panel="clan">🏰 Clan</button>
+  <button data-panel="redeem">🎁 Redeem</button>
+</div>
+
+<div class="panel" id="panel-shop"></div>
+<div class="panel hidden" id="panel-inv"></div>
+<div class="panel hidden" id="panel-event"></div>
+<div class="panel hidden" id="panel-clan"></div>
+<div class="panel hidden" id="panel-redeem">
+  <h3>🎁 Kode Redeem</h3>
+  <input type="text" id="redeemInput" placeholder="Masukkan kode...">
+  <button class="click-btn" style="padding:10px;font-size:0.9rem" onclick="redeemCode()">Tukar Kode</button>
+  <div style="font-size:0.7rem;color:#888;margin-top:8px">Kode bersifat rahasia dan hanya dapat ditukar satu kali.</div>
+
+  <hr style="margin:16px 0; border-color:#3a2f80">
+
+  <h3 style="color:#ff8080">⚠️ Zona Berbahaya</h3>
+  <div class="stats-info">
+    UID Firebase: <b id="uidDisplay">-</b><br>
+    Total diamond dari level: <b id="statDiamondLevel">0</b>
+  </div>
+  <button class="danger-btn" onclick="showResetModal()">🗑️ Reset Data Permainan</button>
+
+  <div class="dev-zone">
+    <h3>⚡ Developer Zone</h3>
+    <div class="dev-input">
+      <input type="password" id="devKeyInput" placeholder="Developer Key...">
+      <button onclick="activateDevMode()">Aktifkan</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-box">
+    <h2>⚠️ Konfirmasi Reset Data</h2>
+    <p>Apakah anda yakin mereset data, ini dapat menghapus semua progres, aset, dan lain-lain yang anda miliki.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetModal()">Batal</button>
+      <button class="btn-confirm" onclick="confirmReset()">Ya, Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="devModal">
+  <div class="modal-box" style="border-color:#ffb300;">
+    <h2 style="color:#ffb300">⚡ DEVELOPER MODE</h2>
+    <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
+      Key valid! Anda akan menerima:<br><br>
+      💎 <b>+3.000 Diamond</b><br>
+      ✴️ <b>+5.000 Token</b><br>
+      💰 <b>+€ 100.000</b><br>
+      ⭐ <b>+250.000 Exp</b>
+    </p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeDevModal()">Batal</button>
+      <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="claimDevReward()">Klaim</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="createClanModal">
+  <div class="modal-box" style="border-color:#a06bff;">
+    <h2 style="color:#c47bff">🏰 Buat Clan Baru</h2>
+    <label style="font-size:0.75rem;color:#aaa">Nama Clan (3-20 karakter)</label>
+    <input type="text" id="newClanName" maxlength="20" placeholder="cth: Nova Warriors">
+    <label style="font-size:0.75rem;color:#aaa">Tag Clan (2-5 huruf kapital)</label>
+    <input type="text" id="newClanTag" maxlength="5" placeholder="NOVA" style="text-transform:uppercase">
+    <label style="font-size:0.75rem;color:#aaa">Deskripsi</label>
+    <textarea id="newClanDesc" maxlength="100" placeholder="Deskripsi clan..."></textarea>
+    <label style="font-size:0.75rem;color:#aaa">Tipe</label>
+    <select id="newClanType">
+      <option value="open">🌐 Open — siapa saja bisa join</option>
+      <option value="closed">🔒 Closed — perlu approval</option>
+    </select>
+    <div style="font-size:0.75rem;color:#ffb300;text-align:center;margin-top:6px">Biaya: 💎 50</div>
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-cancel" onclick="closeCreateClanModal()">Batal</button>
+      <button class="btn-primary" onclick="submitCreateClan()">Buat Clan</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="editNameModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">👤 Ubah Nama Pemain</h2>
+    <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
+    <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
+    <div style="font-size:0.7rem;color:#888;margin-top:4px;margin-bottom:8px">
+      Nama ini akan muncul di chat clan dan daftar member.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
+      <button class="btn-primary" onclick="savePlayerName()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay apology-modal" id="apologyModal">
+  <div class="modal-box">
+    <h2>💛 Permintaan Maaf</h2>
+    <p>
+      Kami mohon maaf atas kesalahan sistem yang membuat <b>Skin Legendary</b> dapat dibeli lebih dari satu unit.
+      <br><br>
+      Bug ini sudah <b>kami perbaiki</b>. Skin duplikat di inventori kamu telah otomatis dibersihkan
+      dan tetap dihitung <b>1 unit</b>.
+      <br><br>
+      Terima kasih sudah bermain dan tetap sabar ya! 🙏
+    </p>
+    <div class="modal-actions" style="grid-template-columns:1fr">
+      <button class="btn-primary" onclick="closeApologyModal()">Aku Mengerti</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="eventNoticeModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">📢 Pemberitahuan</h2>
+    <p style="background:rgba(120,200,255,0.1);border-left-color:#7fd4ff;color:#c8e0ff;">
+      <b>🏆 Legendary Event resmi TELAH SELESAI.</b>
+      <br><br>
+      Menu <b>"⭐ Legendary"</b> ini akan berubah menjadi
+      <b>"🎉 Menu Event"</b> pada update berikutnya.
+      <br><br>
+      Di menu baru nanti akan ada banyak sub-event seru seperti
+      🎃 Halloween, 🎄 Natal, 🎆 Tahun Baru, dan lain-lain!
+      <br><br>
+      Nantikan ya! ✨
+    </p>
+    <div class="modal-actions" style="grid-template-columns:1fr">
+      <button class="btn-primary" onclick="closeEventNoticeModal()">Siap, Tunggu!</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+/* ============================================================
+   FIREBASE SDK RESMI
+   ============================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getDatabase, ref, set, get, onValue, push, remove,
+  query, orderByChild, limitToLast
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import {
+  getAuth, signInAnonymously, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC5kdNvS7aQIuXoa7QlsmnYmbza2ydmYV0",
+  authDomain: "elips-nova.firebaseapp.com",
+  databaseURL: "https://elips-nova-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "elips-nova",
+  storageBucket: "elips-nova.firebasestorage.app",
+  messagingSenderId: "1086671029659",
+  appId: "1:1086671029659:web:76a40794450597eacc0d3e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+/* ============================================================
+   ★ v10.0: KONFIGURASI EVENT & DISKON
+   ============================================================ */
+const LEGENDARY_EVENT = {
+  endDate: new Date('2026-10-02T22:00:00+07:00').getTime(),
+  openHour: 20,
+  closeHour: 22,
+  noticeHour: 23,
+  hardEndDate: new Date('2026-10-02T22:00:00+07:00').getTime()
+};
+
+// ★ v10.0: Diskon Token Light 80%
+const TOKEN_DISCOUNT = {
+  percent: 80,                                              // 80% diskon
+  endDate: new Date('2026-10-01T22:00:00+07:00').getTime()  // 1 Okt 2026, 22.00 WIB
+};
+
+// Harga normal Token Light
+const TOKEN_PRICE_NORMAL = { money: 5000, diamond: 40 };
+
+// Hitung harga diskon
+function getTokenPrice(){
+  const now = Date.now();
+  const isDiscountActive = now < TOKEN_DISCOUNT.endDate;
+  if (isDiscountActive){
+    return {
+      money: Math.floor(TOKEN_PRICE_NORMAL.money * (100 - TOKEN_DISCOUNT.percent) / 100),
+      diamond: Math.floor(TOKEN_PRICE_NORMAL.diamond * (100 - TOKEN_DISCOUNT.percent) / 100),
+      discount: TOKEN_DISCOUNT.percent,
+      active: true
+    };
+  }
+  return {
+    money: TOKEN_PRICE_NORMAL.money,
+    diamond: TOKEN_PRICE_NORMAL.diamond,
+    discount: 0,
+    active: false
+  };
+}
+
+// Format tanggal akhir diskon
+function formatDiscountEndDate(){
+  const d = new Date(TOKEN_DISCOUNT.endDate);
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • 22:00 WIB`;
+}
+
+// Format countdown diskon
+function formatDiscountCountdown(){
+  const now = Date.now();
+  const remain = TOKEN_DISCOUNT.endDate - now;
+  if (remain <= 0) return null;
+  const days = Math.floor(remain / 86400000);
+  const hours = Math.floor((remain % 86400000) / 3600000);
+  const minutes = Math.floor((remain % 3600000) / 60000);
+  const seconds = Math.floor((remain % 60000) / 1000);
+  if (days > 0) return `${days}h ${hours}j ${minutes}m`;
+  if (hours > 0) return `${hours}j ${minutes}m ${seconds}s`;
+  return `${minutes}m ${seconds}s`;
+}
+
+/* ================= GLOBAL STATE ================= */
+let currentUid = null;
+let isOnline = false;
+
+const DEFAULT_STATE = {
+  money: 0, token: 0, diamond: 0, exp: 0, level: 1,
+  inventory: [],
+  boostEnd: 0, boostCooldown: 0,
+  mysteryCooldown: 0, mysteryOpened: false,
+  usedCodes: [],
+  totalDiamondFromLevel: 0,
+  autoEnd: 0, autoPaused: false, autoPauseRemain: 2, autoLeftMs: 0, lastAutoTick: 0,
+  devMode: false, devUsed: false,
+  clanId: null,
+  playerName: 'Pemain',
+  apologyShown: false,
+  eventNoticeShown: false,
+  lastSeen: Date.now()
+};
+
+let S = { ...DEFAULT_STATE };
+let clickPower = 10;
+let autoTickInterval = null;
+let chatUnsubscribe = null;
+let chatHeartbeatInterval = null;
+let currentClanTab = 'info';
+let currentClanData = null;
+let savedSearchResult = null;
+let discountTimerInterval = null;
+
+/* ================= UTIL ================= */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function fmt(n){ return n.toLocaleString('id-ID'); }
+function expNeeded(level){
+  if (level >= 100) return Infinity;
+  let need = 100;
+  for (let i=2; i<=level; i++) need *= 3;
+  return need;
+}
+function formatDuration(ms){
+  if (ms < 0) ms = 0;
+  const s = Math.ceil(ms/1000);
+  const m = Math.floor(s/60);
+  return `${m}m ${(s%60).toString().padStart(2,'0')}s`;
+}
+function formatChatTime(ts){
+  if (!ts) return '';
+  try {
+    const d = new Date(ts);
+    const hh = d.getHours().toString().padStart(2, '0');
+    const mm = d.getMinutes().toString().padStart(2, '0');
+    return `${hh}:${mm}`;
+  } catch(e){ return ''; }
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function updateOnlineTag(){
+  const tag = document.getElementById('onlineTag');
+  if (isOnline){
+    tag.className = 'online-tag on';
+    tag.textContent = '🟢 Online — Cloud Sync Aktif';
+  } else {
+    tag.className = 'online-tag off';
+    tag.textContent = '🔴 Offline Mode — Data Lokal';
+  }
+}
+
+function getEventStatus(){
+  const now = Date.now();
+  if (now >= LEGENDARY_EVENT.hardEndDate) return 'ended';
+  const wib = new Date(now + (7*60 + new Date().getTimezoneOffset())*60000);
+  const h = wib.getHours();
+  if (h >= LEGENDARY_EVENT.openHour && h < LEGENDARY_EVENT.closeHour) return 'open';
+  return 'closed';
+}
+function isEventOpen(){ return getEventStatus() === 'open'; }
+
+function formatEventEndDate(){
+  const d = new Date(LEGENDARY_EVENT.endDate);
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • 22:00 WIB`;
+}
+
+function shouldShowEventNotice(){
+  const now = Date.now();
+  if (now < LEGENDARY_EVENT.hardEndDate) return false;
+  const wib = new Date(now + (7*60 + new Date().getTimezoneOffset())*60000);
+  return wib.getHours() >= LEGENDARY_EVENT.noticeHour;
+}
+
+/* ============================================================
+   STORAGE LAYER
+   ============================================================ */
+const Storage = {
+  async load() {
+    if (currentUid && isOnline){
+      try {
+        const snap = await get(ref(db, `users/${currentUid}`));
+        const data = snap.val();
+        if (data){
+          localStorage.setItem('enova_cache', JSON.stringify(data));
+          return data;
+        }
+      } catch(e){ console.warn('Firebase load error', e); }
+    }
+    try {
+      const local = localStorage.getItem('enova_cache');
+      return local ? JSON.parse(local) : null;
+    } catch(e){ return null; }
+  },
+  async save(data) {
+    localStorage.setItem('enova_cache', JSON.stringify(data));
+    if (currentUid && isOnline){
+      try {
+        await set(ref(db, `users/${currentUid}`), data);
+      } catch(e){ console.warn('Firebase save error', e); }
+    }
+  },
+  async wipe() {
+    localStorage.removeItem('enova_cache');
+    if (currentUid && isOnline){
+      try { await remove(ref(db, `users/${currentUid}`)); } catch(e){}
+    }
+  },
+  getUserId(){ return currentUid || 'local_player'; }
+};
+
+/* ============================================================
+   CLAN STORAGE
+   ============================================================ */
+const ClanStorage = {
+  async getClan(clanId) {
+    try {
+      const snap = await get(ref(db, `clans/${clanId}`));
+      const data = snap.val();
+      if (data) return data;
+    } catch(e){}
+    try {
+      const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+      return all[clanId] || null;
+    } catch(e){ return null; }
+  },
+  async createClan(clanId, data) {
+    try {
+      await set(ref(db, `clans/${clanId}`), data);
+      await set(ref(db, `clanNames/${data.name.toLowerCase()}`), clanId);
+      return true;
+    } catch(e){}
+    const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+    all[clanId] = data;
+    all['_names'] = all['_names'] || {};
+    all['_names'][data.name.toLowerCase()] = clanId;
+    localStorage.setItem('enova_clans', JSON.stringify(all));
+    return true;
+  },
+  async findClanByName(name) {
+    const key = name.toLowerCase();
+    try {
+      const snap = await get(ref(db, `clanNames/${key}`));
+      const data = snap.val();
+      if (data) return data;
+    } catch(e){}
+    const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+    return (all['_names'] && all['_names'][key]) || null;
+  },
+  async updateClan(clanId, path, data) {
+    try { await set(ref(db, `clans/${clanId}/${path}`), data); return true; } catch(e){}
+    const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+    if (!all[clanId]) return false;
+    const parts = path.split('/');
+    let obj = all[clanId];
+    for (let i=0; i<parts.length-1; i++){
+      obj[parts[i]] = obj[parts[i]] || {};
+      obj = obj[parts[i]];
+    }
+    obj[parts[parts.length-1]] = data;
+    localStorage.setItem('enova_clans', JSON.stringify(all));
+    return true;
+  },
+  async deleteInClan(clanId, path) {
+    try { await remove(ref(db, `clans/${clanId}/${path}`)); return true; } catch(e){}
+    const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+    if (!all[clanId]) return false;
+    const parts = path.split('/');
+    let obj = all[clanId];
+    for (let i=0; i<parts.length-1; i++){
+      if (!obj[parts[i]]) return false;
+      obj = obj[parts[i]];
+    }
+    delete obj[parts[parts.length-1]];
+    localStorage.setItem('enova_clans', JSON.stringify(all));
+    return true;
+  },
+  async deleteClan(clanId, name) {
+    try {
+      await remove(ref(db, `clans/${clanId}`));
+      await remove(ref(db, `clanNames/${name.toLowerCase()}`));
+      return true;
+    } catch(e){}
+    const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+    delete all[clanId];
+    if (all['_names']) delete all['_names'][name.toLowerCase()];
+    localStorage.setItem('enova_clans', JSON.stringify(all));
+    return true;
+  },
+  async sendChat(clanId, msg) {
+    let success = false;
+    try {
+      const chatRef = ref(db, `clans/${clanId}/chat`);
+      const newRef = push(chatRef);
+      await set(newRef, msg);
+      success = true;
+    } catch(e){}
+    try {
+      const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+      all[clanId] = all[clanId] || {};
+      all[clanId].chat = all[clanId].chat || {};
+      all[clanId].chat['m_'+Date.now()+'_'+Math.random().toString(36).slice(2,5)] = msg;
+      localStorage.setItem('enova_clans', JSON.stringify(all));
+    } catch(e){}
+    return success;
+  },
+  listenChat(clanId, callback) {
+    const chatQuery = query(
+      ref(db, `clans/${clanId}/chat`),
+      orderByChild('ts'),
+      limitToLast(200)
+    );
+    let receivedFirebaseData = false;
+    const unsub = onValue(chatQuery, snap => {
+      receivedFirebaseData = true;
+      callback(snap.val() || {});
+    }, (error) => {
+      const interval = setInterval(() => {
+        try {
+          const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+          callback((all[clanId] && all[clanId].chat) || {});
+        } catch(e){ callback({}); }
+      }, 3000);
+      return () => clearInterval(interval);
+    });
+    setTimeout(() => {
+      if (!receivedFirebaseData){
+        try {
+          const all = JSON.parse(localStorage.getItem('enova_clans') || '{}');
+          callback((all[clanId] && all[clanId].chat) || {});
+        } catch(e){ callback({}); }
+      }
+    }, 5000);
+    return unsub;
+  }
+};
+
+/* ============================================================
+   DEVELOPER KEY
+   ============================================================ */
+const _DEV_KEY_HASH = (() => {
+  const s = "BCE093702";
+  let h = 0;
+  for (let i=0; i<s.length; i++){ h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
+  return h;
+})();
+
+function validateDevKey(input){
+  const s = (input || '').trim().toUpperCase();
+  let h = 0;
+  for (let i=0; i<s.length; i++){ h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
+  return h === _DEV_KEY_HASH && s.length === 9;
+}
+
+/* ============================================================
+   LEVEL & DIAMOND
+   ============================================================ */
+function rollLevelDiamond(){
+  const isRare = Math.random() < 0.02;
+  if (isRare) return 31 + Math.floor(Math.random() * 20);
+  return 3 + Math.floor(Math.random() * 28);
+}
+
+function showDiamondPop(amount){
+  const el = document.createElement('div');
+  el.className = 'diamond-pop';
+  el.textContent = `+💎 ${amount}`;
+  el.style.left = '50%';
+  el.style.top = '45%';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 1500);
+}
+
+/* ============================================================
+   BERSIHKAN SKIN DUPLIKAT
+   ============================================================ */
+function cleanupDuplicateSkins(){
+  if (!S.inventory || !S.inventory.length) return false;
+  const seen = new Set();
+  const cleaned = [];
+  let removedCount = 0;
+  for (const item of S.inventory){
+    if (item.id === 'helping_hand'){ cleaned.push(item); continue; }
+    if (seen.has(item.id)){ removedCount++; continue; }
+    seen.add(item.id);
+    cleaned.push(item);
+  }
+  if (removedCount > 0){ S.inventory = cleaned; return true; }
+  return false;
+}
+
+function hasDuplicateSkins(){
+  if (!S.inventory || !S.inventory.length) return false;
+  const seen = new Set();
+  for (const item of S.inventory){
+    if (item.id === 'helping_hand') continue;
+    if (seen.has(item.id)) return true;
+    seen.add(item.id);
+  }
+  return false;
+}
+
+/* ============================================================
+   NAMA PEMAIN
+   ============================================================ */
+window.showEditNameModal = function(){
+  document.getElementById('editNameModal').classList.add('show');
+  document.getElementById('editNameInput').value = S.playerName || 'Pemain';
+  setTimeout(()=>document.getElementById('editNameInput').focus(), 200);
+};
+window.closeEditNameModal = function(){
+  document.getElementById('editNameModal').classList.remove('show');
+};
+window.savePlayerName = async function(){
+  const name = (document.getElementById('editNameInput').value || '').trim();
+  if (name.length < 3) return toast('❌ Nama minimal 3 karakter');
+  if (name.length > 16) return toast('❌ Nama maksimal 16 karakter');
+  if (!/^[A-Za-z0-9_]+$/.test(name)) return toast('❌ Hanya huruf, angka, underscore');
+  S.playerName = name;
+  await Storage.save(S);
+  document.getElementById('playerNameDisplay').textContent = name;
+  if (S.clanId){
+    const uid = Storage.getUserId();
+    try {
+      const clan = await ClanStorage.getClan(S.clanId);
+      if (clan && clan.members && clan.members[uid]){
+        await ClanStorage.updateClan(S.clanId, `members/${uid}`, {
+          ...clan.members[uid], name: name
+        });
+      }
+    } catch(e){}
+  }
+  closeEditNameModal();
+  toast(`✅ Nama diubah jadi "${name}"`);
+  render();
+};
+document.getElementById('editNameModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'editNameModal') closeEditNameModal();
+});
+
+/* ============================================================
+   MODAL APOLOGY & NOTICE
+   ============================================================ */
+window.closeApologyModal = async function(){
+  document.getElementById('apologyModal').classList.remove('show');
+  S.apologyShown = true;
+  await Storage.save(S);
+};
+window.closeEventNoticeModal = async function(){
+  document.getElementById('eventNoticeModal').classList.remove('show');
+  S.eventNoticeShown = true;
+  await Storage.save(S);
+};
+function showApologyModalIfNeeded(hadDuplicates){
+  if (S.apologyShown) return;
+  if (!hadDuplicates) return;
+  setTimeout(() => {
+    document.getElementById('apologyModal').classList.add('show');
+  }, 1500);
+}
+function showEventNoticeIfNeeded(){
+  if (S.eventNoticeShown) return;
+  if (!shouldShowEventNotice()) return;
+  setTimeout(() => {
+    document.getElementById('eventNoticeModal').classList.add('show');
+  }, 2000);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  document.getElementById('money').textContent = fmt(S.money);
+  document.getElementById('token').textContent = fmt(S.token);
+  document.getElementById('diamond').textContent = fmt(S.diamond);
+  document.getElementById('level').textContent = S.level;
+  const max = expNeeded(S.level);
+  document.getElementById('exp').textContent = S.level>=100 ? 'MAX' : fmt(S.exp);
+  document.getElementById('expMax').textContent = S.level>=100 ? '∞' : fmt(max);
+  const pct = S.level>=100 ? 100 : Math.min(100, (S.exp/max)*100);
+  document.getElementById('expFill').style.width = pct + '%';
+
+  const nameDisplay = document.getElementById('playerNameDisplay');
+  if (nameDisplay) nameDisplay.textContent = S.playerName || 'Pemain';
+
+  document.getElementById('devActiveTag').style.display = S.devMode ? 'block' : 'none';
+
+  const btn = document.getElementById('clickBtn');
+  const now = Date.now();
+  const info = document.getElementById('boostInfo');
+  if (S.boostEnd > now){
+    btn.classList.add('boost');
+    clickPower = 50;
+    info.textContent = `🥊 BOOST AKTIF! € 50/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
+  } else {
+    btn.classList.remove('boost');
+    clickPower = 10;
+    info.textContent = '';
+  }
+
+  updateAutoUI(now);
+  const uidEl = document.getElementById('uidDisplay');
+  if (uidEl) uidEl.textContent = currentUid ? currentUid.slice(0,16)+'...' : 'local';
+  const statEl = document.getElementById('statDiamondLevel');
+  if (statEl) statEl.textContent = fmt(S.totalDiamondFromLevel || 0);
+
+  renderPanels();
+  if (!isUserTypingInClan()){
+    renderClanPanel();
+  }
+}
+
+let saveTimeout = null;
+function save(){
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => Storage.save(S), 500);
+}
+
+/* ============================================================
+   AUTO CLICKER
+   ============================================================ */
+function updateAutoUI(now){
+  const panel = document.getElementById('autoPanel');
+  const timer = document.getElementById('autoTimer');
+  const pauseBtn = document.getElementById('autoPauseBtn');
+  const pauseLeft = document.getElementById('autoPauseLeft');
+  const btn = document.getElementById('clickBtn');
+  const active = S.autoEnd > now;
+
+  if (!active){
+    panel.classList.remove('show');
+    btn.classList.remove('auto');
+    pauseBtn.disabled = true;
+    pauseBtn.textContent = 'Jeda';
+    pauseBtn.className = 'btn-pause';
+    pauseLeft.textContent = S.autoPauseRemain;
+    return;
+  }
+  panel.classList.add('show');
+  btn.classList.add('auto');
+  pauseLeft.textContent = S.autoPauseRemain;
+
+  if (S.autoPaused){
+    timer.textContent = '⏸️ DIJEDA';
+    timer.style.color = '#ffb300';
+    pauseBtn.textContent = 'Lanjut';
+    pauseBtn.className = 'btn-resume';
+    pauseBtn.disabled = S.autoPauseRemain <= 0;
+  } else {
+    timer.textContent = formatDuration(S.autoEnd - now);
+    timer.style.color = '#00ffc0';
+    pauseBtn.textContent = 'Jeda';
+    pauseBtn.className = 'btn-pause';
+    pauseBtn.disabled = S.autoPauseRemain <= 0;
+  }
+}
+
+function toggleAutoPause(){
+  const now = Date.now();
+  if (S.autoEnd <= now) return;
+  if (!S.autoPaused){
+    if (S.autoPauseRemain <= 0){ toast('❌ Jatah jeda habis!'); return; }
+    S.autoLeftMs = S.autoEnd - now;
+    S.autoPaused = true;
+    S.autoPauseRemain--;
+    toast(`⏸️ Auto click dijeda (sisa: ${S.autoPauseRemain})`);
+  } else {
+    const remain = S.autoLeftMs > 0 ? S.autoLeftMs : 10*60*1000;
+    S.autoEnd = now + remain;
+    S.autoPaused = false;
+    S.autoLeftMs = 0;
+    toast('▶️ Auto click dilanjutkan');
+  }
+  save(); render();
+}
+window.toggleAutoPause = toggleAutoPause;
+
+function doAutoClick(){
+  const now = Date.now();
+  if (S.autoEnd <= now || S.autoPaused) return;
+  const gain = clickPower === 50 ? 50 : (10 + Math.floor(Math.random()*16));
+  S.money += gain;
+  addExp(2);
+  const btn = document.getElementById('clickBtn');
+  btn.style.transform = 'scale(0.97)';
+  setTimeout(()=>btn.style.transform='',60);
+  S.lastAutoTick = now;
+  render(); save();
+}
+
+function startAutoLoop(){
+  if (autoTickInterval) clearInterval(autoTickInterval);
+  autoTickInterval = setInterval(()=>{
+    const now = Date.now();
+    if (S.autoEnd > now && !S.autoPaused) doAutoClick();
+    if (S.autoEnd > 0 && S.autoEnd <= now && !S.autoPaused){
+      S.autoEnd = 0;
+      toast('👌 Helping Hand selesai.');
+      save(); render();
+    }
+  }, 1000);
+}
+
+/* ============================================================
+   CLICK MANUAL
+   ============================================================ */
+const clickBtn = document.getElementById('clickBtn');
+clickBtn.addEventListener('click', () => {
+  const gain = clickPower === 50 ? 50 : (10 + Math.floor(Math.random()*16));
+  S.money += gain;
+  addExp(2);
+  render(); save();
+  clickBtn.style.transform = 'scale(0.95)';
+  setTimeout(()=>clickBtn.style.transform='',80);
+});
+
+function addExp(v){
+  if (S.level >= 100){ S.exp = 0; return; }
+  S.exp += v;
+  let max = expNeeded(S.level);
+  while (S.exp >= max && S.level < 100){
+    S.exp -= max;
+    S.level++;
+    const reward = rollLevelDiamond();
+    S.diamond += reward;
+    S.totalDiamondFromLevel += reward;
+    const rareTag = reward > 30 ? ' 🌟 RARE!' : '';
+    toast(`🎉 Level ${S.level}! +💎 ${reward}${rareTag}`);
+    showDiamondPop(reward);
+    max = expNeeded(S.level);
+  }
+  if (S.level >= 100){ S.level = 100; S.exp = 0; }
+}
+
+/* ============================================================
+   ★ v10.0: TOKO dengan DISKON Token Light
+   ============================================================ */
+function renderPanels(){
+  const shop = document.getElementById('panel-shop');
+  const now = Date.now();
+  const boostCd = Math.max(0, S.boostCooldown - now);
+  const boostActive = S.boostEnd > now;
+  const mysteryCd = Math.max(0, S.mysteryCooldown - now);
+  const mysteryReady = !S.mysteryOpened || mysteryCd <= 0;
+  const autoActive = S.autoEnd > now;
+  const price = getTokenPrice();
+
+  // ★ v10.0: Banner diskon (kalau aktif)
+  let discountBannerHtml = '';
+  if (price.active){
+    const countdown = formatDiscountCountdown() || 'Berakhir...';
+    discountBannerHtml = `
+      <div class="discount-banner">
+        🎉 FLASH SALE!
+        <span class="big">DISKON ${price.discount}%</span>
+        Token Light
+        <span class="timer">⏰ Berakhir dalam: ${countdown}</span>
+      </div>
+    `;
+  }
+
+  // ★ v10.0: Harga Token (tampilkan harga diskon kalau aktif)
+  let tokenPriceHtml = '';
+  if (price.active){
+    tokenPriceHtml = `
+      <span class="price-strike">€${fmt(TOKEN_PRICE_NORMAL.money)}</span>
+      <span class="price-discount">€${fmt(price.money)}</span>
+      <span class="discount-tag">-${price.discount}%</span>
+      <br>
+      <span class="price-strike">💎${TOKEN_PRICE_NORMAL.diamond}</span>
+      <span class="price-discount">💎${price.diamond}</span>
+      <span class="discount-tag">-${price.discount}%</span>
+    `;
+  } else {
+    tokenPriceHtml = `€ ${fmt(TOKEN_PRICE_NORMAL.money)} atau 💎 ${TOKEN_PRICE_NORMAL.diamond}`;
+  }
+
+  shop.innerHTML = `
+    ${discountBannerHtml}
+    <div class="item" style="${price.active?'border-color:#ff2b6b;box-shadow:0 0 15px rgba(255,43,107,0.3)':''}">
+      <div class="info">
+        <b>✴️ TOKEN LIGHT</b><br>
+        Harga: ${tokenPriceHtml}
+      </div>
+      <div>
+        <button onclick="buyToken('money')" ${S.money<price.money?'disabled':''}>€${fmt(price.money)}</button>
+        <button onclick="buyToken('diamond')" ${S.diamond<price.diamond?'disabled':''}>💎${price.diamond}</button>
+      </div>
+    </div>
+    <div class="item">
+      <div class="info"><b>🥊 PUNCH MONEY FAST</b><br>+€50/klik (800s). CD 4 menit.<br>
+      ${boostActive?'<span style="color:#ffb300">AKTIF</span>':boostCd>0?`CD: ${Math.ceil(boostCd/1000)}s`:'Siap'}</div>
+      <button onclick="buyBoost()" ${(boostActive||boostCd>0||S.money<800)?'disabled':''}>€800</button>
+    </div>
+    <div class="item">
+      <div class="info"><b>❔ MISTERY BOX</b><br>Hadiah acak. CD 30 menit.<br>
+      ${mysteryReady?'<span style="color:#00ff90">Siap</span>':`CD: ${Math.ceil(mysteryCd/1000)}s`}</div>
+      <button onclick="openMystery()" ${!mysteryReady?'disabled':''}>Buka</button>
+    </div>
+    <div class="item" style="border-color:#00e0a0;">
+      <div class="info"><b>👌 HELPING HAND</b><br>
+      Auto klik 10 menit.<br>
+      ${autoActive?`<span style="color:#00ff90">AKTIF — ${formatDuration(S.autoEnd-now)}</span>`:'Belum aktif'}</div>
+      <button onclick="buyHelpingHand()" ${(autoActive||S.token<25)?'disabled':''}>✴️25</button>
+    </div>
+  `;
+
+  const inv = document.getElementById('panel-inv');
+  if (!S.inventory.length){
+    inv.innerHTML = '<div style="text-align:center;color:#888;padding:20px">Inventori kosong</div>';
+  } else {
+    inv.innerHTML = S.inventory.map(it=>`
+      <div class="item ${it.skinClass||''} ${it.glossy?'glossy':''}">
+        <div class="info"><b>${escapeHtml(it.name)}</b><br>${it.type} • ${it.rarity}</div>
+        <span class="badge">${it.qty||1}x</span>
+      </div>
+    `).join('');
+  }
+
+  // Event Panel
+  const ev = document.getElementById('panel-event');
+  const status = getEventStatus();
+  const skins = [
+    {id:'plasma', name:'Plasma Enduro', price:50, type:'Skin', rarity:'RARE', cls:'skin-plasma'},
+    {id:'danish', name:'Danish Cube', price:150, type:'Skin', rarity:'EXCLUSIVE', cls:'skin-danish'},
+    {id:'ember', name:'Emberheart', price:600, type:'Skin', rarity:'ETERNAL', cls:'skin-emberheart'}
+  ];
+
+  let statusHtml = '';
+  let countdownHtml = '';
+
+  if (status === 'open'){
+    statusHtml = `<div class="event-status event-open">⭐ EVENT TERBUKA — 20.00–22.00 WIB</div>`;
+    const wib = new Date(now + (7*60 + new Date().getTimezoneOffset())*60000);
+    const closeTime = new Date(wib);
+    closeTime.setHours(22, 0, 0, 0);
+    const remainMs = closeTime.getTime() - wib.getTime();
+    if (remainMs > 0){
+      const h = Math.floor(remainMs / 3600000);
+      const m = Math.floor((remainMs % 3600000) / 60000);
+      countdownHtml = `<div class="event-countdown">⏰ Event tutup dalam<span class="big">${h}j ${m}m</span></div>`;
+    }
+  } else if (status === 'closed'){
+    statusHtml = `<div class="event-status event-closed">🔒 Event tertutup. Buka tiap 20.00–22.00 WIB</div>`;
+  } else if (status === 'ended'){
+    statusHtml = `<div class="event-status event-closed" style="background:rgba(120,120,120,0.2);border-color:#666;color:#aaa">🏁 EVENT LEGENDARY TELAH SELESAI PERMANEN</div>
+    <div class="notice-banner">
+      <b>📢 Info:</b> Legendary Event resmi berakhir pada <b>2 Oktober 2026, 22.00 WIB</b>.
+      Menu ini akan berubah menjadi <b>🎉 Menu Event</b> pada update mendatang dengan berbagai event baru!
+    </div>`;
+  }
+
+  ev.innerHTML = `
+    ${statusHtml}
+    ${countdownHtml}
+    <div style="text-align:center;font-size:0.75rem;color:#aaa;margin-bottom:10px">
+      📅 Event berakhir: <b style="color:#ffb300">${formatEventEndDate()}</b>
+    </div>
+    ${skins.map(sk=>{
+      const owned = S.inventory.some(item => item.id === sk.id);
+      const canBuy = (status === 'open') && !owned && (S.token >= sk.price);
+      return `
+        <div class="item ${sk.cls} glossy">
+          <div class="info">
+            <b>${sk.name}</b><br>
+            ${sk.rarity} • ✴️ ${sk.price}
+            ${owned ? '<br><span style="color:#00ff90;font-size:0.75rem">✅ Sudah dimiliki</span>' : ''}
+          </div>
+          ${owned
+            ? '<button disabled style="opacity:0.5">Dimiliki</button>'
+            : `<button onclick="buySkin('${sk.id}')" ${!canBuy?'disabled':''}>
+                ${status === 'ended' ? 'Selesai' : (status === 'closed' ? 'Tutup' : 'Beli')}
+              </button>`
+          }
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+/* ============================================================
+   ★ v10.0: BELI TOKEN dengan HARGA DISKON
+   ============================================================ */
+window.buyToken = function(mode){
+  const price = getTokenPrice();
+  
+  if (mode === 'money'){
+    if (S.money < price.money){
+      return toast('❌ Uang tidak cukup!');
+    }
+    S.money -= price.money;
+    S.token++;
+    if (price.active){
+      toast(`✴️ +1 Token Light (diskon ${price.discount}%!)`);
+    } else {
+      toast('✴️ +1 Token Light');
+    }
+  }
+  else if (mode === 'diamond'){
+    if (S.diamond < price.diamond){
+      return toast('❌ Diamond tidak cukup!');
+    }
+    S.diamond -= price.diamond;
+    S.token++;
+    if (price.active){
+      toast(`✴️ +1 Token Light (diskon ${price.discount}%!)`);
+    } else {
+      toast('✴️ +1 Token Light');
+    }
+  }
+  else return;
+  
+  render(); save();
+};
+
+window.buyBoost = function(){
+  const now = Date.now();
+  if (S.boostEnd>now || S.boostCooldown>now || S.money<800) return;
+  S.money-=800; S.boostEnd = now + 800000; S.boostCooldown = now + 240000;
+  toast('🥊 Boost aktif 800 detik!');
+  render(); save();
+};
+
+window.openMystery = function(){
+  const now = Date.now();
+  if (S.mysteryOpened && S.mysteryCooldown>now) return;
+  const r = Math.random()*100;
+  if (r<75){ S.token+=2; toast('🎁 +✴️ 2 Token'); }
+  else if (r<90){ S.token+=5; toast('🎁 +✴️ 5 Token'); }
+  else { S.money+=1000; toast('🎁 +€ 1.000!'); }
+  S.mysteryOpened = true;
+  S.mysteryCooldown = now + 1800000;
+  render(); save();
+};
+
+window.buyHelpingHand = function(){
+  const now = Date.now();
+  if (S.autoEnd > now) return toast('Masih aktif!');
+  if (S.token < 25) return toast('Token kurang!');
+  S.token -= 25;
+  S.autoEnd = now + 10*60*1000;
+  S.autoPaused = false; S.autoPauseRemain = 2; S.autoLeftMs = 0;
+  S.lastAutoTick = now;
+  if (!S.inventory.some(i=>i.id==='helping_hand')){
+    S.inventory.push({ id:'helping_hand', name:'👌 Helping Hand', type:'Consumable', rarity:'UTILITY', qty:1 });
+  }
+  toast('👌 Helping Hand aktif 10 menit!');
+  render(); save();
+};
+
+window.buySkin = function(id){
+  const status = getEventStatus();
+  if (status === 'ended') return toast('🏁 Event Legendary telah selesai permanen');
+  if (status !== 'open') return toast('🔒 Event tertutup! Buka 20.00–22.00 WIB');
+
+  const skins = {
+    plasma:{name:'Plasma Enduro', price:50, type:'Skin', rarity:'RARE', cls:'skin-plasma'},
+    danish:{name:'Danish Cube', price:150, type:'Skin', rarity:'EXCLUSIVE', cls:'skin-danish'},
+    ember:{name:'Emberheart', price:600, type:'Skin', rarity:'ETERNAL', cls:'skin-emberheart'}
+  };
+  const sk = skins[id];
+  if (!sk) return;
+
+  const alreadyOwned = S.inventory.some(item => item.id === id);
+  if (alreadyOwned){
+    toast(`⚠️ Kamu sudah punya ${sk.name}!`);
+    return;
+  }
+
+  if (S.token < sk.price) return toast('✴️ Token Light tidak cukup!');
+
+  S.token -= sk.price;
+  S.inventory.push({
+    id, name: sk.name, type: sk.type, rarity: sk.rarity,
+    skinClass: sk.cls, glossy: true, qty: 1
+  });
+  toast(`⭐ ${sk.name} dibeli!`);
+  render(); save();
+};
+
+/* ============================================================
+   CLAN SYSTEM
+   ============================================================ */
+function isUserTypingInClan(){
+  const active = document.activeElement;
+  if (!active) return false;
+  const clanPanel = document.getElementById('panel-clan');
+  if (!clanPanel) return false;
+  if (clanPanel.classList.contains('hidden')) return false;
+  return clanPanel.contains(active) &&
+         (active.tagName === 'INPUT' ||
+          active.tagName === 'TEXTAREA' ||
+          active.tagName === 'SELECT');
+}
+
+async function renderClanPanel(){
+  const panel = document.getElementById('panel-clan');
+  if (!panel) return;
+  const uid = Storage.getUserId();
+  if (currentClanTab === 'chat' && document.getElementById('clanChat')) return;
+  if (isUserTypingInClan()) return;
+
+  if (!S.clanId){
+    const savedQuery = savedSearchResult ? savedSearchResult.query : '';
+    const savedHtml = savedSearchResult ? savedSearchResult.html : '';
+    panel.innerHTML = `
+      <div class="clan-hero">
+        <div class="clan-tag">BELUM PUNYA CLAN</div>
+        <h2>🏰 Gabung atau Buat Clan</h2>
+      </div>
+      <div class="clan-search-box">
+        <h4>🔍 Cari Clan by Nama</h4>
+        <input type="text" id="clanSearchInput" placeholder="cth: Nova Warriors"
+               value="${escapeHtml(savedQuery)}"
+               onkeydown="if(event.key==='Enter'){event.preventDefault();searchClan();}">
+        <button class="btn-blue" style="width:100%;padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:bold" onclick="searchClan()">Cari</button>
+        <div id="clanSearchResult" style="margin-top:10px">${savedHtml}</div>
+      </div>
+      <div class="clan-btn-row" style="grid-template-columns:1fr">
+        <button class="btn-green" onclick="showCreateClanModal()">➕ Buat Clan Baru (💎50)</button>
+      </div>
+    `;
+    return;
+  }
+
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (!clan){ S.clanId = null; save(); toast('⚠️ Clan tidak ditemukan.'); renderClanPanel(); return; }
+  currentClanData = clan;
+  if (!clan.members || !clan.members[uid]){
+    S.clanId = null; save(); toast('⚠️ Kamu sudah tidak di clan ini.'); renderClanPanel(); return;
+  }
+
+  const myRole = clan.members[uid].role;
+  const memberCount = Object.keys(clan.members).length;
+  const isOwner = myRole === 'owner';
+
+  let html = `
+    <div class="clan-hero">
+      <div class="clan-tag">[${escapeHtml(clan.tag)}]</div>
+      <h2>${escapeHtml(clan.name)}</h2>
+      <div class="meta">Level <b>${clan.level||1}</b> • <b>${memberCount}</b>/20 member • Role: <b>${myRole.toUpperCase()}</b></div>
+      ${clan.description ? `<div class="meta" style="margin-top:6px;color:#bbb">"${escapeHtml(clan.description)}"</div>` : ''}
+    </div>
+    <div class="clan-tabs">
+      <button class="${currentClanTab==='info'?'active':''}" onclick="switchClanTab('info')">👥 Member</button>
+      <button class="${currentClanTab==='chat'?'active':''}" onclick="switchClanTab('chat')">💬 Chat</button>
+      <button class="${currentClanTab==='manage'?'active':''}" onclick="switchClanTab('manage')">⚙️ Manage</button>
+    </div>
+  `;
+
+  if (currentClanTab === 'info'){
+    const members = Object.entries(clan.members).sort((a,b)=>{
+      const order = {owner:0, admin:1, member:2};
+      return (order[a[1].role]||9) - (order[b[1].role]||9);
+    });
+    for (const [muid, m] of members){
+      const isMe = muid === uid;
+      const roleClass = m.role==='owner'?'role-owner':(m.role==='admin'?'role-admin':'');
+      html += `
+        <div class="clan-member-row">
+          <div>${isMe?'⭐ ':''}<b>${escapeHtml(m.name||'Pemain')}</b><span style="color:#aaa;font-size:0.7rem"> • Lv.${m.level||1}</span></div>
+          <div>
+            <span class="role ${roleClass}">${m.role.toUpperCase()}</span>
+            ${isOwner && !isMe ? `<button onclick="kickMember('${muid}')" style="margin-left:6px;padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#a01030;color:white;cursor:pointer">Kick</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+  }
+  else if (currentClanTab === 'chat'){
+    html += `
+      <div class="clan-chat" id="clanChat"></div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Ketik pesan..." maxlength="200" onkeydown="if(event.key==='Enter'){event.preventDefault();sendChatMsg();}">
+        <button onclick="sendChatMsg()">Kirim</button>
+      </div>
+    `;
+  }
+  else {
+    html += `<div style="padding:8px 0">
+      <button class="btn-red" style="width:100%;padding:12px;border:none;border-radius:10px;cursor:pointer;font-weight:bold;margin-bottom:8px" onclick="leaveClan()">🚪 Keluar dari Clan</button>
+      ${isOwner ? `<button class="danger-btn" onclick="disbandClan()">💥 Bubarkan Clan</button>` : ''}
+      <div style="margin-top:14px;font-size:0.75rem;color:#888"><b>Info Clan:</b><br>ID: ${escapeHtml(S.clanId)}<br>Dibuat: ${new Date(clan.createdAt||Date.now()).toLocaleString('id-ID')}</div>
+    </div>`;
+  }
+
+  panel.innerHTML = html;
+  if (currentClanTab === 'chat'){
+    if (!chatUnsubscribe) startChatListener(S.clanId);
+  } else { stopChatListener(); }
+}
+
+window.switchClanTab = function(tab){
+  if (currentClanTab === 'chat' && tab !== 'chat') stopChatListener();
+  currentClanTab = tab;
+  renderClanPanel();
+};
+
+window.searchClan = async function(){
+  const input = document.getElementById('clanSearchInput');
+  const result = document.getElementById('clanSearchResult');
+  if (!input || !result) return;
+  const name = (input.value || '').trim();
+  if (name.length < 3){
+    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">Minimal 3 karakter</div>';
+    savedSearchResult = null;
+    return;
+  }
+  result.innerHTML = '<div style="color:#aaa;font-size:0.8rem">Mencari...</div>';
+  const clanId = await ClanStorage.findClanByName(name);
+  if (!clanId){
+    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">❌ Clan tidak ditemukan</div>';
+    savedSearchResult = { query: name, html: result.innerHTML };
+    return;
+  }
+  const clan = await ClanStorage.getClan(clanId);
+  if (!clan){
+    result.innerHTML = '<div style="color:#ff8080;font-size:0.8rem">❌ Clan tidak ditemukan</div>';
+    savedSearchResult = { query: name, html: result.innerHTML };
+    return;
+  }
+  const memberCount = Object.keys(clan.members||{}).length;
+  const html = `
+    <div class="clan-list-item">
+      <div class="info">
+        <b>[${escapeHtml(clan.tag)}] ${escapeHtml(clan.name)}</b><br>
+        <span style="color:#aaa">${memberCount}/20 member • ${clan.type==='open'?'🌐 Open':'🔒 Closed'}</span>
+      </div>
+      <button onclick="joinClan('${clanId}')">${clan.type==='open'?'Join':'Ajukan'}</button>
+    </div>
+  `;
+  result.innerHTML = html;
+  savedSearchResult = { query: name, clanId: clanId, html: html };
+};
+
+window.joinClan = async function(clanId){
+  if (S.clanId) return toast('Sudah punya clan!');
+  const clan = await ClanStorage.getClan(clanId);
+  if (!clan) return toast('Clan tidak ditemukan');
+  const uid = Storage.getUserId();
+  const memberCount = Object.keys(clan.members||{}).length;
+  if (memberCount >= 20) return toast('Clan penuh');
+
+  if (clan.type === 'closed'){
+    await ClanStorage.updateClan(clanId, `applications/${uid}`, {
+      appliedAt: Date.now(), level: S.level, name: S.playerName
+    });
+    toast('📩 Aplikasi terkirim!');
+  } else {
+    await ClanStorage.updateClan(clanId, `members/${uid}`, {
+      role:'member', joinedAt:Date.now(), name:S.playerName, level:S.level
+    });
+    S.clanId = clanId;
+    await Storage.save(S);
+    toast(`✅ Bergabung ke "${clan.name}"!`);
+  }
+  savedSearchResult = null;
+  render();
+};
+
+window.showCreateClanModal = function(){
+  if (S.clanId) return toast('Sudah punya clan!');
+  if (S.diamond < 50) return toast('Butuh 💎50');
+  document.getElementById('createClanModal').classList.add('show');
+};
+window.closeCreateClanModal = function(){
+  document.getElementById('createClanModal').classList.remove('show');
+};
+
+window.submitCreateClan = async function(){
+  const name = (document.getElementById('newClanName').value||'').trim();
+  const tag = (document.getElementById('newClanTag').value||'').trim().toUpperCase();
+  const desc = (document.getElementById('newClanDesc').value||'').trim();
+  const type = document.getElementById('newClanType').value;
+
+  if (name.length < 3 || name.length > 20) return toast('❌ Nama 3-20 karakter');
+  if (tag.length < 2 || tag.length > 5) return toast('❌ Tag 2-5 karakter');
+  if (!/^[A-Z0-9]+$/.test(tag)) return toast('❌ Tag huruf kapital & angka');
+  if (S.diamond < 50) return toast('❌ Diamond kurang');
+
+  const existing = await ClanStorage.findClanByName(name);
+  if (existing) return toast('❌ Nama sudah dipakai!');
+
+  S.diamond -= 50;
+  const clanId = 'clan_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  const uid = Storage.getUserId();
+
+  await ClanStorage.createClan(clanId, {
+    name, tag, description: desc,
+    ownerUid: uid, createdAt: Date.now(),
+    level: 1, totalScore: 0, type,
+    members: { [uid]: { role:'owner', joinedAt:Date.now(), name:S.playerName, level:S.level } }
+  });
+
+  S.clanId = clanId;
+  await Storage.save(S);
+  closeCreateClanModal();
+  toast(`✅ Clan "${name}" dibuat!`);
+  currentClanTab = 'info';
+  savedSearchResult = null;
+  render();
+};
+
+window.kickMember = async function(targetUid){
+  if (!S.clanId) return;
+  const clan = await ClanStorage.getClan(S.clanId);
+  const uid = Storage.getUserId();
+  if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
+  if (targetUid === uid) return;
+  if (!confirm('Kick pemain ini?')) return;
+  await ClanStorage.deleteInClan(S.clanId, `members/${targetUid}`);
+  toast('👋 Member di-kick.');
+  renderClanPanel();
+};
+
+window.leaveClan = async function(){
+  if (!S.clanId) return;
+  const clan = await ClanStorage.getClan(S.clanId);
+  const uid = Storage.getUserId();
+  const myRole = clan.members[uid]?.role;
+  if (myRole === 'owner' && Object.keys(clan.members).length > 1){
+    return toast('⚠️ Transfer kepemilikan dulu!');
+  }
+  if (!confirm('Yakin keluar?')) return;
+  if (myRole === 'owner') await ClanStorage.deleteClan(S.clanId, clan.name);
+  else await ClanStorage.deleteInClan(S.clanId, `members/${uid}`);
+  S.clanId = null;
+  await Storage.save(S);
+  toast('👋 Keluar dari clan.');
+  currentClanTab = 'info';
+  render();
+};
+
+window.disbandClan = async function(){
+  if (!S.clanId) return;
+  const clan = await ClanStorage.getClan(S.clanId);
+  const uid = Storage.getUserId();
+  if (clan.members[uid].role !== 'owner') return;
+  if (!confirm(`Bubarkan "${clan.name}"?`)) return;
+  await ClanStorage.deleteClan(S.clanId, clan.name);
+  S.clanId = null;
+  await Storage.save(S);
+  toast('💥 Clan dibubarkan.');
+  render();
+};
+
+/* ============================================================
+   CHAT
+   ============================================================ */
+function startChatListener(clanId){
+  stopChatListener();
+  chatUnsubscribe = ClanStorage.listenChat(clanId, renderChat);
+  chatHeartbeatInterval = setInterval(() => {
+    if (!chatUnsubscribe && S.clanId === clanId && currentClanTab === 'chat'){
+      chatUnsubscribe = ClanStorage.listenChat(clanId, renderChat);
+    }
+  }, 5000);
+}
+function stopChatListener(){
+  if (chatUnsubscribe){ chatUnsubscribe(); chatUnsubscribe = null; }
+  if (chatHeartbeatInterval){ clearInterval(chatHeartbeatInterval); chatHeartbeatInterval = null; }
+}
+function renderChat(chatObj){
+  const container = document.getElementById('clanChat');
+  if (!container) return;
+  const msgs = Object.entries(chatObj || {})
+    .map(([id,m]) => ({id, ...m}))
+    .sort((a,b) => (a.ts||0) - (b.ts||0));
+  const myUid = Storage.getUserId();
+  if (!msgs.length){
+    container.innerHTML = '<div style="text-align:center;color:#666;font-size:0.8rem;padding:20px">Belum ada pesan.</div>';
+    return;
+  }
+  const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+  container.innerHTML = msgs.map(m => {
+    const time = formatChatTime(m.ts);
+    return `
+      <div class="chat-msg ${m.uid===myUid?'me':''}">
+        <b>${escapeHtml(m.name||'Anon')}</b>: ${escapeHtml(m.text||'')}
+        <span class="chat-time">🕐 ${time}</span>
+      </div>
+    `;
+  }).join('');
+  if (isAtBottom) container.scrollTop = container.scrollHeight;
+}
+window.sendChatMsg = async function(){
+  const input = document.getElementById('chatInput');
+  if (!input) return;
+  const text = (input.value || '').trim();
+  if (!text || !S.clanId) return;
+  await ClanStorage.sendChat(S.clanId, {
+    uid: Storage.getUserId(),
+    name: S.playerName || 'Pemain',
+    text: text.slice(0,200),
+    ts: Date.now()
+  });
+  input.value = '';
+  input.focus();
+};
+
+/* ============================================================
+   REDEEM
+   ============================================================ */
+const CODES = {
+  'ENOVA-ORIGIN-2026': ()=>{ S.token+=2; S.money+=1000; return '+✴️2 & +€1.000'; },
+  'ELIX-9F2M-V6TR':    ()=>{ S.token+=4; return '+✴️4'; },
+  'EVGN-2P8L-Q5NX':    ()=>{ S.token+=12; return '+✴️12'; }
+};
+window.redeemCode = function(){
+  const input = document.getElementById('redeemInput');
+  const code = input.value.trim().toUpperCase();
+  if (!code) return;
+  if (S.usedCodes.includes(code)) return toast('Kode sudah ditukar!');
+  if (!CODES[code]) return toast('Kode tidak valid!');
+  const reward = CODES[code]();
+  S.usedCodes.push(code);
+  input.value = '';
+  toast('🎁 Berhasil! ' + reward);
+  render(); save();
+};
+
+/* ============================================================
+   DEVELOPER MODE
+   ============================================================ */
+window.activateDevMode = function(){
+  const input = document.getElementById('devKeyInput');
+  const key = input.value;
+  if (!validateDevKey(key)){ toast('❌ Developer Key tidak valid!'); input.value = ''; return; }
+  if (S.devUsed){ toast('⚡ Paket developer sudah diklaim.'); input.value = ''; return; }
+  document.getElementById('devModal').classList.add('show');
+  input.value = '';
+};
+window.closeDevModal = function(){ document.getElementById('devModal').classList.remove('show'); };
+window.claimDevReward = function(){
+  document.getElementById('devModal').classList.remove('show');
+  if (S.devUsed) return;
+  S.diamond += 3000;
+  S.token   += 5000;
+  S.money   += 100000;
+  addExp(250000);
+  S.devMode = true;
+  S.devUsed = true;
+  toast('⚡ DEVELOPER MODE AKTIF!');
+  showDiamondPop(3000);
+  render(); save();
+};
+document.getElementById('devModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'devModal') closeDevModal();
+});
+
+/* ============================================================
+   RESET DATA
+   ============================================================ */
+window.showResetModal = function(){ document.getElementById('resetModal').classList.add('show'); };
+window.closeResetModal = function(){ document.getElementById('resetModal').classList.remove('show'); };
+window.confirmReset = async function(){
+  document.getElementById('resetModal').classList.remove('show');
+  if (S.clanId){
+    try {
+      const clan = await ClanStorage.getClan(S.clanId);
+      const uid = Storage.getUserId();
+      if (clan && clan.members && clan.members[uid]){
+        if (clan.members[uid].role === 'owner' && Object.keys(clan.members).length === 1){
+          await ClanStorage.deleteClan(S.clanId, clan.name);
+        } else {
+          await ClanStorage.deleteInClan(S.clanId, `members/${uid}`);
+        }
+      }
+    } catch(e){}
+  }
+  await Storage.wipe();
+  S = { ...DEFAULT_STATE };
+  savedSearchResult = null;
+  render();
+  await Storage.save(S);
+  toast('🗑️ Data berhasil direset.');
+};
+document.getElementById('resetModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'resetModal') closeResetModal();
+});
+document.getElementById('createClanModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'createClanModal') closeCreateClanModal();
+});
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'Escape'){
+    closeResetModal();
+    closeDevModal();
+    closeCreateClanModal();
+    closeEditNameModal();
+    closeApologyModal();
+    closeEventNoticeModal();
+  }
+});
+
+/* ============================================================
+   NAV
+   ============================================================ */
+document.querySelectorAll('.nav button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('panel-'+b.dataset.panel).classList.remove('hidden');
+    if (b.dataset.panel === 'clan') renderClanPanel();
+    else stopChatListener();
+  });
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+async function initFirebase(){
+  document.getElementById('loadingText').textContent = 'Login ke server...';
+  return new Promise((resolve) => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user){
+        currentUid = user.uid;
+        isOnline = true;
+        updateOnlineTag();
+        console.log('Firebase UID:', currentUid);
+        resolve();
+      } else {
+        try {
+          document.getElementById('loadingText').textContent = 'Membuat akun anonim...';
+          await signInAnonymously(auth);
+        } catch(e){
+          console.error('Auth error:', e);
+          isOnline = false;
+          updateOnlineTag();
+          document.getElementById('loadingText').textContent = 'Gagal konek. Mode offline.';
+          resolve();
+        }
+      }
+    });
+  });
+}
+
+// ★ v10.0: Timer untuk update countdown diskon
+function startDiscountTimer(){
+  if (discountTimerInterval) clearInterval(discountTimerInterval);
+  discountTimerInterval = setInterval(() => {
+    const price = getTokenPrice();
+    if (!price.active && discountTimerInterval){
+      clearInterval(discountTimerInterval);
+      discountTimerInterval = null;
+      toast('⏰ Diskon Token Light telah berakhir!');
+    }
+    renderPanels();
+  }, 1000);
+}
+
+async function init(){
+  await initFirebase();
+
+  document.getElementById('loadingText').textContent = 'Memuat data...';
+  const saved = await Storage.load();
+  if (saved){
+    S = { ...DEFAULT_STATE, ...saved };
+  }
+
+  const hadDuplicates = hasDuplicateSkins();
+  if (cleanupDuplicateSkins()){
+    await Storage.save(S);
+    console.log('✅ Inventori dibersihkan dari skin duplikat');
+  }
+
+  const now = Date.now();
+  if (S.autoEnd > 0 && S.autoEnd <= now && !S.autoPaused){
+    S.autoEnd = 0;
+  } else if (S.autoEnd > now && !S.autoPaused && S.lastAutoTick > 0){
+    const elapsed = now - S.lastAutoTick;
+    const ticks = Math.floor(elapsed / 1000);
+    if (ticks > 0 && ticks < 3600){
+      const maxCatchup = Math.min(ticks, 600);
+      let gainedMoney = 0, gainedExp = 0;
+      for (let i=0; i<maxCatchup; i++){
+        const gain = clickPower === 50 ? 50 : (10 + Math.floor(Math.random()*16));
+        gainedMoney += gain;
+        gainedExp += 2;
+      }
+      S.money += gainedMoney;
+      addExp(gainedExp);
+      S.lastAutoTick = now - (elapsed % 1000);
+      setTimeout(()=>toast(`👌 Auto click offline: +€${fmt(gainedMoney)}`), 800);
+    }
+  }
+
+  render();
+  startAutoLoop();
+  startDiscountTimer();
+  setInterval(render, 1000);
+  setInterval(save, 5000);
+
+  document.getElementById('loadingScreen').classList.add('hide');
+  setTimeout(()=>document.getElementById('loadingScreen').remove(), 600);
+
+  showApologyModalIfNeeded(hadDuplicates);
+  showEventNoticeIfNeeded();
+
+  // ★ v10.0: Notif diskon saat masuk
+  const price = getTokenPrice();
+  if (price.active){
+    setTimeout(() => toast(`🎉 DISKON ${price.discount}% Token Light aktif!`), 1200);
+  }
+
+  toast('🎮 Selamat bermain!');
+}
+
+init();
+</script>
+</body>
+</html>
