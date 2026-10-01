@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELIPS NOVA GAME v15.3</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>✨ ELIPS NOVA GAME ✨</h1>
+<div class="version">v15.3 — STATUS ONLINE FIX</div>
+<div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
+<div class="player-name-display">
+  👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
+</div>
+<div class="dev-active-tag" id="devActiveTag" style="display:none">
+  <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
+</div>
+
+<div class="stats">
+  <div class="stat-box">💰 € <span id="money">0</span></div>
+  <div class="stat-box">✴️ <span id="token">0</span> | 💎 <span id="diamond">0</span></div>
+  <div class="stat-box">🏆 Level <span id="level">1</span></div>
+  <div class="stat-box">⭐ Exp <span id="exp">0</span>/<span id="expMax">100</span></div>
+  <div class="exp-bar"><div class="exp-fill" id="expFill"></div></div>
+</div>
+
+<button class="click-btn" id="clickBtn">👆 KLIK UNTUK CEPAT!</button>
+<div style="text-align:center;font-size:0.75rem;color:#888;margin-top:-6px" id="boostInfo"></div>
+<div style="text-align:center;font-size:0.7rem;color:#00ff90;margin-top:2px" id="expBonusInfo"></div>
+
+<div class="auto-panel" id="autoPanel">
+  <div class="row">
+    <div>👌 <b>HELPING HAND</b> aktif — <span id="autoBonus">+€50-80/klik</span></div>
+    <div id="autoTimer">--</div>
+  </div>
+</div>
+
+<div class="nav">
+  <button data-panel="shop" class="active">🛒 Toko</button>
+  <button data-panel="skin">👕 Skin</button>
+  <button data-panel="inv">🎒 Inv</button>
+  <button data-panel="event">⭐ Event</button>
+  <button data-panel="clan">🏰 Clan</button>
+  <button data-panel="friend">👥 Teman</button>
+  <div class="nav-row-break"></div>
+  <button data-panel="redeem">🎁 Redeem</button>
+  <button data-panel="profile">👤 Profil</button>
+  <button data-panel="empty2" class="empty-tab">📦 Kosong</button>
+  <button data-panel="empty3" class="empty-tab">📦 Kosong</button>
+  <button data-panel="empty4" class="empty-tab">📦 Kosong</button>
+  <button data-panel="empty5" class="empty-tab">📦 Kosong</button>
+</div>
+
+<div class="panel" id="panel-shop"></div>
+<div class="panel hidden" id="panel-skin"></div>
+<div class="panel hidden" id="panel-inv"></div>
+<div class="panel hidden" id="panel-event"></div>
+<div class="panel hidden" id="panel-clan"></div>
+<div class="panel hidden" id="panel-friend"></div>
+
+<div class="panel hidden" id="panel-redeem">
+  <h3>🎁 Kode Redeem</h3>
+  <input type="text" id="redeemInput" placeholder="Masukkan kode...">
+  <button class="click-btn" style="padding:10px;font-size:0.9rem" onclick="redeemCode()">Tukar Kode</button>
+  <div style="font-size:0.7rem;color:#888;margin-top:8px">Kode bersifat rahasia dan hanya dapat ditukar satu kali.</div>
+  <hr style="margin:16px 0; border-color:#3a2f80">
+  <h3 style="color:#ff8080">⚠️ Zona Berbahaya</h3>
+  <div class="stats-info">
+    UID Firebase: <b id="uidDisplay">-</b><br>
+    Total diamond dari level: <b id="statDiamondLevel">0</b>
+  </div>
+  <button class="danger-btn" onclick="showResetModal()">🗑️ Reset Data Permainan</button>
+  <div class="dev-zone">
+    <h3>⚡ Developer Zone</h3>
+    <div class="dev-input">
+      <input type="password" id="devKeyInput" placeholder="Developer Key...">
+      <button onclick="activateDevMode()">Aktifkan</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel hidden" id="panel-profile"></div>
+
+<div class="panel hidden" id="panel-empty2">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+<div class="panel hidden" id="panel-empty3">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+<div class="panel hidden" id="panel-empty4">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+<div class="panel hidden" id="panel-empty5">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+
+<!-- Modal Reset -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-box">
+    <h2>⚠️ Konfirmasi Reset Data</h2>
+    <p>Apakah anda yakin mereset data, ini dapat menghapus semua progres, aset, dan lain-lain yang anda miliki.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetModal()">Batal</button>
+      <button class="btn-confirm" id="resetConfirmBtn" onclick="confirmReset()">Ya, Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Dev -->
+<div class="modal-overlay" id="devModal">
+  <div class="modal-box" style="border-color:#ffb300;">
+    <h2 style="color:#ffb300">⚡ DEVELOPER MODE</h2>
+    <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
+      Key valid! Anda akan menerima:<br><br>
+      💎 <b>+3.000 Diamond</b><br>
+      ✴️ <b>+5.000 Token</b><br>
+      💰 <b>+€ 100.000</b><br>
+      ⭐ <b>+250.000 Exp</b>
+    </p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeDevModal()">Batal</button>
+      <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="claimDevReward()">Klaim</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Create Clan -->
+<div class="modal-overlay" id="createClanModal">
+  <div class="modal-box" style="border-color:#a06bff;">
+    <h2 style="color:#c47bff">🏰 Buat Clan Baru</h2>
+    <label style="font-size:0.75rem;color:#aaa">Nama Clan (3-20 karakter)</label>
+    <input type="text" id="newClanName" maxlength="20" placeholder="cth: Nova Warriors">
+    <label style="font-size:0.75rem;color:#aaa">Tag Clan (2-5 huruf kapital)</label>
+    <input type="text" id="newClanTag" maxlength="5" placeholder="NOVA" style="text-transform:uppercase">
+    <label style="font-size:0.75rem;color:#aaa">Deskripsi</label>
+    <textarea id="newClanDesc" maxlength="100" placeholder="Deskripsi clan..."></textarea>
+    <label style="font-size:0.75rem;color:#aaa">Tipe</label>
+    <select id="newClanType">
+      <option value="open">🌐 Open</option>
+      <option value="closed">🔒 Closed</option>
+    </select>
+    <div style="font-size:0.75rem;color:#ffb300;text-align:center;margin-top:6px">Biaya: 💎 50</div>
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-cancel" onclick="closeCreateClanModal()">Batal</button>
+      <button class="btn-primary" onclick="submitCreateClan()">Buat Clan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Name -->
+<div class="modal-overlay" id="editNameModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">👤 Ubah Nama Pemain</h2>
+    <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
+    <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
+      <button class="btn-primary" onclick="savePlayerName()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Bio -->
+<div class="modal-overlay" id="editBioModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">📝 Edit Bio</h2>
+    <label style="font-size:0.75rem;color:#aaa">Bio kamu (max 200 huruf, tanpa emoji)</label>
+    <textarea id="editBioInput" maxlength="200" placeholder="Tulis tentang dirimu..."></textarea>
+    <div style="font-size:0.7rem;color:#888;margin-bottom:8px">
+      <span id="bioCounter">0</span>/200 karakter
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditBioModal()">Batal</button>
+      <button class="btn-primary" onclick="savePlayerBio()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Transfer -->
+<div class="modal-overlay" id="transferModal">
+  <div class="modal-box" style="border-color:#ffb300;">
+    <h2 style="color:#ffb300">👑 Transfer Kepemilikan Clan</h2>
+    <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
+      Pilih anggota yang akan menjadi <b>Owner baru</b>. Setelah transfer, kamu akan menjadi <b>Admin</b>.
+    </p>
+    <div id="transferList" style="max-height:300px; overflow-y:auto;"></div>
+    <div class="modal-actions" id="transferDefaultActions" style="margin-top:12px">
+      <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Mute -->
+<div class="modal-overlay" id="muteModal">
+  <div class="modal-box" style="border-color:#ff4060;">
+    <h2 style="color:#ff4060">🔇 Bisukan Anggota</h2>
+    <p style="background:rgba(255,60,90,0.1);border-left-color:#ff4060;color:#ffb0b0;">
+      Pilih durasi mute untuk <b id="muteTargetName">Pemain</b>.
+    </p>
+    <div class="mute-options" id="muteOptions">
+      <button data-days="1" onclick="selectMuteDays(1)">🔇 1 Hari</button>
+      <button data-days="2" onclick="selectMuteDays(2)">🔇 2 Hari</button>
+      <button data-days="3" onclick="selectMuteDays(3)">🔇 3 Hari</button>
+    </div>
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-cancel" onclick="closeMuteModal()">Batal</button>
+      <button class="btn-confirm" id="muteConfirmBtn" onclick="confirmMute()">Bisukan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Profile -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal-box" style="border-color:#a06bff;">
+    <h2 style="color:#c47bff">👤 Profil Pemain</h2>
+    <div id="profileContent"></div>
+    <div class="modal-actions" style="margin-top:12px; grid-template-columns:1fr;">
+      <button class="btn-cancel" onclick="closeProfileModal()">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Private Chat -->
+<div class="modal-overlay" id="privateChatModal">
+  <div class="modal-box" style="border-color:#7fd4ff; max-width:480px;">
+    <h2 style="color:#7fd4ff">💬 <span id="privateChatName">-</span></h2>
+    <div style="font-size:0.75rem; margin-bottom:8px;">
+      Status: <span id="privateChatStatus">-</span>
+    </div>
+    <div class="private-chat" id="privateChatBox"></div>
+    <div class="chat-input-row">
+      <input type="text" id="privateChatInput" placeholder="Ketik pesan..." maxlength="200"
+             onkeydown="if(event.key==='Enter'){event.preventDefault();sendPrivateMsg();}">
+      <button onclick="sendPrivateMsg()">Kirim</button>
+    </div>
+    <div class="modal-actions" style="margin-top:8px; grid-template-columns:1fr;">
+      <button class="btn-cancel" onclick="closePrivateChat()">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Skin Detail -->
+<div class="modal-overlay" id="skinDetailModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">👕 Detail Skin</h2>
+    <div id="skinDetailContent"></div>
+    <div class="modal-actions" style="margin-top:12px; grid-template-columns:1fr;">
+      <button class="btn-cancel" onclick="closeSkinDetail()">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
