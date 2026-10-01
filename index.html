@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v15.0</title>
+<title>ELIPS NOVA GAME v15.1</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -20,7 +20,7 @@
     text-align:center; font-size:0.7rem; color:#7fd4ff;
     margin-top:-4px; margin-bottom:6px; letter-spacing:2px;
   }
-  .online-tag { text-align:center; font-size:0.7rem; margin-bottom:4px; }
+  .online-tag { text-align:center; font-size:0.7rem; margin-bottom:6px; }
   .online-tag.on { color:#00ff90; }
   .online-tag.off { color:#ff8080; }
   .stats {
@@ -58,14 +58,21 @@
     0%,100% { box-shadow:0 0 30px rgba(0,255,180,0.6), 0 0 20px rgba(160,60,255,0.6); }
     50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
   }
+  /* ★ v15.1: Multi-Row Nav */
   .nav {
-    display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-top:10px;
+    display:grid; grid-template-columns:repeat(6,1fr); gap:3px; margin-top:10px;
   }
   .nav button {
-    padding:8px 2px; font-size:0.58rem; border-radius:10px; border:1px solid #4a3f9f;
+    padding:9px 2px; font-size:0.62rem; border-radius:10px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
   }
   .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
+  .nav button.empty-tab { border-style:dashed; opacity:0.6; }
+  .nav-row-break {
+    grid-column: 1 / -1;
+    height: 0;
+  }
+
   .panel {
     background:rgba(20,15,55,0.85); border:1px solid #3a2f80; border-radius:14px;
     padding:12px; margin-top:12px; max-height:65vh; overflow-y:auto;
@@ -161,106 +168,55 @@
 
   /* ====== SKIN CARD ====== */
   .skin-card {
-    padding:12px;
-    margin-bottom:10px;
-    border-radius:12px;
-    position:relative;
-    overflow:hidden;
-    font-size:0.85rem;
+    padding:12px; margin-bottom:10px; border-radius:12px;
+    position:relative; overflow:hidden; font-size:0.85rem;
   }
   .skin-card .skin-name {
-    font-size:1rem;
-    font-weight:bold;
-    margin-bottom:4px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    font-size:1rem; font-weight:bold; margin-bottom:4px;
+    display:flex; justify-content:space-between; align-items:center;
   }
-  .skin-card .skin-meta {
-    font-size:0.75rem;
-    margin-bottom:6px;
-    opacity:0.85;
-  }
-  .skin-card .skin-price {
-    font-size:0.9rem;
-    font-weight:bold;
-    margin-bottom:8px;
-  }
-  .skin-card .skin-actions {
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-  }
+  .skin-card .skin-meta { font-size:0.75rem; margin-bottom:6px; opacity:0.85; }
+  .skin-card .skin-price { font-size:0.9rem; font-weight:bold; margin-bottom:8px; }
+  .skin-card .skin-actions { display:flex; gap:6px; flex-wrap:wrap; }
   .skin-card .skin-actions button {
-    padding:6px 12px;
-    font-size:0.75rem;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-    font-weight:bold;
-    background:linear-gradient(135deg,#5b3fff,#a02bff);
-    color:white;
+    padding:6px 12px; font-size:0.75rem; border-radius:8px; border:none;
+    cursor:pointer; font-weight:bold;
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
   }
-  /* ★ v15.0: Tombol abu-abu untuk skin yang sudah dibeli / disabled */
   .skin-card .skin-actions button:disabled {
-    background:#444 !important;
-    color:#888 !important;
-    cursor:not-allowed;
-    background-image:none !important;
-    animation:none !important;
-    box-shadow:none !important;
+    background:#444 !important; color:#888 !important;
+    cursor:not-allowed; background-image:none !important;
+    animation:none !important; box-shadow:none !important;
   }
   .skin-badge {
-    display:inline-block;
-    font-size:0.65rem;
-    padding:2px 8px;
-    border-radius:6px;
-    font-weight:bold;
-    margin-left:6px;
+    display:inline-block; font-size:0.65rem; padding:2px 8px;
+    border-radius:6px; font-weight:bold; margin-left:6px;
   }
   .badge-common { background:rgba(150,150,150,0.4); color:#ddd; }
   .badge-rare { background:rgba(80,150,255,0.4); color:#b0d0ff; }
   .badge-exclusive { background:rgba(255,180,0,0.4); color:#ffe0a0; }
   .badge-eternal {
     background:linear-gradient(90deg,#ff2b6b,#ffb300,#00ff90,#5b3fff,#ff2b6b);
-    background-size: 300% 100%;
-    color:white;
+    background-size: 300% 100%; color:white;
     animation: rainbowMove 3s linear infinite;
   }
   .badge-mythic {
     background:linear-gradient(90deg,#ff2b6b,#ffb300,#00ff90,#5b3fff,#ff2b6b);
     background-size: 400% 100%;
     animation: rainbowMove 3s linear infinite;
-    color:white;
-    border:1px solid #fff;
+    color:white; border:1px solid #fff;
   }
-
-  .skin-category {
-    margin-bottom:16px;
-  }
+  .skin-category { margin-bottom:16px; }
   .skin-category-title {
-    font-size:0.85rem;
-    font-weight:bold;
-    color:#7fd4ff;
-    padding:8px 0;
-    border-bottom:1px dashed #3a2f80;
-    margin-bottom:10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    font-size:0.85rem; font-weight:bold; color:#7fd4ff;
+    padding:8px 0; border-bottom:1px dashed #3a2f80; margin-bottom:10px;
+    display:flex; justify-content:space-between; align-items:center;
   }
-  .skin-category-title .count {
-    font-size:0.7rem;
-    color:#888;
-  }
-  .skin-category.locked .skin-category-title {
-    color:#888;
-  }
+  .skin-category.locked .skin-category-title { color:#888; }
 
-  /* ====== INVENTORY (v15.0) ====== */
+  /* ====== INVENTORY ====== */
   .inv-tabs {
-    display:grid; grid-template-columns:1fr 1fr; gap:4px;
-    margin-bottom:10px;
+    display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:10px;
   }
   .inv-tabs button {
     padding:10px 6px; font-size:0.8rem; border-radius:8px;
@@ -271,75 +227,121 @@
   .inv-tabs button.active {
     background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
   }
-  .inv-search {
-    position:relative;
-    margin-bottom:10px;
-  }
-  .inv-search input {
-    padding-right:36px;
-    margin-bottom:0;
-  }
+  .inv-search { position:relative; margin-bottom:10px; }
+  .inv-search input { padding-right:36px; margin-bottom:0; }
   .inv-search .clear-btn {
-    position:absolute;
-    right:8px;
-    top:50%;
-    transform:translateY(-50%);
-    width:24px; height:24px;
-    border-radius:50%;
-    background:rgba(255,80,80,0.8);
-    color:white;
-    border:none;
-    cursor:pointer;
-    font-size:0.8rem;
-    font-weight:bold;
+    position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    width:24px; height:24px; border-radius:50%;
+    background:rgba(255,80,80,0.8); color:white;
+    border:none; cursor:pointer; font-size:0.8rem; font-weight:bold;
     display:none;
   }
   .inv-search .clear-btn.show { display:block; }
   .inv-grid {
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:8px;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;
   }
-  @media (max-width: 380px) {
-    .inv-grid { grid-template-columns:repeat(2, 1fr); }
-  }
+  @media (max-width: 380px) { .inv-grid { grid-template-columns:repeat(2, 1fr); } }
   .inv-grid-item {
-    padding:10px 6px;
-    border-radius:10px;
-    text-align:center;
-    font-size:0.7rem;
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-    min-height:90px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    padding:10px 6px; border-radius:10px; text-align:center;
+    font-size:0.7rem; position:relative; overflow:hidden;
+    cursor:pointer; min-height:90px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
   }
-  .inv-grid-item .inv-icon {
-    font-size:1.5rem;
-    margin-bottom:4px;
-  }
+  .inv-grid-item .inv-icon { font-size:1.5rem; margin-bottom:4px; }
   .inv-grid-item .inv-name {
-    font-weight:bold;
-    font-size:0.72rem;
-    line-height:1.2;
-    margin-bottom:4px;
-    word-break:break-word;
+    font-weight:bold; font-size:0.72rem; line-height:1.2;
+    margin-bottom:4px; word-break:break-word;
   }
   .inv-grid-item .inv-rarity {
-    font-size:0.6rem;
-    padding:1px 6px;
-    border-radius:4px;
-    background:rgba(0,0,0,0.4);
-    font-weight:bold;
+    font-size:0.6rem; padding:1px 6px; border-radius:4px;
+    background:rgba(0,0,0,0.4); font-weight:bold;
   }
-  .inv-empty {
+  .inv-empty { text-align:center; color:#888; padding:30px 10px; font-size:0.85rem; }
+
+  /* ====== PROFIL TAB (v15.1) ====== */
+  .profile-tab-card {
+    background:linear-gradient(135deg, rgba(100,50,200,0.35), rgba(200,50,150,0.35));
+    border:1px solid #a06bff;
+    border-radius:16px;
+    padding:20px;
     text-align:center;
+    margin-bottom:14px;
+  }
+  .profile-tab-card .big-avatar {
+    font-size:4.5rem;
+    margin-bottom:10px;
+    text-shadow:0 0 20px rgba(160,100,255,0.8);
+  }
+  .profile-tab-card h2 {
+    color:#7fd4ff;
+    font-size:1.3rem;
+    margin-bottom:6px;
+    text-shadow:0 0 10px rgba(120,200,255,0.5);
+  }
+  .profile-tab-card .bio-text {
+    font-size:0.8rem;
+    color:#ddd;
+    font-style:italic;
+    margin:8px 0;
+    padding:8px 12px;
+    background:rgba(0,0,0,0.3);
+    border-radius:8px;
+    min-height:36px;
+    word-break:break-word;
+  }
+  .profile-tab-card .bio-text.empty {
+    color:#666;
+    font-style:normal;
+  }
+  .profile-info-row {
+    display:flex;
+    justify-content:space-between;
+    padding:8px 12px;
+    margin-bottom:6px;
+    background:rgba(0,0,0,0.3);
+    border-radius:8px;
+    font-size:0.82rem;
+  }
+  .profile-info-row .label {
+    color:#aaa;
+  }
+  .profile-info-row .value {
+    color:#7fd4ff;
+    font-weight:bold;
+    max-width:60%;
+    text-align:right;
+    word-break:break-all;
+  }
+  .profile-edit-btn {
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:0.9rem;
+    background:linear-gradient(135deg,#5b3fff,#a02bff);
+    color:white;
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .profile-edit-btn:active { transform:scale(0.98); }
+
+  /* Placeholder tab */
+  .placeholder-box {
+    text-align:center;
+    padding:60px 20px;
     color:#888;
-    padding:30px 10px;
-    font-size:0.85rem;
+    font-size:0.9rem;
+    line-height:1.8;
+  }
+  .placeholder-box .icon-big {
+    font-size:4rem;
+    margin-bottom:16px;
+    opacity:0.4;
   }
 
   /* ====== MODAL & OTHERS ====== */
@@ -393,12 +395,10 @@
     border:1px solid #5b3fff !important;
   }
   .btn-confirm {
-    background:linear-gradient(135deg,#ff2b6b,#ff5050);
-    color:white;
+    background:linear-gradient(135deg,#ff2b6b,#ff5050); color:white;
   }
   .btn-primary {
-    background:linear-gradient(135deg,#5b3fff,#a02bff);
-    color:white;
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
   }
   .danger-btn {
     width:100%; padding:12px; margin-top:8px;
@@ -451,10 +451,7 @@
   .clan-hero h2 { color:#7fd4ff; font-size:1.2rem; margin-bottom:4px; }
   .clan-hero .meta { font-size:0.75rem; color:#aaa; }
   .clan-hero .meta b { color:#ffb300; }
-  .clan-btn-row {
-    display:grid; grid-template-columns:1fr 1fr; gap:8px;
-    margin-top:10px;
-  }
+  .clan-btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
   .clan-btn-row button {
     padding:10px; border-radius:10px; border:none; cursor:pointer;
     font-weight:bold; font-size:0.8rem;
@@ -462,10 +459,7 @@
   .btn-green { background:linear-gradient(135deg,#00c060,#00ff90); color:#111; }
   .btn-red { background:linear-gradient(135deg,#c00030,#ff4060); color:white; }
   .btn-blue { background:linear-gradient(135deg,#0040c0,#4090ff); color:white; }
-  .clan-tabs {
-    display:grid; grid-template-columns:repeat(3,1fr); gap:4px;
-    margin-bottom:10px;
-  }
+  .clan-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-bottom:10px; }
   .clan-tabs button {
     padding:8px 4px; font-size:0.75rem; border-radius:8px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
@@ -474,8 +468,7 @@
     background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
   }
   .clan-search-box {
-    background:rgba(0,0,0,0.3); border-radius:10px; padding:10px;
-    margin-bottom:10px;
+    background:rgba(0,0,0,0.3); border-radius:10px; padding:10px; margin-bottom:10px;
   }
   .clan-search-box h4 { font-size:0.85rem; color:#7fd4ff; margin-bottom:6px; }
   .clan-list-item {
@@ -524,18 +517,10 @@
   .chat-msg b { color:#ffb300; }
   .chat-msg.me b { color:#fff; }
   .chat-msg .chat-time {
-    display:block;
-    font-size:0.65rem;
-    color:#888;
-    margin-top:2px;
+    display:block; font-size:0.65rem; color:#888; margin-top:2px;
   }
-  .chat-msg.me .chat-time {
-    color:#c8c0ff;
-    text-align:right;
-  }
-  .chat-input-row {
-    display:grid; grid-template-columns:1fr auto; gap:6px;
-  }
+  .chat-msg.me .chat-time { color:#c8c0ff; text-align:right; }
+  .chat-input-row { display:grid; grid-template-columns:1fr auto; gap:6px; }
   .chat-input-row button {
     padding:10px 16px; border-radius:10px; border:none; cursor:pointer;
     background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
@@ -557,51 +542,19 @@
     animation:spin 1s linear infinite;
   }
   @keyframes spin { to { transform:rotate(360deg); } }
-  .loading-text {
-    margin-top:12px; font-size:0.85rem; color:#aaa;
-  }
-  .player-name-display {
-    text-align:center;
-    font-size:0.8rem;
-    color:#7fd4ff;
-    margin-bottom:6px;
-  }
-  .player-name-display b {
-    color:#ffb300;
-    cursor:pointer;
-    padding:2px 8px;
-    border-radius:6px;
-    background:rgba(255,180,0,0.15);
-    border:1px solid rgba(255,180,0,0.3);
-  }
+  .loading-text { margin-top:12px; font-size:0.85rem; color:#aaa; }
   .notice-banner {
     background:linear-gradient(135deg, rgba(255,180,0,0.2), rgba(255,80,150,0.2));
     border:1px solid #ffb300;
-    border-radius:12px;
-    padding:10px 12px;
-    margin-bottom:10px;
-    font-size:0.8rem;
-    line-height:1.5;
-    color:#ffe0a0;
+    border-radius:12px; padding:10px 12px; margin-bottom:10px;
+    font-size:0.8rem; line-height:1.5; color:#ffe0a0;
   }
   .notice-banner b { color:#ffb300; }
   .event-countdown {
-    text-align:center;
-    padding:10px;
+    text-align:center; padding:10px;
     background:linear-gradient(135deg, rgba(255,60,120,0.15), rgba(160,43,255,0.15));
     border:1px solid #ff4fa3;
-    border-radius:10px;
-    margin-bottom:10px;
-    font-size:0.85rem;
-  }
-  .event-countdown b { color:#ffb300; }
-  .event-countdown .big {
-    display:block;
-    font-size:1.2rem;
-    font-weight:bold;
-    color:#ff4fa3;
-    margin-top:4px;
-    letter-spacing:2px;
+    border-radius:10px; margin-bottom:10px; font-size:0.85rem;
   }
   .discount-banner {
     background:linear-gradient(135deg, #ff2b6b, #ff5050, #ffb300);
@@ -630,23 +583,18 @@
     display:inline-block;
     background:linear-gradient(135deg,#ff2b6b,#ff5050);
     color:white; font-size:0.65rem;
-    padding:2px 6px; border-radius:6px;
-    margin-left:4px; font-weight:bold;
+    padding:2px 6px; border-radius:6px; margin-left:4px; font-weight:bold;
     animation: tagPulse 1s infinite;
   }
   @keyframes tagPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
 
   /* FRIEND */
   .online-dot {
-    display:inline-block; width:8px; height:8px; border-radius:50%;
-    margin-right:4px;
+    display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px;
   }
   .online-dot.on { background:#00ff90; box-shadow:0 0 6px #00ff90; }
   .online-dot.off { background:#666; }
-  .friend-tabs {
-    display:grid; grid-template-columns:repeat(3,1fr); gap:4px;
-    margin-bottom:10px;
-  }
+  .friend-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-bottom:10px; }
   .friend-tabs button {
     padding:8px 4px; font-size:0.72rem; border-radius:8px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
@@ -700,10 +648,7 @@
     cursor:pointer; font-weight:bold;
     background:linear-gradient(135deg,#ffb300,#ff6600); color:#111;
   }
-  .mute-options {
-    display:grid; grid-template-columns:repeat(3,1fr); gap:6px;
-    margin:8px 0;
-  }
+  .mute-options { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin:8px 0; }
   .mute-options button {
     padding:12px 6px; border-radius:10px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
@@ -724,11 +669,8 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v15.0 — INVENTORY UPDATE</div>
+<div class="version">v15.1 — MULTI-ROW NAV</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
-<div class="player-name-display">
-  👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
-</div>
 <div class="dev-active-tag" id="devActiveTag" style="display:none">
   <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
 </div>
@@ -743,6 +685,7 @@
 
 <button class="click-btn" id="clickBtn">👆 KLIK UNTUK CEPAT!</button>
 <div style="text-align:center;font-size:0.75rem;color:#888;margin-top:-6px" id="boostInfo"></div>
+<div style="text-align:center;font-size:0.7rem;color:#00ff90;margin-top:2px" id="expBonusInfo"></div>
 
 <div class="auto-panel" id="autoPanel">
   <div class="row">
@@ -751,14 +694,24 @@
   </div>
 </div>
 
+<!-- ★ v15.1: Nav 2 baris -->
 <div class="nav">
+  <!-- Baris 1 -->
   <button data-panel="shop" class="active">🛒 Toko</button>
   <button data-panel="skin">👕 Skin</button>
   <button data-panel="inv">🎒 Inv</button>
   <button data-panel="event">⭐ Event</button>
   <button data-panel="clan">🏰 Clan</button>
   <button data-panel="friend">👥 Teman</button>
+  <!-- Line break -->
+  <div class="nav-row-break"></div>
+  <!-- Baris 2 -->
   <button data-panel="redeem">🎁 Redeem</button>
+  <button data-panel="profile">👤 Profil</button>
+  <button data-panel="empty1" class="empty-tab">📦 Kosong</button>
+  <button data-panel="empty2" class="empty-tab">📦 Kosong</button>
+  <button data-panel="empty3" class="empty-tab">📦 Kosong</button>
+  <button data-panel="empty4" class="empty-tab">📦 Kosong</button>
 </div>
 
 <div class="panel" id="panel-shop"></div>
@@ -788,6 +741,39 @@
       <input type="password" id="devKeyInput" placeholder="Developer Key...">
       <button onclick="activateDevMode()">Aktifkan</button>
     </div>
+  </div>
+</div>
+
+<!-- ★ v15.1: Panel Profil (BARU) -->
+<div class="panel hidden" id="panel-profile"></div>
+
+<!-- ★ v15.1: Panel Kosong (placeholder) -->
+<div class="panel hidden" id="panel-empty1">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+<div class="panel hidden" id="panel-empty2">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+<div class="panel hidden" id="panel-empty3">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
+  </div>
+</div>
+<div class="panel hidden" id="panel-empty4">
+  <div class="placeholder-box">
+    <div class="icon-big">📦</div>
+    <div><b>Tab Kosong</b></div>
+    <div style="margin-top:8px">Fitur ini akan diisi di update berikutnya.</div>
   </div>
 </div>
 
@@ -847,12 +833,28 @@
 <!-- Modal Edit Name -->
 <div class="modal-overlay" id="editNameModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
-    <h2 style="color:#7fd4ff">👤 Edit Profil</h2>
+    <h2 style="color:#7fd4ff">👤 Ubah Nama Pemain</h2>
     <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
     <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
       <button class="btn-primary" onclick="savePlayerName()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Bio (v15.1) -->
+<div class="modal-overlay" id="editBioModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">📝 Edit Bio</h2>
+    <label style="font-size:0.75rem;color:#aaa">Bio kamu (max 200 huruf, tanpa emoji)</label>
+    <textarea id="editBioInput" maxlength="200" placeholder="Tulis tentang dirimu..."></textarea>
+    <div style="font-size:0.7rem;color:#888;margin-bottom:8px">
+      <span id="bioCounter">0</span>/200 karakter
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditBioModal()">Batal</button>
+      <button class="btn-primary" onclick="savePlayerBio()">Simpan</button>
     </div>
   </div>
 </div>
@@ -890,7 +892,7 @@
   </div>
 </div>
 
-<!-- Modal Profile -->
+<!-- Modal Profile (untuk lihat profil teman) -->
 <div class="modal-overlay" id="profileModal">
   <div class="modal-box" style="border-color:#a06bff;">
     <h2 style="color:#c47bff">👤 Profil Pemain</h2>
@@ -920,7 +922,7 @@
   </div>
 </div>
 
-<!-- Modal Skin Detail (v15.0) -->
+<!-- Modal Skin Detail -->
 <div class="modal-overlay" id="skinDetailModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
     <h2 style="color:#7fd4ff">👕 Detail Skin</h2>
@@ -999,7 +1001,6 @@ const SKIN_DB = {
   nova_genesis: { id:'nova_genesis', name:'Nova Genesis', price:600000, currency:'money', rarity:'MYTHIC', category:'Mythic Collection', cls:'skin-nova_genesis', glossy:false, available:true, icon:'🌌' },
   eternal_dragon: { id:'eternal_dragon', name:'Eternal Dragon', price:600000, currency:'money', rarity:'MYTHIC', category:'Mythic Collection', cls:'skin-eternal_dragon', glossy:false, available:true, icon:'🐲' },
   celestial_king: { id:'celestial_king', name:'Celestial King', price:600000, currency:'money', rarity:'MYTHIC', category:'Mythic Collection', cls:'skin-celestial_king', glossy:false, available:true, icon:'👑' },
-  // ★ v15.0: Kategori "Skin Limited" (sebelumnya "Legendary Event")
   plasma: { id:'plasma', name:'Plasma Enduro', price:50, currency:'token', rarity:'RARE', category:'Skin Limited', cls:'skin-plasma', glossy:true, available:false, ended:true, icon:'🔵' },
   danish: { id:'danish', name:'Danish Cube', price:150, currency:'token', rarity:'EXCLUSIVE', category:'Skin Limited', cls:'skin-danish', glossy:true, available:false, ended:true, icon:'🟡' },
   emberheart: { id:'emberheart', name:'Emberheart', price:600, currency:'token', rarity:'ETERNAL', category:'Skin Limited', cls:'skin-emberheart', glossy:true, available:false, ended:true, icon:'⚪' }
@@ -1020,8 +1021,7 @@ function getTokenPrice(){
     return {
       money: Math.floor(TOKEN_PRICE_NORMAL.money * (100 - TOKEN_DISCOUNT.percent) / 100),
       diamond: Math.floor(TOKEN_PRICE_NORMAL.diamond * (100 - TOKEN_DISCOUNT.percent) / 100),
-      discount: TOKEN_DISCOUNT.percent,
-      active: true
+      discount: TOKEN_DISCOUNT.percent, active: true
     };
   }
   return { ...TOKEN_PRICE_NORMAL, discount: 0, active: false };
@@ -1054,6 +1054,7 @@ const DEFAULT_STATE = {
   devMode: false, devUsed: false,
   clanId: null,
   playerName: 'Pemain',
+  playerBio: '',           // ★ v15.1
   friends: {}, friendRequests: {}, sentRequests: {},
   lastOnline: 0, lastSeen: Date.now()
 };
@@ -1072,8 +1073,7 @@ let privateChatUnsubscribe = null;
 let privateChatTimerInterval = null;
 let onlineUsersCache = {};
 
-// ★ v15.0
-let currentInvTab = 'skin';       // 'item' | 'skin'
+let currentInvTab = 'skin';
 let invSearchQuery = '';
 
 /* ================= UTIL ================= */
@@ -1162,9 +1162,52 @@ async function fetchUserProfile(uid){
     }
     return {
       uid, name: data.playerName || 'Pemain', level: data.level || 1,
+      bio: data.playerBio || '',
       clanName, clanTag, lastOnline: data.lastOnline || 0
     };
   } catch(e){ return null; }
+}
+
+/* ============================================================
+   v15.1: HITUNG EXP BONUS (×3 setiap level)
+   Base exp klik = +2
+   Level 1: +2, Level 2: +6, Level 3: +18, dst.
+   ============================================================ */
+function getExpPerClick(){
+  // exp = 2 × 3^(level-1)
+  const level = S.level || 1;
+  return 2 * Math.pow(3, level - 1);
+}
+
+/* ============================================================
+   v15.1: ROLL DIAMOND BARU
+   70% (10-40), 21% (50-60), 8% (90-100), 1% (130-150)
+   ============================================================ */
+function rollLevelDiamond(){
+  const r = Math.random() * 100;
+  if (r < 70) {
+    // 70%: 10-40
+    return 10 + Math.floor(Math.random() * 31);
+  } else if (r < 91) {
+    // 21%: 50-60
+    return 50 + Math.floor(Math.random() * 11);
+  } else if (r < 99) {
+    // 8%: 90-100
+    return 90 + Math.floor(Math.random() * 11);
+  } else {
+    // 1%: 130-150
+    return 130 + Math.floor(Math.random() * 21);
+  }
+}
+
+function showDiamondPop(amount){
+  const el = document.createElement('div');
+  el.className = 'diamond-pop';
+  el.textContent = `+💎 ${amount}`;
+  el.style.left = '50%';
+  el.style.top = '45%';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 1500);
 }
 
 /* ============================================================
@@ -1438,25 +1481,7 @@ function validateDevKey(input){
 }
 
 /* ============================================================
-   LEVEL & DIAMOND
-   ============================================================ */
-function rollLevelDiamond(){
-  const isRare = Math.random() < 0.02;
-  if (isRare) return 31 + Math.floor(Math.random() * 20);
-  return 3 + Math.floor(Math.random() * 28);
-}
-function showDiamondPop(amount){
-  const el = document.createElement('div');
-  el.className = 'diamond-pop';
-  el.textContent = `+💎 ${amount}`;
-  el.style.left = '50%';
-  el.style.top = '45%';
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 1500);
-}
-
-/* ============================================================
-   PROFILE / EDIT NAME
+   PROFILE / EDIT NAME / EDIT BIO
    ============================================================ */
 window.showEditNameModal = function(){
   document.getElementById('editNameModal').classList.add('show');
@@ -1473,7 +1498,6 @@ window.savePlayerName = async function(){
   if (!/^[A-Za-z0-9_]+$/.test(name)) return toast('❌ Hanya huruf, angka, underscore');
   S.playerName = name;
   await Storage.save(S);
-  document.getElementById('playerNameDisplay').textContent = name;
   if (S.clanId){
     const uid = Storage.getUserId();
     try {
@@ -1493,6 +1517,45 @@ document.getElementById('editNameModal').addEventListener('click', (e)=>{
   if (e.target.id === 'editNameModal') closeEditNameModal();
 });
 
+// Bio
+window.showEditBioModal = function(){
+  document.getElementById('editBioModal').classList.add('show');
+  document.getElementById('editBioInput').value = S.playerBio || '';
+  document.getElementById('bioCounter').textContent = (S.playerBio || '').length;
+  setTimeout(()=>document.getElementById('editBioInput').focus(), 200);
+};
+window.closeEditBioModal = function(){
+  document.getElementById('editBioModal').classList.remove('show');
+};
+window.savePlayerBio = async function(){
+  const bio = (document.getElementById('editBioInput').value || '').trim();
+
+  if (bio.length > 200){
+    return toast('❌ Bio maksimal 200 karakter');
+  }
+  // Cek emoji (block karakter Unicode di atas U+1F000)
+  const emojiRegex = /[\u{1F000}-\u{1FFFF}]/u;
+  if (emojiRegex.test(bio)){
+    return toast('❌ Bio tidak boleh pakai emoji');
+  }
+
+  S.playerBio = bio;
+  await Storage.save(S);
+  closeEditBioModal();
+  toast('✅ Bio disimpan!');
+  render();
+};
+document.getElementById('editBioModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'editBioModal') closeEditBioModal();
+});
+// Counter bio
+document.addEventListener('input', (e)=>{
+  if (e.target.id === 'editBioInput'){
+    const counter = document.getElementById('bioCounter');
+    if (counter) counter.textContent = e.target.value.length;
+  }
+});
+
 /* ============================================================
    RENDER
    ============================================================ */
@@ -1507,10 +1570,14 @@ function render(){
   const pct = S.level>=100 ? 100 : Math.min(100, (S.exp/max)*100);
   document.getElementById('expFill').style.width = pct + '%';
 
-  const nameDisplay = document.getElementById('playerNameDisplay');
-  if (nameDisplay) nameDisplay.textContent = S.playerName || 'Pemain';
-
   document.getElementById('devActiveTag').style.display = S.devMode ? 'block' : 'none';
+
+  // Info exp bonus
+  const expBonusInfo = document.getElementById('expBonusInfo');
+  if (expBonusInfo){
+    const expPerClick = getExpPerClick();
+    expBonusInfo.textContent = `⚡ +${fmt(expPerClick)} Exp per klik (bonus level)`;
+  }
 
   const btn = document.getElementById('clickBtn');
   const now = Date.now();
@@ -1532,6 +1599,7 @@ function render(){
   renderPanels();
   renderSkinPanel();
   renderInvPanel();
+  renderProfilePanel();
   if (!isUserTypingInClan()) renderClanPanel();
   
   const friendPanel = document.getElementById('panel-friend');
@@ -1550,15 +1618,6 @@ function isUserTypingInFriends(){
   const active = document.activeElement;
   if (!active) return false;
   const panel = document.getElementById('panel-friend');
-  if (!panel) return false;
-  if (panel.classList.contains('hidden')) return false;
-  return panel.contains(active) && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
-}
-
-function isUserTypingInInv(){
-  const active = document.activeElement;
-  if (!active) return false;
-  const panel = document.getElementById('panel-inv');
   if (!panel) return false;
   if (panel.classList.contains('hidden')) return false;
   return panel.contains(active) && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
@@ -1595,7 +1654,8 @@ function doAutoClick(){
   const base = HELPING_HAND_CONFIG.clickPowerMin +
                 Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
   S.money += base;
-  addExp(2);
+  // ★ v15.1: exp per klik ×3 per level
+  addExp(getExpPerClick());
   const btn = document.getElementById('clickBtn');
   btn.style.transform = 'scale(0.97)';
   setTimeout(()=>btn.style.transform='',60);
@@ -1632,7 +1692,8 @@ clickBtn.addEventListener('click', () => {
     gain = 10 + Math.floor(Math.random()*16);
   }
   S.money += gain;
-  addExp(2);
+  // ★ v15.1: exp per klik ×3 per level
+  addExp(getExpPerClick());
   render(); save();
   clickBtn.style.transform = 'scale(0.95)';
   setTimeout(()=>clickBtn.style.transform='',80);
@@ -1648,7 +1709,7 @@ function addExp(v){
     const reward = rollLevelDiamond();
     S.diamond += reward;
     S.totalDiamondFromLevel += reward;
-    const rareTag = reward > 30 ? ' 🌟 RARE!' : '';
+    const rareTag = reward >= 130 ? ' 🌟 JACKPOT!' : (reward >= 90 ? ' ✨ RARE!' : (reward >= 50 ? ' 💫 GOOD!' : ''));
     toast(`🎉 Level ${S.level}! +💎 ${reward}${rareTag}`);
     showDiamondPop(reward);
     max = expNeeded(S.level);
@@ -1793,7 +1854,6 @@ function renderSkinPanel(){
     const catClass = isLimited ? 'locked' : '';
 
     html += `<div class="skin-category ${catClass}">`;
-    // ★ v15.0: Tidak ada label "Berakhir" di kanan, hanya nama kategori
     html += `<div class="skin-category-title">
       <span>${isLimited ? '🔒' : '📦'} ${catName}</span>
     </div>`;
@@ -1813,11 +1873,9 @@ function renderSkinPanel(){
       let btnHtml = '';
 
       if (isLimited){
-        // Skin Limited - hanya lihat
         statusText = '<span style="color:#ff8080">🔒 Event Berakhir</span>';
         btnHtml = `<button disabled>Beli</button>`;
       } else if (owned){
-        // ★ v15.0: Sudah dimiliki → tombol abu-abu dengan tulisan "Beli"
         statusText = '<span style="color:#00ff90">✅ Sudah Dimiliki</span>';
         btnHtml = `<button disabled>Beli</button>`;
       } else if (sk.available){
@@ -1850,19 +1908,16 @@ function renderSkinPanel(){
 }
 
 /* ============================================================
-   ★ v15.0: INVENTORI (Baru)
+   INVENTORI
    ============================================================ */
 function renderInvPanel(){
   const panel = document.getElementById('panel-inv');
   if (!panel) return;
 
-  // Kalau user sedang fokus di search input, jangan replace seluruh panel
-  // (biar keyboard tidak nutup-nutup)
   const active = document.activeElement;
   const isSearching = active && active.id === 'invSearchInput';
 
   if (isSearching){
-    // Cuma update hasil saja, jangan replace search input
     updateInvResult();
     return;
   }
@@ -1892,9 +1947,7 @@ function updateInvResult(){
   const q = (invSearchQuery || '').toLowerCase().trim();
 
   if (currentInvTab === 'skin'){
-    // Filter skin
     const skins = S.inventory.filter(it => {
-      // Skin: item dengan skinClass atau tipe Skin
       return (it.skinClass || it.type === 'Skin');
     });
 
@@ -1928,7 +1981,6 @@ function updateInvResult(){
     gridHtml += '</div>';
     container.innerHTML = gridHtml;
   } else {
-    // Item
     const items = S.inventory.filter(it => {
       return !(it.skinClass || it.type === 'Skin');
     });
@@ -1969,12 +2021,10 @@ window.switchInvTab = function(tab){
 
 window.onInvSearchInput = function(val){
   invSearchQuery = val || '';
-  // Update tombol clear
   const clearBtn = document.querySelector('.inv-search .clear-btn');
   if (clearBtn){
     clearBtn.classList.toggle('show', !!invSearchQuery);
   }
-  // Update hasil
   updateInvResult();
 };
 
@@ -2012,6 +2062,72 @@ window.closeSkinDetail = function(){
 document.getElementById('skinDetailModal').addEventListener('click', (e)=>{
   if (e.target.id === 'skinDetailModal') closeSkinDetail();
 });
+
+/* ============================================================
+   ★ v15.1: TAB PROFIL
+   ============================================================ */
+function renderProfilePanel(){
+  const panel = document.getElementById('panel-profile');
+  if (!panel) return;
+
+  const uid = Storage.getUserId();
+  const clan = currentClanData || (S.clanId ? null : null);
+
+  // Ambil info clan
+  let clanText = 'Tidak ada';
+  if (S.clanId && currentClanData){
+    clanText = `[${escapeHtml(currentClanData.tag || '-')}] ${escapeHtml(currentClanData.name || '-')}`;
+  } else if (S.clanId){
+    // Kalau data clan belum load, tampil UID dulu
+    clanText = 'Memuat...';
+  }
+
+  const bioText = S.playerBio
+    ? escapeHtml(S.playerBio)
+    : '<span style="color:#666;font-style:italic">Belum ada bio. Klik "Edit Bio" untuk menambahkan.</span>';
+
+  panel.innerHTML = `
+    <div class="profile-tab-card">
+      <div class="big-avatar">👤</div>
+      <h2>${escapeHtml(S.playerName || 'Pemain')}</h2>
+      <div class="bio-text ${S.playerBio?'':'empty'}">${bioText}</div>
+    </div>
+
+    <div class="profile-info-row">
+      <span class="label">🏆 Level</span>
+      <span class="value">${S.level}</span>
+    </div>
+    <div class="profile-info-row">
+      <span class="label">🏰 Clan</span>
+      <span class="value">${clanText}</span>
+    </div>
+    <div class="profile-info-row">
+      <span class="label">🆔 UID</span>
+      <span class="value">${escapeHtml(uid.slice(0,20))}${uid.length>20?'...':''}</span>
+    </div>
+
+    <button class="profile-edit-btn" onclick="showEditNameModal()">
+      ✏️ Ubah Nama Pemain
+    </button>
+    <button class="profile-edit-btn" onclick="showEditBioModal()" style="background:linear-gradient(135deg,#00c060,#00ff90);color:#111">
+      📝 Edit Bio
+    </button>
+  `;
+
+  // Kalau belum ada data clan, coba load
+  if (S.clanId && !currentClanData){
+    ClanStorage.getClan(S.clanId).then(c => {
+      if (c){
+        currentClanData = c;
+        // Re-render kalau panel profil masih terbuka
+        const p = document.getElementById('panel-profile');
+        if (p && !p.classList.contains('hidden')){
+          renderProfilePanel();
+        }
+      }
+    });
+  }
+}
 
 /* ============================================================
    BELI SKIN
@@ -2103,7 +2219,7 @@ window.buyHelpingHand = function(mode){
 };
 
 /* ============================================================
-   CLAN SYSTEM (Sama seperti v14.0)
+   CLAN SYSTEM
    ============================================================ */
 function isUserTypingInClan(){
   const active = document.activeElement;
@@ -2566,7 +2682,7 @@ window.sendChatMsg = async function(){
 };
 
 /* ============================================================
-   FRIEND SYSTEM (Sama seperti v14.0)
+   FRIEND SYSTEM
    ============================================================ */
 let savedFriendQuery = '';
 let savedFriendResultHtml = '';
@@ -2781,10 +2897,15 @@ window.openProfile = async function(uid){
     actionHtml = `<button class="btn-primary" style="width:100%;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;margin-top:10px" onclick="closeProfileModal();openPrivateChat('${uid}', '${escapeHtml(profile.name)}')">💬 Chat Pribadi</button>`;
   }
 
+  const bioHtml = profile.bio 
+    ? `<div style="font-size:0.8rem;color:#ddd;font-style:italic;margin-top:6px;padding:8px;background:rgba(0,0,0,0.3);border-radius:6px">${escapeHtml(profile.bio)}</div>`
+    : '';
+
   document.getElementById('profileContent').innerHTML = `
     <div class="profile-card">
       <div class="avatar">👤</div>
       <h3>${escapeHtml(profile.name)}</h3>
+      ${bioHtml}
       <div class="meta">🏆 Level <b>${profile.level}</b></div>
       <div class="meta">🏰 Clan: <b>[${escapeHtml(profile.clanTag)}] ${escapeHtml(profile.clanName)}</b></div>
       <div class="meta">${statusHtml}</div>
@@ -2997,6 +3118,7 @@ document.addEventListener('keydown', (e)=>{
     closeDevModal();
     closeCreateClanModal();
     closeEditNameModal();
+    closeEditBioModal();
     closeProfileModal();
     closePrivateChat();
     closeTransferModal();
@@ -3018,6 +3140,7 @@ document.querySelectorAll('.nav button').forEach(b=>{
     else if (b.dataset.panel === 'friend') renderFriendPanel();
     else if (b.dataset.panel === 'skin') renderSkinPanel();
     else if (b.dataset.panel === 'inv') renderInvPanel();
+    else if (b.dataset.panel === 'profile') renderProfilePanel();
     else stopChatListener();
   });
 });
@@ -3073,6 +3196,7 @@ async function init(){
     S.friends = S.friends || {};
     S.friendRequests = S.friendRequests || {};
     S.sentRequests = S.sentRequests || {};
+    S.playerBio = S.playerBio || '';
     delete S.prestigeCount;
     delete S.prestigePoints;
     delete S.prestigeSkinIds;
@@ -3091,11 +3215,12 @@ async function init(){
     if (ticks > 0 && ticks < 3600){
       const maxCatchup = Math.min(ticks, 120);
       let gainedMoney = 0, gainedExp = 0;
+      const expPerClick = getExpPerClick();
       for (let i=0; i<maxCatchup; i++){
         const base = HELPING_HAND_CONFIG.clickPowerMin +
                      Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
         gainedMoney += base;
-        gainedExp += 2;
+        gainedExp += expPerClick;
       }
       S.money += gainedMoney;
       addExp(gainedExp);
