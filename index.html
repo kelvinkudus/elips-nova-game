@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v14.0</title>
+<title>ELIPS NOVA GAME v15.0</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -104,28 +104,19 @@
   }
   textarea { resize:vertical; min-height:60px; }
 
-  /* ====== SKIN STYLES (v14.0) ====== */
-  /* COMMON */
+  /* ====== SKIN STYLES ====== */
   .skin-crimson_spark { background:linear-gradient(135deg,#ff3030,#ff6060); border:1px solid #ff5050; }
   .skin-azure_wave { background:linear-gradient(135deg,#0040c0,#4090ff); border:1px solid #4090ff; }
   .skin-emerald_leaf { background:linear-gradient(135deg,#008040,#00c060); border:1px solid #00c060; }
-
-  /* RARE (Gradient) */
   .skin-midnight_pulse { background:linear-gradient(135deg,#001a4d,#0a0050,#2a1060); border:1px solid #5b3fff; }
   .skin-blaze_runner { background:linear-gradient(135deg,#a01000,#ff5500,#ffb300); border:1px solid #ff5500; }
   .skin-frost_whisper { background:linear-gradient(135deg,#c8e6ff,#ffffff,#a0d0ff); border:1px solid #a0d0ff; color:#1a1a3a; }
-
-  /* EXCLUSIVE (Gradient + Glossy) */
   .skin-golden_aura { background:linear-gradient(135deg,#b8860b,#ffd700,#fff4b0); border:1px solid #ffd700; color:#1a1a1a; }
   .skin-dragon_scale { background:linear-gradient(135deg,#0a4020,#00c060,#ffd700); border:1px solid #ffd700; color:#1a1a1a; }
   .skin-ocean_depth { background:linear-gradient(135deg,#001a4d,#0040a0,#40c0ff); border:1px solid #4090ff; color:#e0f0ff; }
-
-  /* ETERNAL (Glossy + Glow) */
   .skin-storm_bringer { background:linear-gradient(135deg,#0040c0,#80c0ff,#ffffff); border:1px solid #a0d0ff; color:#1a1a3a; box-shadow:0 0 15px #80c0ff; }
   .skin-mystic_crystal { background:linear-gradient(135deg,#5b1a80,#c060ff,#ffc0ff); border:1px solid #c060ff; color:#fff; box-shadow:0 0 15px #c060ff; }
   .skin-star_forge { background:linear-gradient(135deg,#b8860b,#fff4b0,#ffffff); border:1px solid #ffd700; color:#1a1a1a; box-shadow:0 0 15px #ffd700; }
-
-  /* MYTHIC (Rainbow + Particle + Aura) */
   .skin-nova_genesis {
     background:linear-gradient(90deg,#ff2b6b,#ffb300,#00ff90,#5b3fff,#ff2b6b);
     background-size: 400% 100%;
@@ -151,8 +142,6 @@
     color:#fff;
     box-shadow:0 0 25px #c060ff, 0 0 50px #ffd700;
   }
-
-  /* Skin Legendary Event (Lama) */
   .skin-plasma { background:linear-gradient(135deg,#001a4d,#0040a0,#0a0050); border:1px solid #4fa8ff; }
   .skin-danish { background:linear-gradient(135deg,#b8860b,#ffd700,#fff4b0); border:1px solid #ffd700; color:#1a1a1a; }
   .skin-emberheart { background:linear-gradient(135deg,#fff,#c8e6ff,#e0c8ff,#ffd700); border:1px solid #e0c8ff; color:#1a1a3a; }
@@ -170,7 +159,7 @@
   }
   @keyframes gloss { 0%{transform:translateX(-100%) rotate(0);} 100%{transform:translateX(100%) rotate(0);} }
 
-  /* ====== SKIN CARD (v14.0) ====== */
+  /* ====== SKIN CARD ====== */
   .skin-card {
     padding:12px;
     margin-bottom:10px;
@@ -212,18 +201,14 @@
     background:linear-gradient(135deg,#5b3fff,#a02bff);
     color:white;
   }
+  /* ★ v15.0: Tombol abu-abu untuk skin yang sudah dibeli / disabled */
   .skin-card .skin-actions button:disabled {
-    background:#444;
-    color:#888;
+    background:#444 !important;
+    color:#888 !important;
     cursor:not-allowed;
-  }
-  .skin-card .skin-actions button.owned-btn {
-    background:linear-gradient(135deg,#00c060,#00ff90);
-    color:#111;
-  }
-  .skin-card .skin-actions button.ended-btn {
-    background:#666;
-    color:#aaa;
+    background-image:none !important;
+    animation:none !important;
+    box-shadow:none !important;
   }
   .skin-badge {
     display:inline-block;
@@ -250,7 +235,6 @@
     border:1px solid #fff;
   }
 
-  /* Skin Category Section */
   .skin-category {
     margin-bottom:16px;
   }
@@ -271,6 +255,91 @@
   }
   .skin-category.locked .skin-category-title {
     color:#888;
+  }
+
+  /* ====== INVENTORY (v15.0) ====== */
+  .inv-tabs {
+    display:grid; grid-template-columns:1fr 1fr; gap:4px;
+    margin-bottom:10px;
+  }
+  .inv-tabs button {
+    padding:10px 6px; font-size:0.8rem; border-radius:8px;
+    border:1px solid #4a3f9f;
+    background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
+    font-weight:bold;
+  }
+  .inv-tabs button.active {
+    background:linear-gradient(135deg,#5b3fff,#a02bff); color:white;
+  }
+  .inv-search {
+    position:relative;
+    margin-bottom:10px;
+  }
+  .inv-search input {
+    padding-right:36px;
+    margin-bottom:0;
+  }
+  .inv-search .clear-btn {
+    position:absolute;
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+    width:24px; height:24px;
+    border-radius:50%;
+    background:rgba(255,80,80,0.8);
+    color:white;
+    border:none;
+    cursor:pointer;
+    font-size:0.8rem;
+    font-weight:bold;
+    display:none;
+  }
+  .inv-search .clear-btn.show { display:block; }
+  .inv-grid {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+  }
+  @media (max-width: 380px) {
+    .inv-grid { grid-template-columns:repeat(2, 1fr); }
+  }
+  .inv-grid-item {
+    padding:10px 6px;
+    border-radius:10px;
+    text-align:center;
+    font-size:0.7rem;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    min-height:90px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .inv-grid-item .inv-icon {
+    font-size:1.5rem;
+    margin-bottom:4px;
+  }
+  .inv-grid-item .inv-name {
+    font-weight:bold;
+    font-size:0.72rem;
+    line-height:1.2;
+    margin-bottom:4px;
+    word-break:break-word;
+  }
+  .inv-grid-item .inv-rarity {
+    font-size:0.6rem;
+    padding:1px 6px;
+    border-radius:4px;
+    background:rgba(0,0,0,0.4);
+    font-weight:bold;
+  }
+  .inv-empty {
+    text-align:center;
+    color:#888;
+    padding:30px 10px;
+    font-size:0.85rem;
   }
 
   /* ====== MODAL & OTHERS ====== */
@@ -655,7 +724,7 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v14.0 — SKIN SHOP & RARITY</div>
+<div class="version">v15.0 — INVENTORY UPDATE</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="player-name-display">
   👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
@@ -851,6 +920,17 @@
   </div>
 </div>
 
+<!-- Modal Skin Detail (v15.0) -->
+<div class="modal-overlay" id="skinDetailModal">
+  <div class="modal-box" style="border-color:#7fd4ff;">
+    <h2 style="color:#7fd4ff">👕 Detail Skin</h2>
+    <div id="skinDetailContent"></div>
+    <div class="modal-actions" style="margin-top:12px; grid-template-columns:1fr;">
+      <button class="btn-cancel" onclick="closeSkinDetail()">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script type="module">
@@ -901,113 +981,30 @@ const HELPING_HAND_CONFIG = {
 };
 
 /* ============================================================
-   v14.0: DATABASE SKIN
+   DATABASE SKIN
    ============================================================ */
 const SKIN_DB = {
-  // ===== COMMON =====
-  crimson_spark: {
-    id: 'crimson_spark', name: 'Crimson Spark', price: 5000, currency: 'money',
-    rarity: 'COMMON', category: 'Starter', cls: 'skin-crimson_spark', glossy: false,
-    available: true, icon: '🔴'
-  },
-  azure_wave: {
-    id: 'azure_wave', name: 'Azure Wave', price: 7500, currency: 'money',
-    rarity: 'COMMON', category: 'Starter', cls: 'skin-azure_wave', glossy: false,
-    available: true, icon: '🔵'
-  },
-  emerald_leaf: {
-    id: 'emerald_leaf', name: 'Emerald Leaf', price: 10000, currency: 'money',
-    rarity: 'COMMON', category: 'Starter', cls: 'skin-emerald_leaf', glossy: false,
-    available: true, icon: '🟢'
-  },
-
-  // ===== RARE =====
-  midnight_pulse: {
-    id: 'midnight_pulse', name: 'Midnight Pulse', price: 50000, currency: 'money',
-    rarity: 'RARE', category: 'Rare Collection', cls: 'skin-midnight_pulse', glossy: false,
-    available: true, icon: '🌌'
-  },
-  blaze_runner: {
-    id: 'blaze_runner', name: 'Blaze Runner', price: 75000, currency: 'money',
-    rarity: 'RARE', category: 'Rare Collection', cls: 'skin-blaze_runner', glossy: false,
-    available: true, icon: '🔥'
-  },
-  frost_whisper: {
-    id: 'frost_whisper', name: 'Frost Whisper', price: 100000, currency: 'money',
-    rarity: 'RARE', category: 'Rare Collection', cls: 'skin-frost_whisper', glossy: false,
-    available: true, icon: '❄️'
-  },
-
-  // ===== EXCLUSIVE =====
-  golden_aura: {
-    id: 'golden_aura', name: 'Golden Aura', price: 150000, currency: 'money',
-    rarity: 'EXCLUSIVE', category: 'Exclusive Collection', cls: 'skin-golden_aura', glossy: true,
-    available: true, icon: '👑'
-  },
-  dragon_scale: {
-    id: 'dragon_scale', name: 'Dragon Scale', price: 225000, currency: 'money',
-    rarity: 'EXCLUSIVE', category: 'Exclusive Collection', cls: 'skin-dragon_scale', glossy: true,
-    available: true, icon: '🐉'
-  },
-  ocean_depth: {
-    id: 'ocean_depth', name: 'Ocean Depth', price: 300000, currency: 'money',
-    rarity: 'EXCLUSIVE', category: 'Exclusive Collection', cls: 'skin-ocean_depth', glossy: true,
-    available: true, icon: '🌊'
-  },
-
-  // ===== ETERNAL =====
-  storm_bringer: {
-    id: 'storm_bringer', name: 'Storm Bringer', price: 400000, currency: 'money',
-    rarity: 'ETERNAL', category: 'Eternal Collection', cls: 'skin-storm_bringer', glossy: true,
-    available: true, icon: '⚡'
-  },
-  mystic_crystal: {
-    id: 'mystic_crystal', name: 'Mystic Crystal', price: 450000, currency: 'money',
-    rarity: 'ETERNAL', category: 'Eternal Collection', cls: 'skin-mystic_crystal', glossy: true,
-    available: true, icon: '🔮'
-  },
-  star_forge: {
-    id: 'star_forge', name: 'Star Forge', price: 500000, currency: 'money',
-    rarity: 'ETERNAL', category: 'Eternal Collection', cls: 'skin-star_forge', glossy: true,
-    available: true, icon: '🌟'
-  },
-
-  // ===== MYTHIC =====
-  nova_genesis: {
-    id: 'nova_genesis', name: 'Nova Genesis', price: 600000, currency: 'money',
-    rarity: 'MYTHIC', category: 'Mythic Collection', cls: 'skin-nova_genesis', glossy: false,
-    available: true, icon: '🌌'
-  },
-  eternal_dragon: {
-    id: 'eternal_dragon', name: 'Eternal Dragon', price: 600000, currency: 'money',
-    rarity: 'MYTHIC', category: 'Mythic Collection', cls: 'skin-eternal_dragon', glossy: false,
-    available: true, icon: '🐲'
-  },
-  celestial_king: {
-    id: 'celestial_king', name: 'Celestial King', price: 600000, currency: 'money',
-    rarity: 'MYTHIC', category: 'Mythic Collection', cls: 'skin-celestial_king', glossy: false,
-    available: true, icon: '👑'
-  },
-
-  // ===== LEGENDARY EVENT (LAMA, hanya lihat) =====
-  plasma: {
-    id: 'plasma', name: 'Plasma Enduro', price: 50, currency: 'token',
-    rarity: 'RARE', category: 'Legendary Event', cls: 'skin-plasma', glossy: true,
-    available: false, ended: true, icon: '🔵'
-  },
-  danish: {
-    id: 'danish', name: 'Danish Cube', price: 150, currency: 'token',
-    rarity: 'EXCLUSIVE', category: 'Legendary Event', cls: 'skin-danish', glossy: true,
-    available: false, ended: true, icon: '🟡'
-  },
-  emberheart: {
-    id: 'emberheart', name: 'Emberheart', price: 600, currency: 'token',
-    rarity: 'ETERNAL', category: 'Legendary Event', cls: 'skin-emberheart', glossy: true,
-    available: false, ended: true, icon: '⚪'
-  }
+  crimson_spark: { id:'crimson_spark', name:'Crimson Spark', price:5000, currency:'money', rarity:'COMMON', category:'Starter', cls:'skin-crimson_spark', glossy:false, available:true, icon:'🔴' },
+  azure_wave: { id:'azure_wave', name:'Azure Wave', price:7500, currency:'money', rarity:'COMMON', category:'Starter', cls:'skin-azure_wave', glossy:false, available:true, icon:'🔵' },
+  emerald_leaf: { id:'emerald_leaf', name:'Emerald Leaf', price:10000, currency:'money', rarity:'COMMON', category:'Starter', cls:'skin-emerald_leaf', glossy:false, available:true, icon:'🟢' },
+  midnight_pulse: { id:'midnight_pulse', name:'Midnight Pulse', price:50000, currency:'money', rarity:'RARE', category:'Rare Collection', cls:'skin-midnight_pulse', glossy:false, available:true, icon:'🌌' },
+  blaze_runner: { id:'blaze_runner', name:'Blaze Runner', price:75000, currency:'money', rarity:'RARE', category:'Rare Collection', cls:'skin-blaze_runner', glossy:false, available:true, icon:'🔥' },
+  frost_whisper: { id:'frost_whisper', name:'Frost Whisper', price:100000, currency:'money', rarity:'RARE', category:'Rare Collection', cls:'skin-frost_whisper', glossy:false, available:true, icon:'❄️' },
+  golden_aura: { id:'golden_aura', name:'Golden Aura', price:150000, currency:'money', rarity:'EXCLUSIVE', category:'Exclusive Collection', cls:'skin-golden_aura', glossy:true, available:true, icon:'👑' },
+  dragon_scale: { id:'dragon_scale', name:'Dragon Scale', price:225000, currency:'money', rarity:'EXCLUSIVE', category:'Exclusive Collection', cls:'skin-dragon_scale', glossy:true, available:true, icon:'🐉' },
+  ocean_depth: { id:'ocean_depth', name:'Ocean Depth', price:300000, currency:'money', rarity:'EXCLUSIVE', category:'Exclusive Collection', cls:'skin-ocean_depth', glossy:true, available:true, icon:'🌊' },
+  storm_bringer: { id:'storm_bringer', name:'Storm Bringer', price:400000, currency:'money', rarity:'ETERNAL', category:'Eternal Collection', cls:'skin-storm_bringer', glossy:true, available:true, icon:'⚡' },
+  mystic_crystal: { id:'mystic_crystal', name:'Mystic Crystal', price:450000, currency:'money', rarity:'ETERNAL', category:'Eternal Collection', cls:'skin-mystic_crystal', glossy:true, available:true, icon:'🔮' },
+  star_forge: { id:'star_forge', name:'Star Forge', price:500000, currency:'money', rarity:'ETERNAL', category:'Eternal Collection', cls:'skin-star_forge', glossy:true, available:true, icon:'🌟' },
+  nova_genesis: { id:'nova_genesis', name:'Nova Genesis', price:600000, currency:'money', rarity:'MYTHIC', category:'Mythic Collection', cls:'skin-nova_genesis', glossy:false, available:true, icon:'🌌' },
+  eternal_dragon: { id:'eternal_dragon', name:'Eternal Dragon', price:600000, currency:'money', rarity:'MYTHIC', category:'Mythic Collection', cls:'skin-eternal_dragon', glossy:false, available:true, icon:'🐲' },
+  celestial_king: { id:'celestial_king', name:'Celestial King', price:600000, currency:'money', rarity:'MYTHIC', category:'Mythic Collection', cls:'skin-celestial_king', glossy:false, available:true, icon:'👑' },
+  // ★ v15.0: Kategori "Skin Limited" (sebelumnya "Legendary Event")
+  plasma: { id:'plasma', name:'Plasma Enduro', price:50, currency:'token', rarity:'RARE', category:'Skin Limited', cls:'skin-plasma', glossy:true, available:false, ended:true, icon:'🔵' },
+  danish: { id:'danish', name:'Danish Cube', price:150, currency:'token', rarity:'EXCLUSIVE', category:'Skin Limited', cls:'skin-danish', glossy:true, available:false, ended:true, icon:'🟡' },
+  emberheart: { id:'emberheart', name:'Emberheart', price:600, currency:'token', rarity:'ETERNAL', category:'Skin Limited', cls:'skin-emberheart', glossy:true, available:false, ended:true, icon:'⚪' }
 };
 
-/* Rarity Info */
 const RARITY_INFO = {
   COMMON:    { label: 'COMMON',    color: '#aaa',    badgeClass: 'badge-common' },
   RARE:      { label: 'RARE',      color: '#4fa8ff', badgeClass: 'badge-rare' },
@@ -1015,8 +1012,6 @@ const RARITY_INFO = {
   ETERNAL:   { label: 'ETERNAL',   color: '#c060ff', badgeClass: 'badge-eternal' },
   MYTHIC:    { label: 'MYTHIC',    color: '#ff2b6b', badgeClass: 'badge-mythic' }
 };
-
-const RARITY_ORDER = ['COMMON', 'RARE', 'EXCLUSIVE', 'ETERNAL', 'MYTHIC'];
 
 function getTokenPrice(){
   const now = Date.now();
@@ -1059,11 +1054,8 @@ const DEFAULT_STATE = {
   devMode: false, devUsed: false,
   clanId: null,
   playerName: 'Pemain',
-  friends: {},
-  friendRequests: {},
-  sentRequests: {},
-  lastOnline: 0,
-  lastSeen: Date.now()
+  friends: {}, friendRequests: {}, sentRequests: {},
+  lastOnline: 0, lastSeen: Date.now()
 };
 
 let S = { ...DEFAULT_STATE };
@@ -1079,6 +1071,10 @@ let currentPrivateChatUid = null;
 let privateChatUnsubscribe = null;
 let privateChatTimerInterval = null;
 let onlineUsersCache = {};
+
+// ★ v15.0
+let currentInvTab = 'skin';       // 'item' | 'skin'
+let invSearchQuery = '';
 
 /* ================= UTIL ================= */
 function toast(msg){
@@ -1535,6 +1531,7 @@ function render(){
 
   renderPanels();
   renderSkinPanel();
+  renderInvPanel();
   if (!isUserTypingInClan()) renderClanPanel();
   
   const friendPanel = document.getElementById('panel-friend');
@@ -1553,6 +1550,15 @@ function isUserTypingInFriends(){
   const active = document.activeElement;
   if (!active) return false;
   const panel = document.getElementById('panel-friend');
+  if (!panel) return false;
+  if (panel.classList.contains('hidden')) return false;
+  return panel.contains(active) && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+}
+
+function isUserTypingInInv(){
+  const active = document.activeElement;
+  if (!active) return false;
+  const panel = document.getElementById('panel-inv');
   if (!panel) return false;
   if (panel.classList.contains('hidden')) return false;
   return panel.contains(active) && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
@@ -1720,18 +1726,6 @@ function renderPanels(){
     </div>
   `;
 
-  const inv = document.getElementById('panel-inv');
-  if (!S.inventory.length){
-    inv.innerHTML = '<div style="text-align:center;color:#888;padding:20px">Inventori kosong</div>';
-  } else {
-    inv.innerHTML = S.inventory.map(it=>`
-      <div class="item ${it.skinClass||''} ${it.glossy?'glossy':''}">
-        <div class="info"><b>${escapeHtml(it.name)}</b><br>${it.type} • ${it.rarity}</div>
-        <span class="badge">${it.qty||1}x</span>
-      </div>
-    `).join('');
-  }
-
   // Event Panel (Legacy)
   const ev = document.getElementById('panel-event');
   const status = getEventStatus();
@@ -1749,7 +1743,7 @@ function renderPanels(){
   ev.innerHTML = `
     ${statusHtml}
     <div class="notice-banner">
-      <b>📢 Info:</b> Skin Legendary Event sekarang ada di tab <b>👕 Skin</b>.
+      <b>📢 Info:</b> Skin Limited Event sekarang ada di tab <b>👕 Skin</b>.
     </div>
     ${eventSkins.map(sk=>{
       const owned = S.inventory.some(item => item.id === sk.id);
@@ -1759,7 +1753,7 @@ function renderPanels(){
             <b>${sk.icon} ${sk.name}</b><br>${sk.rarity} • ✴️ ${sk.price}
             ${owned ? '<br><span style="color:#00ff90;font-size:0.75rem">✅ Sudah dimiliki</span>' : ''}
           </div>
-          <button disabled>${status === 'ended' ? 'Selesai' : 'Lihat'}</button>
+          <button disabled>Lihat</button>
         </div>
       `;
     }).join('')}
@@ -1767,33 +1761,27 @@ function renderPanels(){
 }
 
 /* ============================================================
-   v14.0: TOKO SKIN (BARU)
+   TOKO SKIN
    ============================================================ */
 function renderSkinPanel(){
   const panel = document.getElementById('panel-skin');
   if (!panel) return;
 
-  // Group skin by category
   const categories = {};
   for (const sk of Object.values(SKIN_DB)){
     if (!categories[sk.category]) categories[sk.category] = [];
     categories[sk.category].push(sk);
   }
 
-  // Sort: yang bisa dibeli dulu, lalu event
   const categoryOrder = [
-    'Starter',
-    'Rare Collection',
-    'Exclusive Collection',
-    'Eternal Collection',
-    'Mythic Collection',
-    'Legendary Event'
+    'Starter', 'Rare Collection', 'Exclusive Collection',
+    'Eternal Collection', 'Mythic Collection', 'Skin Limited'
   ];
 
   let html = `
     <div class="notice-banner">
       👕 <b>Toko Skin</b> — Koleksi skin kamu.<br>
-      Beli skin yang tersedia atau lihat skin event yang sudah berakhir.
+      Beli skin yang tersedia atau lihat skin limited yang sudah berakhir.
     </div>
   `;
 
@@ -1801,21 +1789,19 @@ function renderSkinPanel(){
     const skins = categories[catName];
     if (!skins || !skins.length) continue;
 
-    const isLegendaryEnded = (catName === 'Legendary Event');
-    const catClass = isLegendaryEnded ? 'locked' : '';
-    const countText = isLegendaryEnded ? 'Berakhir' : `${skins.length} skin`;
+    const isLimited = (catName === 'Skin Limited');
+    const catClass = isLimited ? 'locked' : '';
 
     html += `<div class="skin-category ${catClass}">`;
+    // ★ v15.0: Tidak ada label "Berakhir" di kanan, hanya nama kategori
     html += `<div class="skin-category-title">
-      <span>${isLegendaryEnded ? '🔒' : '📦'} ${catName}</span>
-      <span class="count">${countText}</span>
+      <span>${isLimited ? '🔒' : '📦'} ${catName}</span>
     </div>`;
 
     for (const sk of skins){
       const owned = S.inventory.some(item => item.id === sk.id);
       const rarity = RARITY_INFO[sk.rarity] || RARITY_INFO.COMMON;
 
-      // Harga display
       let priceDisplay = '';
       if (sk.currency === 'money'){
         priceDisplay = `€ ${fmt(sk.price)}`;
@@ -1823,23 +1809,23 @@ function renderSkinPanel(){
         priceDisplay = `✴️ ${sk.price}`;
       }
 
-      // Status
       let statusText = '';
       let btnHtml = '';
 
-      if (isLegendaryEnded){
-        // Event lama - hanya lihat
+      if (isLimited){
+        // Skin Limited - hanya lihat
         statusText = '<span style="color:#ff8080">🔒 Event Berakhir</span>';
-        btnHtml = `<button class="ended-btn" disabled>Tidak Tersedia</button>`;
+        btnHtml = `<button disabled>Beli</button>`;
       } else if (owned){
+        // ★ v15.0: Sudah dimiliki → tombol abu-abu dengan tulisan "Beli"
         statusText = '<span style="color:#00ff90">✅ Sudah Dimiliki</span>';
-        btnHtml = `<button class="owned-btn" disabled>Dimiliki</button>`;
+        btnHtml = `<button disabled>Beli</button>`;
       } else if (sk.available){
         statusText = '<span style="color:#00ff90">🟢 Tersedia</span>';
         btnHtml = `<button onclick="buySkin('${sk.id}')">Beli</button>`;
       } else {
         statusText = '<span style="color:#888">⏰ Coming Soon</span>';
-        btnHtml = `<button class="ended-btn" disabled>Coming Soon</button>`;
+        btnHtml = `<button disabled>Beli</button>`;
       }
 
       html += `
@@ -1864,7 +1850,171 @@ function renderSkinPanel(){
 }
 
 /* ============================================================
-   BELI SKIN (v14.0)
+   ★ v15.0: INVENTORI (Baru)
+   ============================================================ */
+function renderInvPanel(){
+  const panel = document.getElementById('panel-inv');
+  if (!panel) return;
+
+  // Kalau user sedang fokus di search input, jangan replace seluruh panel
+  // (biar keyboard tidak nutup-nutup)
+  const active = document.activeElement;
+  const isSearching = active && active.id === 'invSearchInput';
+
+  if (isSearching){
+    // Cuma update hasil saja, jangan replace search input
+    updateInvResult();
+    return;
+  }
+
+  let html = `
+    <div class="inv-tabs">
+      <button class="${currentInvTab==='skin'?'active':''}" onclick="switchInvTab('skin')">👕 Skin</button>
+      <button class="${currentInvTab==='item'?'active':''}" onclick="switchInvTab('item')">📦 Item</button>
+    </div>
+    <div class="inv-search">
+      <input type="text" id="invSearchInput" placeholder="🔍 Cari ${currentInvTab==='skin'?'skin':'item'}..."
+             value="${escapeHtml(invSearchQuery)}"
+             oninput="onInvSearchInput(this.value)">
+      <button class="clear-btn ${invSearchQuery?'show':''}" onclick="clearInvSearch()">✕</button>
+    </div>
+    <div id="invResultContainer"></div>
+  `;
+
+  panel.innerHTML = html;
+  updateInvResult();
+}
+
+function updateInvResult(){
+  const container = document.getElementById('invResultContainer');
+  if (!container) return;
+
+  const q = (invSearchQuery || '').toLowerCase().trim();
+
+  if (currentInvTab === 'skin'){
+    // Filter skin
+    const skins = S.inventory.filter(it => {
+      // Skin: item dengan skinClass atau tipe Skin
+      return (it.skinClass || it.type === 'Skin');
+    });
+
+    const filtered = skins.filter(it => {
+      if (!q) return true;
+      return (it.name || '').toLowerCase().includes(q);
+    });
+
+    if (!filtered.length){
+      container.innerHTML = `<div class="inv-empty">
+        ${skins.length === 0 ? 'Belum ada skin.<br>Beli di tab 👕 Skin!' : '❌ Tidak ditemukan'}
+      </div>`;
+      return;
+    }
+
+    let gridHtml = '<div class="inv-grid">';
+    for (const it of filtered){
+      const rarity = RARITY_INFO[it.rarity] || RARITY_INFO.COMMON;
+      const skinDef = SKIN_DB[it.id];
+      const icon = skinDef ? skinDef.icon : '👕';
+
+      gridHtml += `
+        <div class="inv-grid-item ${it.skinClass||''} ${it.glossy?'glossy':''}"
+             onclick="showSkinDetail('${it.id}')">
+          <div class="inv-icon">${icon}</div>
+          <div class="inv-name">${escapeHtml(it.name)}</div>
+          <div class="inv-rarity ${rarity.badgeClass}">${rarity.label}</div>
+        </div>
+      `;
+    }
+    gridHtml += '</div>';
+    container.innerHTML = gridHtml;
+  } else {
+    // Item
+    const items = S.inventory.filter(it => {
+      return !(it.skinClass || it.type === 'Skin');
+    });
+
+    const filtered = items.filter(it => {
+      if (!q) return true;
+      return (it.name || '').toLowerCase().includes(q);
+    });
+
+    if (!filtered.length){
+      container.innerHTML = `<div class="inv-empty">
+        ${items.length === 0 ? 'Belum ada item.' : '❌ Tidak ditemukan'}
+      </div>`;
+      return;
+    }
+
+    let html = '';
+    for (const it of filtered){
+      html += `
+        <div class="item">
+          <div class="info">
+            <b>${escapeHtml(it.name)}</b><br>
+            ${it.type || 'Item'} • ${it.rarity || 'COMMON'}
+          </div>
+          <span class="badge">${it.qty||1}x</span>
+        </div>
+      `;
+    }
+    container.innerHTML = html;
+  }
+}
+
+window.switchInvTab = function(tab){
+  currentInvTab = tab;
+  invSearchQuery = '';
+  renderInvPanel();
+};
+
+window.onInvSearchInput = function(val){
+  invSearchQuery = val || '';
+  // Update tombol clear
+  const clearBtn = document.querySelector('.inv-search .clear-btn');
+  if (clearBtn){
+    clearBtn.classList.toggle('show', !!invSearchQuery);
+  }
+  // Update hasil
+  updateInvResult();
+};
+
+window.clearInvSearch = function(){
+  invSearchQuery = '';
+  const input = document.getElementById('invSearchInput');
+  if (input){ input.value = ''; input.focus(); }
+  const clearBtn = document.querySelector('.inv-search .clear-btn');
+  if (clearBtn) clearBtn.classList.remove('show');
+  updateInvResult();
+};
+
+window.showSkinDetail = function(id){
+  const sk = SKIN_DB[id];
+  const owned = S.inventory.find(it => it.id === id);
+  if (!sk || !owned) return;
+
+  const rarity = RARITY_INFO[sk.rarity] || RARITY_INFO.COMMON;
+
+  document.getElementById('skinDetailContent').innerHTML = `
+    <div class="skin-card ${sk.cls} ${sk.glossy?'glossy':''}" style="margin-bottom:12px">
+      <div class="skin-name">
+        <span>${sk.icon} ${escapeHtml(sk.name)}</span>
+        <span class="skin-badge ${rarity.badgeClass}">${rarity.label}</span>
+      </div>
+      <div class="skin-meta">Kategori: ${sk.category}</div>
+      <div class="skin-meta">Status: ✅ Sudah Dimiliki</div>
+    </div>
+  `;
+  document.getElementById('skinDetailModal').classList.add('show');
+};
+window.closeSkinDetail = function(){
+  document.getElementById('skinDetailModal').classList.remove('show');
+};
+document.getElementById('skinDetailModal').addEventListener('click', (e)=>{
+  if (e.target.id === 'skinDetailModal') closeSkinDetail();
+});
+
+/* ============================================================
+   BELI SKIN
    ============================================================ */
 window.buySkin = function(id){
   const sk = SKIN_DB[id];
@@ -1875,7 +2025,6 @@ window.buySkin = function(id){
   const alreadyOwned = S.inventory.some(item => item.id === id);
   if (alreadyOwned) return toast(`⚠️ Kamu sudah punya ${sk.name}!`);
 
-  // Cek currency
   if (sk.currency === 'money'){
     if (S.money < sk.price) return toast(`❌ Uang tidak cukup! Butuh €${fmt(sk.price)}`);
     S.money -= sk.price;
@@ -1885,13 +2034,8 @@ window.buySkin = function(id){
   }
 
   S.inventory.push({
-    id: sk.id,
-    name: sk.name,
-    type: 'Skin',
-    rarity: sk.rarity,
-    skinClass: sk.cls,
-    glossy: sk.glossy,
-    qty: 1
+    id: sk.id, name: sk.name, type: 'Skin', rarity: sk.rarity,
+    skinClass: sk.cls, glossy: sk.glossy, qty: 1
   });
 
   toast(`⭐ ${sk.name} dibeli!`);
@@ -1959,7 +2103,7 @@ window.buyHelpingHand = function(mode){
 };
 
 /* ============================================================
-   CLAN SYSTEM
+   CLAN SYSTEM (Sama seperti v14.0)
    ============================================================ */
 function isUserTypingInClan(){
   const active = document.activeElement;
@@ -2422,7 +2566,7 @@ window.sendChatMsg = async function(){
 };
 
 /* ============================================================
-   FRIEND SYSTEM
+   FRIEND SYSTEM (Sama seperti v14.0)
    ============================================================ */
 let savedFriendQuery = '';
 let savedFriendResultHtml = '';
@@ -2823,6 +2967,8 @@ window.confirmReset = async function(){
   savedSearchResult = null;
   savedFriendQuery = '';
   savedFriendResultHtml = '';
+  invSearchQuery = '';
+  currentInvTab = 'skin';
   render();
   await Storage.save(S);
   toast('🗑️ Data berhasil direset.');
@@ -2855,6 +3001,7 @@ document.addEventListener('keydown', (e)=>{
     closePrivateChat();
     closeTransferModal();
     closeMuteModal();
+    closeSkinDetail();
   }
 });
 
@@ -2870,6 +3017,7 @@ document.querySelectorAll('.nav button').forEach(b=>{
     if (b.dataset.panel === 'clan') renderClanPanel();
     else if (b.dataset.panel === 'friend') renderFriendPanel();
     else if (b.dataset.panel === 'skin') renderSkinPanel();
+    else if (b.dataset.panel === 'inv') renderInvPanel();
     else stopChatListener();
   });
 });
@@ -2925,7 +3073,6 @@ async function init(){
     S.friends = S.friends || {};
     S.friendRequests = S.friendRequests || {};
     S.sentRequests = S.sentRequests || {};
-    // Bersihkan sisa data lama
     delete S.prestigeCount;
     delete S.prestigePoints;
     delete S.prestigeSkinIds;
