@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v16.0</title>
+<title>ELIPS NOVA GAME v16.1</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -623,7 +623,7 @@
     background:linear-gradient(135deg,#ff2b6b,#ff5050); color:white;
     border-color:#ff4060;
   }
-  /* ====== v16.0: KUPON ====== */
+  /* ====== v16.1: KUPON ====== */
   .kupon-grid {
     display:grid;
     grid-template-columns:repeat(2, 1fr);
@@ -655,24 +655,7 @@
     border-color:#666;
   }
   .kupon-item.expired .kupon-name { color:#888; }
-  .kupon-item .kupon-use-btn {
-    margin-top:8px;
-    padding:5px 12px;
-    border-radius:6px;
-    border:none;
-    cursor:pointer;
-    background:linear-gradient(135deg,#00c060,#00ff90);
-    color:#111;
-    font-weight:bold;
-    font-size:0.7rem;
-  }
-  .kupon-item .kupon-use-btn:disabled {
-    background:#444;
-    color:#888;
-    cursor:not-allowed;
-  }
 
-  /* Kupon Pilihan di Modal Beli */
   .kupon-select-list {
     max-height:200px;
     overflow-y:auto;
@@ -730,7 +713,7 @@
     font-size:0.9rem;
   }
 
-  /* ====== v16.0: LUCKY WHEEL ====== */
+  /* ====== v16.1: LUCKY WHEEL ====== */
   .wheel-container {
     display:flex;
     flex-direction:column;
@@ -903,6 +886,10 @@
     z-index:3000;
     text-align:center;
     box-shadow:0 0 60px rgba(255,180,0,0.8);
+    display:none;
+  }
+  .prize-popup.show {
+    display:block;
     animation: prizePop 0.5s forwards;
   }
   @keyframes prizePop {
@@ -952,7 +939,7 @@
     100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
   }
 
-  /* ====== v16.0: CLAN LEVEL & ADMIN ====== */
+  /* ====== v16.1: CLAN LEVEL & ADMIN ====== */
   .clan-level-badge {
     display:inline-block;
     font-size:0.75rem;
@@ -1014,11 +1001,6 @@
     background:linear-gradient(135deg, #ffd700, #ff6600);
     color:#111;
   }
-  .role-badge-admin {
-    background:linear-gradient(135deg, #5b3fff, #a02bff) !important;
-    color:white !important;
-    font-weight:bold;
-  }
 
   .admin-promote-btn {
     padding:4px 8px;
@@ -1040,21 +1022,6 @@
     cursor:pointer;
     margin-left:4px;
   }
-
-  /* ====== CACHE BADGE ====== */
-  .cache-badge {
-    position:fixed;
-    top:8px;
-    right:8px;
-    background:rgba(0,0,0,0.7);
-    border:1px solid #ffb300;
-    border-radius:8px;
-    padding:4px 8px;
-    font-size:0.65rem;
-    color:#ffb300;
-    z-index:9998;
-    cursor:pointer;
-  }
 </style>
 </head>
 <body>
@@ -1066,7 +1033,7 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v16.0</div>
+<div class="version">v16.1</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="dev-active-tag" id="devActiveTag" style="display:none">
   <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
@@ -1173,7 +1140,6 @@
   </div>
 </div>
 
-<!-- Modal Dev -->
 <div class="modal-overlay" id="devModal">
   <div class="modal-box" style="border-color:#ffb300;">
     <h2 style="color:#ffb300">⚡ DEVELOPER MODE</h2>
@@ -1191,7 +1157,6 @@
   </div>
 </div>
 
-<!-- Modal Create Clan -->
 <div class="modal-overlay" id="createClanModal">
   <div class="modal-box" style="border-color:#a06bff;">
     <h2 style="color:#c47bff">🏰 Buat Clan Baru</h2>
@@ -1214,7 +1179,6 @@
   </div>
 </div>
 
-<!-- Modal Edit Name -->
 <div class="modal-overlay" id="editNameModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
     <h2 style="color:#7fd4ff">👤 Ubah Nama Pemain</h2>
@@ -1227,7 +1191,6 @@
   </div>
 </div>
 
-<!-- Modal Edit Bio -->
 <div class="modal-overlay" id="editBioModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
     <h2 style="color:#7fd4ff">📝 Edit Bio</h2>
@@ -1243,7 +1206,6 @@
   </div>
 </div>
 
-<!-- Modal Transfer -->
 <div class="modal-overlay" id="transferModal">
   <div class="modal-box" style="border-color:#ffb300;">
     <h2 style="color:#ffb300">👑 Transfer Kepemilikan Clan</h2>
@@ -1257,7 +1219,6 @@
   </div>
 </div>
 
-<!-- Modal Mute -->
 <div class="modal-overlay" id="muteModal">
   <div class="modal-box" style="border-color:#ff4060;">
     <h2 style="color:#ff4060">🔇 Bisukan Anggota</h2>
@@ -1276,7 +1237,6 @@
   </div>
 </div>
 
-<!-- Modal Profile -->
 <div class="modal-overlay" id="profileModal">
   <div class="modal-box" style="border-color:#a06bff;">
     <h2 style="color:#c47bff">👤 Profil Pemain</h2>
@@ -1287,7 +1247,6 @@
   </div>
 </div>
 
-<!-- Modal Private Chat -->
 <div class="modal-overlay" id="privateChatModal">
   <div class="modal-box" style="border-color:#7fd4ff; max-width:480px;">
     <h2 style="color:#7fd4ff">💬 <span id="privateChatName">-</span></h2>
@@ -1306,7 +1265,6 @@
   </div>
 </div>
 
-<!-- Modal Skin Detail -->
 <div class="modal-overlay" id="skinDetailModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
     <h2 style="color:#7fd4ff">👕 Detail Skin</h2>
@@ -1317,7 +1275,6 @@
   </div>
 </div>
 
-<!-- Modal Beli dengan Kupon -->
 <div class="modal-overlay" id="buyWithKuponModal">
   <div class="modal-box" style="border-color:#00ff90; max-width:420px;">
     <h2 style="color:#00ff90">🛒 Konfirmasi Pembelian</h2>
@@ -1332,7 +1289,6 @@
   </div>
 </div>
 
-<!-- Modal Upgrade Clan Level -->
 <div class="modal-overlay" id="clanUpgradeModal">
   <div class="modal-box" style="border-color:#ffd700;">
     <h2 style="color:#ffd700">🏰 Upgrade Level Clan</h2>
@@ -1344,8 +1300,7 @@
   </div>
 </div>
 
-<!-- Prize Popup (Lucky Wheel) -->
-<div class="prize-popup" id="prizePopup" style="display:none">
+<div class="prize-popup" id="prizePopup">
   <div class="prize-icon" id="prizeIcon">🎁</div>
   <div class="prize-label" id="prizeLabel">SELAMAT!</div>
   <div class="prize-value" id="prizeValue">-</div>
@@ -1397,7 +1352,6 @@ const HELPING_HAND_CONFIG = {
   clickPowerMin: 50, clickPowerMax: 80
 };
 
-/* ★ v16.0: CLAN LEVEL CONFIG */
 const CLAN_LEVELS = {
   1: { pointsMin: 0,    maxMembers: 7,  upgradeCost: 0 },
   2: { pointsMin: 2000, maxMembers: 10, upgradeCost: 800 },
@@ -1406,7 +1360,6 @@ const CLAN_LEVELS = {
 };
 const MAX_ADMIN_PER_CLAN = 3;
 
-/* ★ v16.0: LUCKY WHEEL SLOTS */
 const WHEEL_SLOTS = [
   { id: 1,  label: '€500',        icon: '💰', type: 'money',   value: 500,  color: '#ff5050' },
   { id: 2,  label: '€1.000',      icon: '💰', type: 'money',   value: 1000, color: '#4090ff' },
@@ -1424,7 +1377,6 @@ const WHEEL_SLOTS = [
 const WHEEL_COST = 2000;
 const WHEEL_COOLDOWN = 3000;
 
-/* ★ v16.0: KUPON JENIS */
 const KUPON_TYPES = {
   2:  { label: 'Kupon 2%',  color: '#a0a0a0', icon: '🔖' },
   10: { label: 'Kupon 10%', color: '#4090ff', icon: '🔖' },
@@ -1483,10 +1435,7 @@ const DEFAULT_STATE = {
   playerBio: '',
   friends: {}, friendRequests: {}, sentRequests: {},
   lastOnline: 0, lastSeen: Date.now(),
-  // Lucky Wheel
-  lastSpinAt: 0,
-  // Pembelian dengan kupon
-  pendingBuy: null
+  lastSpinAt: 0
 };
 
 let S = { ...DEFAULT_STATE };
@@ -1505,10 +1454,10 @@ let onlineUsersCache = {};
 let currentInvTab = 'skin';
 let invSearchQuery = '';
 
-/* v16.0: Lucky Wheel state */
 let wheelSpinning = false;
 let wheelRotation = 0;
 let selectedKuponForBuy = null;
+let pendingBuy = null;
 
 /* ================= UTIL ================= */
 function toast(msg){
@@ -1577,9 +1526,6 @@ function isUserOnline(uid, lastSeenTs){
   return (Date.now() - lastSeenTs) < ONLINE_THRESHOLD;
 }
 
-/* ============================================================
-   HITUNG EXP BONUS (×2)
-   ============================================================ */
 function getExpPerClick(){
   const level = S.level || 1;
   return 2 * Math.pow(2, level - 1);
@@ -1597,8 +1543,7 @@ function showDiamondPop(amount){
   const el = document.createElement('div');
   el.className = 'diamond-pop';
   el.textContent = `+💎 ${amount}`;
-  el.style.left = '50%';
-  el.style.top = '45%';
+  el.style.cssText = 'position:fixed;font-size:1.5rem;font-weight:bold;pointer-events:none;color:#7fd4ff;text-shadow:0 0 15px #00e0ff,0 0 30px #a06bff;left:50%;top:45%;z-index:1000;';
   document.body.appendChild(el);
   setTimeout(()=>el.remove(), 1500);
 }
@@ -1612,7 +1557,7 @@ function getEventStatus(){
   return 'closed';
 }
 /* ============================================================
-   STORAGE LAYER (Firebase + Fallback)
+   STORAGE LAYER
    ============================================================ */
 const Storage = {
   async load() {
@@ -1648,7 +1593,7 @@ const Storage = {
 };
 
 /* ============================================================
-   CLAN STORAGE (v16.0: Level + Admin + Poin)
+   CLAN STORAGE
    ============================================================ */
 const ClanStorage = {
   async getClan(clanId) {
@@ -1664,7 +1609,6 @@ const ClanStorage = {
   },
 
   async createClan(clanId, data) {
-    // ★ v16.0: tambah field level & points
     if (!data.level) data.level = 1;
     if (!data.points) data.points = 0;
     if (!data.lastPointsUpdate) data.lastPointsUpdate = Date.now();
@@ -1765,7 +1709,7 @@ const ClanStorage = {
 };
 
 /* ============================================================
-   v16.0: CLAN LEVEL FUNCTIONS
+   CLAN LEVEL FUNCTIONS
    ============================================================ */
 function getClanMaxMembers(level){
   const lvl = CLAN_LEVELS[level] || CLAN_LEVELS[1];
@@ -1778,7 +1722,6 @@ function getNextClanLevel(level){
   return level >= 4 ? null : (level + 1);
 }
 
-/* Proses poin clan: naik otomatis & cek auto-disband */
 async function processClanPoints(clanId){
   try {
     const clan = await ClanStorage.getClan(clanId);
@@ -1788,7 +1731,6 @@ async function processClanPoints(clanId){
     const lastUpdate = clan.lastPointsUpdate || now;
     const daysSinceUpdate = Math.floor((now - lastUpdate) / 86400000);
 
-    // Cek apakah semua anggota tidak login selama 3 / 7 hari
     const members = clan.members || {};
     const memberUids = Object.keys(members);
 
@@ -1797,7 +1739,6 @@ async function processClanPoints(clanId){
 
     for (const muid of memberUids){
       let ts = members[muid].lastSeen || members[muid].joinedAt || 0;
-      // Coba fetch dari user data kalau ada
       try {
         const userSnap = await get(ref(db, `users/${muid}/lastOnline`));
         const userTs = userSnap.val();
@@ -1809,21 +1750,17 @@ async function processClanPoints(clanId){
       if (daysInactive < 7) allInactive7Days = false;
     }
 
-    // Auto-disband kalau 7 hari tidak ada yang login
     if (allInactive7Days && memberUids.length > 0){
       console.log('Auto-disband clan:', clanId);
       await ClanStorage.deleteClan(clanId, clan.name);
-      // Clear clanId di user (opsional — nanti di-clear manual)
       return { disbanded: true };
     }
 
     let pointsDelta = 0;
 
-    // Turun 100 poin kalau 3 hari tidak aktif
     if (allInactive3Days && daysSinceUpdate >= 1 && memberUids.length > 0){
       pointsDelta = -100;
     } else if (daysSinceUpdate >= 1){
-      // Naik 60 poin per hari
       pointsDelta = 60 * daysSinceUpdate;
     }
 
@@ -1832,7 +1769,6 @@ async function processClanPoints(clanId){
       await ClanStorage.updateClan(clanId, 'points', newPoints);
       await ClanStorage.updateClan(clanId, 'lastPointsUpdate', now);
 
-      // Cek auto upgrade level
       const currentLevel = clan.level || 1;
       const nextLevel = getNextClanLevel(currentLevel);
       if (nextLevel && newPoints >= CLAN_LEVELS[nextLevel].pointsMin){
@@ -1843,7 +1779,7 @@ async function processClanPoints(clanId){
 }
 
 /* ============================================================
-   v16.0: ADMIN FUNCTIONS
+   ADMIN FUNCTIONS
    ============================================================ */
 function getAdminCount(clan){
   if (!clan.members) return 0;
@@ -1890,7 +1826,7 @@ window.demoteFromAdmin = async function(targetUid){
 };
 
 /* ============================================================
-   v16.0: KUPON FUNCTIONS
+   KUPON FUNCTIONS
    ============================================================ */
 function generateKuponId(){
   return 'k_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
@@ -1917,10 +1853,6 @@ function getActiveKupons(){
   if (!S.kupons) return [];
   const now = Date.now();
   return S.kupons.filter(k => k.expiresAt > now);
-}
-
-function calculateDiscountedPrice(basePrice, percent){
-  return Math.floor(basePrice * (100 - percent) / 100);
 }
 
 /* ============================================================
@@ -2106,38 +2038,60 @@ function validateDevKey(input){
 }
 
 /* ============================================================
-   v16.0: LUCKY WHEEL FUNCTIONS
+   ★ v16.1: LUCKY WHEEL — FIXED!
    ============================================================ */
-function buildWheel(){
-  const wheel = document.getElementById('wheelEl');
-  if (!wheel) return;
-  wheel.innerHTML = '';
-  const slotAngle = 360 / WHEEL_SLOTS.length;
 
-  WHEEL_SLOTS.forEach((slot, index) => {
-    const el = document.createElement('div');
-    el.className = 'wheel-slot';
-    const angle = (slotAngle * index) + (slotAngle / 2) - 90;
-    el.style.transform = `rotate(${angle}deg) translate(90px) rotate(-${angle}deg)`;
-    el.innerHTML = `${slot.icon}<br>${slot.label}`;
-    wheel.appendChild(el);
-  });
+/* Build wheel (dengan error handling) */
+window.buildWheel = function(){
+  try {
+    const wheel = document.getElementById('wheelEl');
+    if (!wheel){
+      console.warn('⚠️ Element #wheelEl tidak ditemukan');
+      return;
+    }
+    wheel.innerHTML = '';
+    const slotAngle = 360 / WHEEL_SLOTS.length;
 
-  // Center
-  const center = document.createElement('div');
-  center.className = 'wheel-center';
-  center.textContent = '🎡';
-  wheel.appendChild(center);
-}
+    WHEEL_SLOTS.forEach((slot, index) => {
+      const el = document.createElement('div');
+      el.className = 'wheel-slot';
+      const angle = (slotAngle * index) + (slotAngle / 2) - 90;
+      el.style.transform = `rotate(${angle}deg) translate(90px) rotate(-${angle}deg)`;
+      el.innerHTML = `${slot.icon}<br>${slot.label}`;
+      wheel.appendChild(el);
+    });
 
-function spinWheel(){
-  if (wheelSpinning) return;
+    const center = document.createElement('div');
+    center.className = 'wheel-center';
+    center.textContent = '🎡';
+    wheel.appendChild(center);
+    
+    console.log('✅ Wheel berhasil dibuild dengan', WHEEL_SLOTS.length, 'slot');
+  } catch(e){
+    console.error('❌ buildWheel error:', e);
+  }
+};
+
+/* ★ v16.1: spinWheel — di-set ke window biar bisa dipanggil dari onclick */
+window.spinWheel = function(){
+  console.log('🎡 spinWheel dipanggil');
+  
+  if (wheelSpinning) {
+    console.log('⚠️ Wheel sedang berputar');
+    return;
+  }
+  
   const now = Date.now();
   if (now - S.lastSpinAt < WHEEL_COOLDOWN){
     const remain = Math.ceil((WHEEL_COOLDOWN - (now - S.lastSpinAt)) / 1000);
-    return toast(`⏳ Tunggu ${remain} detik`);
+    toast(`⏳ Tunggu ${remain} detik`);
+    return;
   }
-  if (S.money < WHEEL_COST) return toast(`❌ Butuh €${fmt(WHEEL_COST)}`);
+  
+  if (S.money < WHEEL_COST){
+    toast(`❌ Butuh €${fmt(WHEEL_COST)}`);
+    return;
+  }
 
   // Bayar
   S.money -= WHEEL_COST;
@@ -2147,80 +2101,84 @@ function spinWheel(){
   const btn = document.getElementById('spinBtn');
   if (btn) btn.disabled = true;
 
-  // Pilih hadiah random (semua sama, 1/12)
+  const info = document.getElementById('spinInfo');
+  if (info) info.textContent = '🎡 Sedang memutar...';
+
+  // Pilih hadiah random
   const prizeIndex = Math.floor(Math.random() * WHEEL_SLOTS.length);
   const prize = WHEEL_SLOTS[prizeIndex];
+  console.log('🎁 Hadiah terpilih:', prize.label, '(index', prizeIndex, ')');
 
   // Hitung rotasi
   const slotAngle = 360 / WHEEL_SLOTS.length;
-  // Wheel slot 0 di posisi -15deg (dari CSS conic), pointer di atas
-  // Offset: slot 0 harus di posisi 0 (atas)
   const targetAngle = 360 - (prizeIndex * slotAngle);
   const fullSpins = 6;
   wheelRotation += (360 * fullSpins) + targetAngle;
+  console.log('🔄 Rotasi target:', wheelRotation, 'deg');
 
   const wheel = document.getElementById('wheelEl');
   if (wheel){
     wheel.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
     wheel.style.transform = `rotate(${wheelRotation}deg)`;
+  } else {
+    console.error('❌ Element #wheelEl tidak ada!');
   }
+
+  save();
 
   // Setelah 5 detik → kasih hadiah
   setTimeout(() => {
+    console.log('⏰ 5 detik selesai, memberi hadiah');
     wheelSpinning = false;
     if (btn) btn.disabled = false;
-
-    // Beri hadiah
-    givePrize(prize);
-
-    // Save
+    window.givePrize(prize);
     render();
     save();
   }, 5100);
-}
+};
 
-function givePrize(prize){
+/* ★ v16.1: givePrize — di-set ke window */
+window.givePrize = function(prize){
   let rewardText = '';
   let rewardIcon = prize.icon;
 
-  if (prize.type === 'money'){
-    S.money += prize.value;
-    rewardText = `€ ${fmt(prize.value)}`;
-  } else if (prize.type === 'token'){
-    S.token += prize.value;
-    rewardText = `✴️ ${prize.value} Token`;
-  } else if (prize.type === 'diamond'){
-    S.diamond += prize.value;
-    rewardText = `💎 ${prize.value} Diamond`;
-  } else if (prize.type === 'kupon'){
-    const kupon = createKupon(prize.value);
-    S.kupons = S.kupons || [];
-    S.kupons.push(kupon);
-    rewardText = `🔖 Kupon ${prize.value}%`;
+  try {
+    if (prize.type === 'money'){
+      S.money += prize.value;
+      rewardText = `€ ${fmt(prize.value)}`;
+    } else if (prize.type === 'token'){
+      S.token += prize.value;
+      rewardText = `✴️ ${prize.value} Token`;
+    } else if (prize.type === 'diamond'){
+      S.diamond += prize.value;
+      rewardText = `💎 ${prize.value} Diamond`;
+    } else if (prize.type === 'kupon'){
+      const kupon = createKupon(prize.value);
+      S.kupons = S.kupons || [];
+      S.kupons.push(kupon);
+      rewardText = `🔖 Kupon ${prize.value}%`;
+    }
+
+    window.showPrizePopup(rewardIcon, rewardText);
+    spawnConfetti();
+    toast(`🎉 ${rewardText}!`);
+  } catch(e){
+    console.error('❌ givePrize error:', e);
   }
+};
 
-  // Tampilkan popup
-  showPrizePopup(rewardIcon, rewardText);
-  spawnConfetti();
-  toast(`🎉 ${rewardText}!`);
-}
-
-function showPrizePopup(icon, text){
+window.showPrizePopup = function(icon, text){
   const popup = document.getElementById('prizePopup');
+  if (!popup) return;
   document.getElementById('prizeIcon').textContent = icon;
   document.getElementById('prizeLabel').textContent = 'SELAMAT!';
   document.getElementById('prizeValue').textContent = text;
-  popup.style.display = 'block';
-  popup.style.transform = 'translate(-50%, -50%) scale(0)';
-  popup.style.animation = 'none';
-  setTimeout(() => {
-    popup.style.animation = 'prizePop 0.5s forwards';
-  }, 10);
-}
+  popup.classList.add('show');
+};
 
 window.closePrizePopup = function(){
   const popup = document.getElementById('prizePopup');
-  popup.style.display = 'none';
+  if (popup) popup.classList.remove('show');
 };
 
 function spawnConfetti(){
@@ -2464,7 +2422,7 @@ function addExp(v){
 }
 
 /* ============================================================
-   PANEL TOKO (UTAMA — v16.0 sudah TIDAK ada diskon)
+   PANEL TOKO UTAMA
    ============================================================ */
 function renderPanels(){
   const shop = document.getElementById('panel-shop');
@@ -2504,7 +2462,7 @@ function renderPanels(){
     </div>
   `;
 
-  // Event Panel + Lucky Wheel (di bawah)
+  // Event Panel + Lucky Wheel
   const ev = document.getElementById('panel-event');
   const status = getEventStatus();
   const eventSkins = ['plasma', 'danish', 'emberheart'].map(id => SKIN_DB[id]);
@@ -2518,7 +2476,6 @@ function renderPanels(){
     statusHtml = `<div class="event-status event-closed" style="background:rgba(120,120,120,0.2);border-color:#666;color:#aaa">🏁 EVENT LEGENDARY TELAH SELESAI PERMANEN</div>`;
   }
 
-  // Build wheel legend
   let wheelLegend = '<div class="legend-grid">';
   WHEEL_SLOTS.forEach(slot => {
     wheelLegend += `<div class="legend-item"><span>${slot.icon} ${slot.label}</span></div>`;
@@ -2545,7 +2502,6 @@ function renderPanels(){
       `;
     }).join('')}
 
-    <!-- Lucky Wheel (di bawah) -->
     <div class="wheel-container">
       <div class="wheel-title">🎡 LUCKY WHEEL 🎡</div>
       <div class="wheel-wrapper">
@@ -2557,7 +2513,7 @@ function renderPanels(){
         🎡 PUTAR!
       </button>
       <div class="spin-info" id="spinInfo">
-        ${wheelSpinning ? '🎡 Sedang memutar...' : (Date.now() - S.lastSpinAt < WHEEL_COOLDOWN ? `⏳ Cooldown ${Math.ceil((WHEEL_COOLDOWN - (Date.now() - S.lastSpinAt))/1000)}s` : 'Tekan PUTAR untuk mencoba keberuntungan!')}
+        ${wheelSpinning ? '🎡 Sedang memutar...' : (Date.now() - S.lastSpinAt < WHEEL_COOLDOWN ? `⏳ Cooldown ${Math.ceil((WHEEL_COOLDOWN - (Date.now() - S.lastSpinAt))/1000)}s` : 'Tekan PUTAR untuk mencoba keberuntungan!'}
       </div>
       <div class="wheel-legend">
         <h4>📋 Daftar Hadiah</h4>
@@ -2567,7 +2523,10 @@ function renderPanels(){
   `;
 
   // Build wheel setelah render
-  setTimeout(buildWheel, 50);
+  setTimeout(() => {
+    try { window.buildWheel(); }
+    catch(e) { console.error('buildWheel error:', e); }
+  }, 100);
 }
 
 /* ============================================================
@@ -2880,13 +2839,12 @@ function renderProfilePanel(){
 }
 
 /* ============================================================
-   v16.0: TAB KUPON
+   TAB KUPON
    ============================================================ */
 function renderKuponPanel(){
   const panel = document.getElementById('panel-kupon');
   if (!panel) return;
 
-  // Cleanup expired
   if (cleanupExpiredKupons()) save();
 
   const kupons = S.kupons || [];
@@ -2905,7 +2863,6 @@ function renderKuponPanel(){
     return;
   }
 
-  // Group by percent
   const grouped = {};
   for (const k of kupons){
     if (!grouped[k.percent]) grouped[k.percent] = [];
@@ -2917,6 +2874,7 @@ function renderKuponPanel(){
       🔖 <b>Kupon Saya</b> (${kupons.length} kupon)<br>
       Kupon otomatis hangus setelah 30 hari.
     </div>
+    <div class="kupon-grid">
   `;
 
   for (const [percent, list] of Object.entries(grouped).sort((a,b) => b[0] - a[0])){
@@ -2937,16 +2895,16 @@ function renderKuponPanel(){
     }
   }
 
+  html += `</div>`;
   panel.innerHTML = html;
 }
 
 /* ============================================================
-   v16.0: MODAL BELI DENGAN KUPON
+   MODAL BELI DENGAN KUPON
    ============================================================ */
 window.openBuyModal = function(type, currency, itemId = null){
   const modal = document.getElementById('buyWithKuponModal');
   
-  // Tentukan item
   let itemName = '';
   let basePrice = 0;
   let priceCurrency = currency;
@@ -2962,11 +2920,8 @@ window.openBuyModal = function(type, currency, itemId = null){
     priceCurrency = sk.currency;
   }
 
-  S.pendingBuy = {
-    type, currency, itemId, basePrice, itemName, priceCurrency
-  };
+  pendingBuy = { type, currency, itemId, basePrice, itemName, priceCurrency };
 
-  // Render info item
   const currSymbol = priceCurrency === 'money' ? '€' : (priceCurrency === 'diamond' ? '💎' : '✴️');
   document.getElementById('buyItemInfo').innerHTML = `
     <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;text-align:center;margin-bottom:10px;">
@@ -2975,10 +2930,7 @@ window.openBuyModal = function(type, currency, itemId = null){
     </div>
   `;
 
-  // Reset pilihan
   selectedKuponForBuy = null;
-
-  // Render daftar kupon
   renderBuyKuponList();
   renderBuyPriceBreakdown();
 
@@ -3002,7 +2954,6 @@ function renderBuyKuponList(){
       Tidak ada kupon aktif
     </div>`;
   } else {
-    // Sort by percent DESC
     activeKupons.sort((a,b) => b.percent - a.percent);
     for (const k of activeKupons){
       const info = KUPON_TYPES[k.percent] || { icon: '🔖' };
@@ -3032,9 +2983,9 @@ window.selectKupon = function(kuponId){
 
 function renderBuyPriceBreakdown(){
   const el = document.getElementById('buyPriceBreakdown');
-  if (!S.pendingBuy) return;
+  if (!pendingBuy) return;
 
-  const { basePrice, priceCurrency } = S.pendingBuy;
+  const { basePrice, priceCurrency } = pendingBuy;
   const currSymbol = priceCurrency === 'money' ? '€' : (priceCurrency === 'diamond' ? '💎' : '✴️');
 
   let discount = 0;
@@ -3068,16 +3019,14 @@ function renderBuyPriceBreakdown(){
   `;
   el.innerHTML = html;
 
-  // Update tombol confirm
   const btn = document.getElementById('buyConfirmBtn');
   btn.textContent = `Bayar ${currSymbol}${fmt(finalPrice)}`;
 }
 
 window.confirmBuyWithKupon = async function(){
-  if (!S.pendingBuy) return;
-  const { type, currency, itemId, basePrice, priceCurrency } = S.pendingBuy;
+  if (!pendingBuy) return;
+  const { type, currency, itemId, basePrice, priceCurrency } = pendingBuy;
 
-  // Hitung harga final
   let discount = 0;
   let kuponToUse = null;
   if (selectedKuponForBuy){
@@ -3086,7 +3035,6 @@ window.confirmBuyWithKupon = async function(){
   }
   const finalPrice = Math.floor(basePrice * (100 - discount) / 100);
 
-  // Cek saldo
   if (priceCurrency === 'money' && S.money < finalPrice){
     return toast(`❌ Uang tidak cukup! Butuh €${fmt(finalPrice)}`);
   }
@@ -3097,12 +3045,10 @@ window.confirmBuyWithKupon = async function(){
     return toast(`❌ Token tidak cukup! Butuh ✴️${fmt(finalPrice)}`);
   }
 
-  // Lakukan pembelian
   if (priceCurrency === 'money') S.money -= finalPrice;
   else if (priceCurrency === 'diamond') S.diamond -= finalPrice;
   else if (priceCurrency === 'token') S.token -= finalPrice;
 
-  // Kasih item
   if (type === 'token'){
     S.token++;
     toast(`✴️ +1 Token Light${discount > 0 ? ` (diskon ${discount}%)` : ''}`);
@@ -3110,7 +3056,6 @@ window.confirmBuyWithKupon = async function(){
     const sk = SKIN_DB[itemId];
     const alreadyOwned = S.inventory.some(item => item.id === itemId);
     if (alreadyOwned){
-      // Balikin uang
       if (priceCurrency === 'money') S.money += finalPrice;
       else if (priceCurrency === 'diamond') S.diamond += finalPrice;
       else if (priceCurrency === 'token') S.token += finalPrice;
@@ -3123,22 +3068,20 @@ window.confirmBuyWithKupon = async function(){
     toast(`⭐ ${sk.name} dibeli${discount > 0 ? ` (diskon ${discount}%)` : ''}!`);
   }
 
-  // Pakai kupon
   if (kuponToUse){
     S.kupons = S.kupons.filter(k => k.id !== kuponToUse.id);
     toast(`🔖 Kupon ${kuponToUse.percent}% terpakai!`);
   }
 
-  // Tutup modal
   closeBuyModal();
-  S.pendingBuy = null;
+  pendingBuy = null;
   selectedKuponForBuy = null;
   render(); save();
 };
 
 window.closeBuyModal = function(){
   document.getElementById('buyWithKuponModal').classList.remove('show');
-  S.pendingBuy = null;
+  pendingBuy = null;
   selectedKuponForBuy = null;
 };
 
@@ -3187,8 +3130,64 @@ window.buyHelpingHand = function(mode){
   toast('👌 Helping Hand aktif!');
   render(); save();
 };
+
 /* ============================================================
-   CLAN SYSTEM (v16.0 — Level + Admin + Poin)
+   CLAN UPGRADE MODAL
+   ============================================================ */
+window.showClanUpgradeModal = function(targetLevel){
+  const cost = CLAN_LEVELS[targetLevel].upgradeCost;
+  const maxMembers = CLAN_LEVELS[targetLevel].maxMembers;
+  document.getElementById('clanUpgradeInfo').innerHTML = `
+    <div style="background:rgba(255,180,0,0.1);border:1px solid #ffb300;border-radius:10px;padding:14px;text-align:center;color:#ffe0a0">
+      <div style="font-size:1.1rem;font-weight:bold;margin-bottom:8px">Upgrade ke Lv.${targetLevel}</div>
+      <div style="font-size:0.85rem;margin-bottom:6px">📈 Batas anggota: <b>${maxMembers}</b></div>
+      <div style="font-size:0.85rem;margin-bottom:6px">💎 Biaya: <b>${fmt(cost)} Diamond</b></div>
+      <div style="font-size:0.75rem;color:#888;margin-top:8px">Diamond kamu: 💎${fmt(S.diamond)}</div>
+    </div>
+  `;
+  document.getElementById('clanUpgradeModal').classList.add('show');
+};
+
+window.closeClanUpgradeModal = function(){
+  document.getElementById('clanUpgradeModal').classList.remove('show');
+};
+
+window.confirmClanUpgrade = async function(){
+  const btn = document.getElementById('clanUpgradeConfirmBtn');
+  
+  if (!S.clanId){ closeClanUpgradeModal(); return; }
+  const clan = await ClanStorage.getClan(S.clanId);
+  if (!clan) { closeClanUpgradeModal(); return; }
+  const uid = Storage.getUserId();
+  if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
+
+  const currentLevel = clan.level || 1;
+  const nextLevel = getNextClanLevel(currentLevel);
+  if (!nextLevel) return toast('Level sudah maksimal');
+
+  const cost = CLAN_LEVELS[nextLevel].upgradeCost;
+  if (S.diamond < cost) return toast(`❌ Butuh 💎${fmt(cost)}`);
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Memproses...';
+
+  try {
+    S.diamond -= cost;
+    await ClanStorage.updateClan(S.clanId, 'level', nextLevel);
+    await ClanStorage.updateClan(S.clanId, 'points', Math.max(clan.points||0, CLAN_LEVELS[nextLevel].pointsMin));
+    
+    closeClanUpgradeModal();
+    toast(`🎉 Clan naik ke Lv.${nextLevel}!`);
+    await Storage.save(S);
+    renderClanPanel();
+  } catch(e){
+    btn.disabled = false;
+    btn.textContent = 'Upgrade Sekarang';
+    toast('❌ Gagal upgrade');
+  }
+};
+/* ============================================================
+   CLAN SYSTEM (v16.1)
    ============================================================ */
 function isUserTypingInClan(){
   const active = document.activeElement;
@@ -3245,11 +3244,9 @@ async function renderClanPanel(){
   const clanLevel = clan.level || 1;
   const clanPoints = clan.points || 0;
   const maxMembers = getClanMaxMembers(clanLevel);
-  const levelInfo = getClanLevelInfo(clanLevel);
   const nextLevel = getNextClanLevel(clanLevel);
   const adminCount = getAdminCount(clan);
 
-  // Points bar percentage
   let pointsPct = 100;
   let pointsText = 'MAX';
   if (nextLevel){
@@ -3285,7 +3282,6 @@ async function renderClanPanel(){
     </div>
   `;
 
-  // Tombol upgrade (kalau ada next level & user owner)
   if (nextLevel && isOwner){
     const cost = CLAN_LEVELS[nextLevel].upgradeCost;
     html += `
@@ -3330,7 +3326,6 @@ async function renderClanPanel(){
       const muted = m.mutedUntil && m.mutedUntil > Date.now();
       const lastSeenText = isOn ? '' : ` <span style="color:#666;font-size:0.65rem">• ${timeAgo(lastSeenMap[muid])}</span>`;
 
-      // Tombol aksi (hanya owner)
       let actionBtns = '';
       if (isOwner && !isMe){
         if (m.role === 'member'){
@@ -3340,14 +3335,12 @@ async function renderClanPanel(){
         }
       }
 
-      // Tombol khusus admin/owner
       if (isAdmin && !isMe){
         actionBtns += `
           <button onclick="showMuteModal('${muid}', '${escapeHtml(m.name||'Pemain')}')" style="padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#ff4060;color:white;cursor:pointer">🔇</button>
         `;
       }
 
-      // Owner-only buttons
       if (isOwner && !isMe){
         actionBtns += `
           <button onclick="showTransferConfirm('${muid}', '${escapeHtml(m.name||'Pemain')}')" style="padding:4px 8px;font-size:0.65rem;border-radius:6px;border:none;background:#ffb300;color:#111;cursor:pointer">👑</button>
@@ -3418,65 +3411,6 @@ window.switchClanTab = function(tab){
   renderClanPanel();
 };
 
-/* ============================================================
-   v16.0: CLAN UPGRADE MODAL
-   ============================================================ */
-window.showClanUpgradeModal = function(targetLevel){
-  const cost = CLAN_LEVELS[targetLevel].upgradeCost;
-  const maxMembers = CLAN_LEVELS[targetLevel].maxMembers;
-  document.getElementById('clanUpgradeInfo').innerHTML = `
-    <div style="background:rgba(255,180,0,0.1);border:1px solid #ffb300;border-radius:10px;padding:14px;text-align:center;color:#ffe0a0">
-      <div style="font-size:1.1rem;font-weight:bold;margin-bottom:8px">Upgrade ke Lv.${targetLevel}</div>
-      <div style="font-size:0.85rem;margin-bottom:6px">📈 Batas anggota: <b>${maxMembers}</b></div>
-      <div style="font-size:0.85rem;margin-bottom:6px">💎 Biaya: <b>${fmt(cost)} Diamond</b></div>
-      <div style="font-size:0.75rem;color:#888;margin-top:8px">Diamond kamu: 💎${fmt(S.diamond)}</div>
-    </div>
-  `;
-  document.getElementById('clanUpgradeModal').classList.add('show');
-};
-
-window.closeClanUpgradeModal = function(){
-  document.getElementById('clanUpgradeModal').classList.remove('show');
-};
-
-window.confirmClanUpgrade = async function(){
-  const btn = document.getElementById('clanUpgradeConfirmBtn');
-  
-  if (!S.clanId){ closeClanUpgradeModal(); return; }
-  const clan = await ClanStorage.getClan(S.clanId);
-  if (!clan) { closeClanUpgradeModal(); return; }
-  const uid = Storage.getUserId();
-  if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
-
-  const currentLevel = clan.level || 1;
-  const nextLevel = getNextClanLevel(currentLevel);
-  if (!nextLevel) return toast('Level sudah maksimal');
-
-  const cost = CLAN_LEVELS[nextLevel].upgradeCost;
-  if (S.diamond < cost) return toast(`❌ Butuh 💎${fmt(cost)}`);
-
-  btn.disabled = true;
-  btn.textContent = '⏳ Memproses...';
-
-  try {
-    S.diamond -= cost;
-    await ClanStorage.updateClan(S.clanId, 'level', nextLevel);
-    await ClanStorage.updateClan(S.clanId, 'points', Math.max(clan.points||0, CLAN_LEVELS[nextLevel].pointsMin));
-    
-    closeClanUpgradeModal();
-    toast(`🎉 Clan naik ke Lv.${nextLevel}!`);
-    await Storage.save(S);
-    renderClanPanel();
-  } catch(e){
-    btn.disabled = false;
-    btn.textContent = 'Upgrade Sekarang';
-    toast('❌ Gagal upgrade');
-  }
-};
-
-/* ============================================================
-   CLAN: SEARCH / JOIN / CREATE
-   ============================================================ */
 window.searchClan = async function(){
   const input = document.getElementById('clanSearchInput');
   const result = document.getElementById('clanSearchResult');
@@ -3531,7 +3465,7 @@ window.joinClan = async function(clanId){
     toast('📩 Aplikasi terkirim!');
   } else {
     await ClanStorage.updateClan(clanId, `members/${uid}`, {
-      role:'member', joinedAt:Date.now(), name:S.playerName, level:S.level
+      role:'member', joinedAt:Date.now(), name:S.playerName, level:S.level, lastSeen: Date.now()
     });
     S.clanId = clanId;
     await Storage.save(S);
@@ -3591,7 +3525,6 @@ window.kickMember = async function(targetUid){
   const uid = Storage.getUserId();
   const myRole = clan.members[uid].role;
   const targetRole = clan.members[targetUid]?.role;
-  // Admin bisa kick member biasa, Owner bisa kick semua (kecuali diri sendiri)
   if (myRole === 'admin' && targetRole !== 'member') return toast('Admin hanya bisa kick member');
   if (myRole !== 'owner' && myRole !== 'admin') return toast('Tidak punya izin');
   if (targetUid === uid) return;
@@ -4357,14 +4290,11 @@ async function init(){
     delete S.totalPrestigeBonus;
     delete S.apologyShown;
     delete S.eventNoticeShown;
-    delete S.lastSpinAt;
     S.lastSpinAt = S.lastSpinAt || 0;
   }
 
-  // Cleanup kupon expired
   if (cleanupExpiredKupons()) await Storage.save(S);
 
-  // Init heartbeat online
   if (currentUid && isOnline){
     try {
       const now = Date.now();
@@ -4373,7 +4303,6 @@ async function init(){
     } catch(e){}
   }
 
-  // Process clan points (kalau ada clan)
   if (S.clanId){
     try {
       const result = await processClanPoints(S.clanId);
@@ -4385,7 +4314,6 @@ async function init(){
     } catch(e){}
   }
 
-  // Auto-click offline catch-up
   const now = Date.now();
   if (S.autoEnd > 0 && S.autoEnd <= now){
     S.autoEnd = 0;
@@ -4416,7 +4344,6 @@ async function init(){
   setInterval(render, 1000);
   setInterval(save, 5000);
 
-  // Auto update clan points tiap 5 menit
   setInterval(async () => {
     if (S.clanId){
       try {
@@ -4434,7 +4361,7 @@ async function init(){
   document.getElementById('loadingScreen').classList.add('hide');
   setTimeout(()=>document.getElementById('loadingScreen').remove(), 600);
 
-  toast('🎮 Selamat bermain di v16.0!');
+  toast('🎮 Selamat bermain di v16.1!');
 }
 
 init();
