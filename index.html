@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v12.0</title>
+<title>ELIPS NOVA GAME v13.0</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -59,15 +59,13 @@
     50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
   }
   .nav {
-    display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-top:10px;
+    display:grid; grid-template-columns:repeat(6,1fr); gap:4px; margin-top:10px;
   }
   .nav button {
-    padding:8px 2px; font-size:0.58rem; border-radius:10px; border:1px solid #4a3f9f;
+    padding:9px 2px; font-size:0.62rem; border-radius:10px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
   }
   .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
-  .nav button.prestige-nav { border-color:#ffb300; color:#ffb300; }
-  .nav button.prestige-nav.active { background:linear-gradient(135deg,#ffb300,#ff6600); color:#111; }
   .panel {
     background:rgba(20,15,55,0.85); border:1px solid #3a2f80; border-radius:14px;
     padding:12px; margin-top:12px; max-height:65vh; overflow-y:auto;
@@ -386,17 +384,6 @@
     margin-top:4px;
     letter-spacing:2px;
   }
-  .apology-modal .modal-box {
-    border-color:#ffb300 !important;
-    box-shadow:0 0 50px rgba(255,180,0,0.6) !important;
-  }
-  .apology-modal h2 { color:#ffb300 !important; text-align:center; justify-content:center; }
-  .apology-modal p {
-    background:rgba(255,180,0,0.1) !important;
-    border-left-color:#ffb300 !important;
-    color:#ffe0a0 !important;
-    text-align:center;
-  }
   .discount-banner {
     background:linear-gradient(135deg, #ff2b6b, #ff5050, #ffb300);
     border-radius:12px; padding:12px; margin-bottom:10px;
@@ -507,158 +494,6 @@
     background:linear-gradient(135deg,#ff2b6b,#ff5050); color:white;
     border-color:#ff4060;
   }
-
-  /* ★ v12.0: PRESTIGE */
-  .prestige-hero {
-    text-align:center;
-    padding:20px 14px;
-    background:linear-gradient(135deg, #ffb300, #ff6600, #a02bff);
-    border-radius:16px;
-    margin-bottom:14px;
-    color:#111;
-    box-shadow:0 0 30px rgba(255,180,0,0.5);
-    animation: prestigeGlow 3s infinite;
-  }
-  @keyframes prestigeGlow {
-    0%,100% { box-shadow:0 0 30px rgba(255,180,0,0.5); }
-    50%     { box-shadow:0 0 45px rgba(255,140,0,0.9); }
-  }
-  .prestige-hero .big-p {
-    font-size:2.5rem;
-    font-weight:bold;
-    text-shadow:0 2px 4px rgba(0,0,0,0.3);
-    letter-spacing:2px;
-  }
-  .prestige-hero .label {
-    font-size:0.8rem;
-    font-weight:bold;
-    letter-spacing:3px;
-    opacity:0.8;
-  }
-  .prestige-hero .judul {
-    margin-top:6px;
-    font-size:0.9rem;
-    font-weight:bold;
-  }
-  .prestige-stats {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-bottom:12px;
-  }
-  .prestige-stat {
-    background:rgba(255,180,0,0.15);
-    border:1px solid #ffb300;
-    border-radius:10px;
-    padding:10px;
-    text-align:center;
-    font-size:0.8rem;
-  }
-  .prestige-stat .value {
-    display:block;
-    font-size:1.2rem;
-    font-weight:bold;
-    color:#ffb300;
-    margin-top:4px;
-  }
-  .prestige-requirements {
-    background:rgba(0,0,0,0.3);
-    border:1px solid #3a2f80;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:12px;
-    font-size:0.8rem;
-  }
-  .prestige-requirements h4 {
-    color:#7fd4ff;
-    font-size:0.85rem;
-    margin-bottom:8px;
-  }
-  .req-row {
-    display:flex;
-    justify-content:space-between;
-    padding:5px 0;
-    border-bottom:1px dashed #2a1a4a;
-  }
-  .req-row:last-child { border-bottom:none; }
-  .req-row .check { color:#00ff90; }
-  .req-row .cross { color:#ff4060; }
-  .prestige-btn {
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:14px;
-    font-size:1.1rem;
-    font-weight:bold;
-    cursor:pointer;
-    color:#111;
-    background:linear-gradient(135deg, #ffb300, #ff6600);
-    box-shadow:0 0 25px rgba(255,180,0,0.6);
-    transition: transform 0.1s;
-    letter-spacing:1px;
-    animation: prestigeGlow 2s infinite;
-  }
-  .prestige-btn:active { transform: scale(0.97); }
-  .prestige-btn:disabled {
-    background: #444;
-    color: #888;
-    box-shadow: none;
-    cursor: not-allowed;
-    animation: none;
-  }
-  .prestige-warning {
-    background:rgba(255,60,90,0.15);
-    border:1px solid #ff4060;
-    border-radius:10px;
-    padding:10px;
-    margin-top:12px;
-    font-size:0.75rem;
-    color:#ffb0b0;
-    line-height:1.5;
-  }
-  .prestige-badge {
-    display:inline-block;
-    background:linear-gradient(135deg, #ffb300, #ff6600);
-    color:#111;
-    font-size:0.7rem;
-    padding:2px 8px;
-    border-radius:8px;
-    font-weight:bold;
-    margin-left:4px;
-  }
-  .prestige-badge.lvl-1 { background:linear-gradient(135deg,#7fd4ff,#5b3fff); color:white; }
-  .prestige-badge.lvl-2 { background:linear-gradient(135deg,#a06bff,#5b3fff); color:white; }
-  .prestige-badge.lvl-3 { background:linear-gradient(135deg,#ff5050,#a01030); color:white; }
-  .prestige-badge.lvl-4 { background:linear-gradient(135deg,#ffb300,#ff6600); color:#111; }
-  .prestige-badge.lvl-5 { background:linear-gradient(135deg,#00ff90,#00c060); color:#111; }
-  .prestige-badge.lvl-6 { background:linear-gradient(135deg,#ff2b6b,#a02bff); color:white; }
-  .prestige-badge.lvl-max {
-    background:linear-gradient(90deg, #ff2b6b, #ffb300, #00ff90, #5b3fff, #ff2b6b);
-    background-size: 400% 100%;
-    color:white;
-    animation: rainbowMove 3s linear infinite;
-  }
-  @keyframes rainbowMove {
-    0%{ background-position: 0% 50%; }
-    100%{ background-position: 400% 50%; }
-  }
-  .prestige-modal-hero {
-    text-align:center;
-    padding:16px;
-    background:linear-gradient(135deg, #ffb300, #ff6600, #a02bff);
-    border-radius:12px;
-    margin-bottom:14px;
-    color:#111;
-  }
-  .prestige-modal-hero .big {
-    font-size:2rem;
-    font-weight:bold;
-    letter-spacing:2px;
-  }
-  .prestige-modal-hero .small {
-    font-size:0.85rem;
-    margin-top:4px;
-  }
 </style>
 </head>
 <body>
@@ -670,11 +505,10 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v12.0 — PRESTIGE SYSTEM</div>
+<div class="version">v13.0</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="player-name-display">
   👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
-  <span id="prestigeTagHeader"></span>
 </div>
 <div class="dev-active-tag" id="devActiveTag" style="display:none">
   <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
@@ -690,7 +524,6 @@
 
 <button class="click-btn" id="clickBtn">👆 KLIK UNTUK CEPAT!</button>
 <div style="text-align:center;font-size:0.75rem;color:#888;margin-top:-6px" id="boostInfo"></div>
-<div style="text-align:center;font-size:0.7rem;color:#ffb300;margin-top:2px" id="prestigeBonusInfo"></div>
 
 <div class="auto-panel" id="autoPanel">
   <div class="row">
@@ -705,7 +538,6 @@
   <button data-panel="event">⭐ Event</button>
   <button data-panel="clan">🏰 Clan</button>
   <button data-panel="friend">👥 Teman</button>
-  <button data-panel="prestige" class="prestige-nav">♻️ Prestige</button>
   <button data-panel="redeem">🎁 Redeem</button>
 </div>
 
@@ -714,7 +546,6 @@
 <div class="panel hidden" id="panel-event"></div>
 <div class="panel hidden" id="panel-clan"></div>
 <div class="panel hidden" id="panel-friend"></div>
-<div class="panel hidden" id="panel-prestige"></div>
 <div class="panel hidden" id="panel-redeem">
   <h3>🎁 Kode Redeem</h3>
   <input type="text" id="redeemInput" placeholder="Masukkan kode...">
@@ -798,43 +629,12 @@
     <h2 style="color:#7fd4ff">👤 Edit Profil</h2>
     <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
     <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
+    <div style="font-size:0.7rem;color:#888;margin-top:4px;margin-bottom:8px">
+      Nama ini akan muncul di chat clan, chat teman, dan daftar member.
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
       <button class="btn-primary" onclick="savePlayerName()">Simpan</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Apology -->
-<div class="modal-overlay apology-modal" id="apologyModal">
-  <div class="modal-box">
-    <h2>💛 Permintaan Maaf</h2>
-    <p>
-      Kami mohon maaf atas kesalahan sistem yang membuat <b>Skin Legendary</b> dapat dibeli lebih dari satu unit.
-      <br><br>
-      Bug ini sudah <b>kami perbaiki</b>. Skin duplikat di inventori kamu telah otomatis dibersihkan
-      dan tetap dihitung <b>1 unit</b>.
-      <br><br>
-      Terima kasih sudah bermain dan tetap sabar ya! 🙏
-    </p>
-    <div class="modal-actions" style="grid-template-columns:1fr">
-      <button class="btn-primary" onclick="closeApologyModal()">Aku Mengerti</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Event Notice -->
-<div class="modal-overlay" id="eventNoticeModal">
-  <div class="modal-box" style="border-color:#7fd4ff;">
-    <h2 style="color:#7fd4ff">📢 Pemberitahuan</h2>
-    <p style="background:rgba(120,200,255,0.1);border-left-color:#7fd4ff;color:#c8e0ff;">
-      <b>🏆 Legendary Event resmi TELAH SELESAI.</b>
-      <br><br>
-      Menu <b>"⭐ Legendary"</b> ini akan berubah menjadi
-      <b>"🎉 Menu Event"</b> pada update berikutnya.
-    </p>
-    <div class="modal-actions" style="grid-template-columns:1fr">
-      <button class="btn-primary" onclick="closeEventNoticeModal()">Siap, Tunggu!</button>
     </div>
   </div>
 </div>
@@ -844,7 +644,7 @@
   <div class="modal-box" style="border-color:#ffb300;">
     <h2 style="color:#ffb300">👑 Transfer Kepemilikan Clan</h2>
     <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
-      Pilih anggota yang akan menjadi <b>Owner baru</b>.
+      Pilih anggota yang akan menjadi <b>Owner baru</b>. Setelah transfer, kamu akan menjadi <b>Admin</b>.
     </p>
     <div id="transferList" style="max-height:300px; overflow-y:auto;"></div>
     <div class="modal-actions" style="margin-top:12px">
@@ -859,6 +659,7 @@
     <h2 style="color:#ff4060">🔇 Bisukan Anggota</h2>
     <p style="background:rgba(255,60,90,0.1);border-left-color:#ff4060;color:#ffb0b0;">
       Pilih durasi mute untuk <b id="muteTargetName">Pemain</b>.
+      <br>Anggota yang dibisukan tidak bisa mengirim pesan di chat clan.
     </p>
     <div class="mute-options" id="muteOptions">
       <button data-days="1" onclick="selectMuteDays(1)">🔇 1 Hari</button>
@@ -902,33 +703,6 @@
   </div>
 </div>
 
-<!-- ★ v12.0: Modal Konfirmasi Prestige -->
-<div class="modal-overlay" id="prestigeConfirmModal">
-  <div class="modal-box" style="border-color:#ffb300; box-shadow:0 0 50px rgba(255,180,0,0.6);">
-    <h2 style="color:#ffb300">♻️ Konfirmasi Prestige</h2>
-    <div class="prestige-modal-hero">
-      <div class="big">♻️ PRESTIGE</div>
-      <div class="small">Kamu akan memulai perjalanan baru dengan bonus permanen!</div>
-    </div>
-    <p style="background:rgba(255,180,0,0.1);border-left-color:#ffb300;color:#ffe0a0;">
-      <b>⚠️ PERHATIAN!</b> Setelah prestige:
-      <br><br>
-      ❌ Level kembali ke 1<br>
-      ❌ Uang hilang semua<br>
-      ❌ Token & Diamond hilang<br>
-      ❌ Skin Legendary hilang (kecuali skin Prestige)
-      <br><br>
-      ✅ Prestige Point <b>+1</b><br>
-      ✅ Bonus income permanen meningkat<br>
-      ✅ Judul prestige baru
-    </p>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closePrestigeConfirm()">Batal</button>
-      <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmPrestige()">Ya, Prestige!</button>
-    </div>
-  </div>
-</div>
-
 <div id="toast"></div>
 
 <script type="module">
@@ -959,11 +733,11 @@ const db = getDatabase(app);
 const auth = getAuth(app);
 
 /* ============================================================
-   KONFIGURASI EVENT & DISKON
+   KONFIGURASI
    ============================================================ */
 const LEGENDARY_EVENT = {
   endDate: new Date('2026-10-02T22:00:00+07:00').getTime(),
-  openHour: 20, closeHour: 22, noticeHour: 23,
+  openHour: 20, closeHour: 22,
   hardEndDate: new Date('2026-10-02T22:00:00+07:00').getTime()
 };
 const TOKEN_DISCOUNT = {
@@ -977,57 +751,6 @@ const HELPING_HAND_CONFIG = {
   duration: 2*60*1000,
   clickPowerMin: 50, clickPowerMax: 80
 };
-
-/* ★ v12.0: PRESTIGE CONFIG */
-const PRESTIGE_CONFIG = {
-  // Milestone: prestige ke-berapa → syarat level minimum
-  levelRequirements: {
-    1: 50, 2: 50, 3: 60, 4: 65, 5: 70,
-    10: 80, 20: 90, 50: 100, 100: 100
-  },
-  // Bonus income per prestige point
-  bonusPerPoint: 0.10, // 10% per PP
-  // Judul berdasarkan prestige count
-  titles: [
-    { min: 0, title: 'Pemula', cls: '' },
-    { min: 1, title: '🌱 Pemula Baru', cls: 'lvl-1' },
-    { min: 3, title: '🌿 Petualang', cls: 'lvl-2' },
-    { min: 5, title: '🌳 Veteran', cls: 'lvl-2' },
-    { min: 10, title: '⭐ Master', cls: 'lvl-3' },
-    { min: 20, title: '🌟 Grandmaster', cls: 'lvl-4' },
-    { min: 50, title: '👑 Legenda', cls: 'lvl-5' },
-    { min: 100, title: '🌌 Dewa Nova', cls: 'lvl-max' }
-  ]
-};
-
-function getPrestigeLevelRequirement(currentPrestige){
-  // Cari syarat untuk prestige berikutnya
-  const nextPrestige = currentPrestige + 1;
-  let req = 50;
-  for (const [key, val] of Object.entries(PRESTIGE_CONFIG.levelRequirements)){
-    if (nextPrestige >= parseInt(key)){
-      req = Math.max(req, val);
-    }
-  }
-  return req;
-}
-
-function getPrestigeBonus(prestigeCount){
-  return prestigeCount * PRESTIGE_CONFIG.bonusPerPoint;
-}
-
-function getPrestigeTitle(prestigeCount){
-  let title = PRESTIGE_CONFIG.titles[0];
-  for (const t of PRESTIGE_CONFIG.titles){
-    if (prestigeCount >= t.min) title = t;
-  }
-  return title;
-}
-
-// ★ Income multiplier: (1 + prestige * 0.10)
-function getIncomeMultiplier(){
-  return 1 + getPrestigeBonus(S.prestigeCount || 0);
-}
 
 function getTokenPrice(){
   const now = Date.now();
@@ -1070,20 +793,10 @@ const DEFAULT_STATE = {
   devMode: false, devUsed: false,
   clanId: null,
   playerName: 'Pemain',
-  apologyShown: false,
-  eventNoticeShown: false,
   friends: {},
   friendRequests: {},
   sentRequests: {},
   lastOnline: 0,
-
-  // ★ v12.0: PRESTIGE
-  prestigeCount: 0,          // total prestige
-  prestigePoints: 0,         // sama dengan prestigeCount, bisa beda kalau ada sistem poin tambahan
-  prestigeSkinIds: [],       // skin prestige yang dimiliki (tidak hilang saat prestige)
-  prestigeHistory: [],       // log prestige
-  totalPrestigeBonus: 0,     // akumulasi bonus (untuk display)
-
   lastSeen: Date.now()
 };
 
@@ -1190,8 +903,7 @@ async function fetchUserProfile(uid){
       name: data.playerName || 'Pemain',
       level: data.level || 1,
       clanName, clanTag,
-      lastOnline: data.lastOnline || 0,
-      prestigeCount: data.prestigeCount || 0
+      lastOnline: data.lastOnline || 0
     };
   } catch(e){ return null; }
 }
@@ -1206,12 +918,6 @@ function getEventStatus(){
   const h = wib.getHours();
   if (h >= LEGENDARY_EVENT.openHour && h < LEGENDARY_EVENT.closeHour) return 'open';
   return 'closed';
-}
-function shouldShowEventNotice(){
-  const now = Date.now();
-  if (now < LEGENDARY_EVENT.hardEndDate) return false;
-  const wib = new Date(now + (7*60 + new Date().getTimezoneOffset())*60000);
-  return wib.getHours() >= LEGENDARY_EVENT.noticeHour;
 }
 
 /* ============================================================
@@ -1432,8 +1138,7 @@ const FriendStorage = {
           }
           results.push({
             uid, name: data.playerName || 'Pemain', level: data.level || 1,
-            clanName, clanTag, lastOnline: data.lastOnline || 0,
-            prestigeCount: data.prestigeCount || 0
+            clanName, clanTag, lastOnline: data.lastOnline || 0
           });
         }
       }
@@ -1492,227 +1197,6 @@ function showDiamondPop(amount){
 }
 
 /* ============================================================
-   SKIN CLEANUP
-   ============================================================ */
-function cleanupDuplicateSkins(){
-  if (!S.inventory || !S.inventory.length) return false;
-  const seen = new Set();
-  const cleaned = [];
-  let removedCount = 0;
-  for (const item of S.inventory){
-    if (item.id === 'helping_hand'){ cleaned.push(item); continue; }
-    if (seen.has(item.id)){ removedCount++; continue; }
-    seen.add(item.id);
-    cleaned.push(item);
-  }
-  if (removedCount > 0){ S.inventory = cleaned; return true; }
-  return false;
-}
-function hasDuplicateSkins(){
-  if (!S.inventory || !S.inventory.length) return false;
-  const seen = new Set();
-  for (const item of S.inventory){
-    if (item.id === 'helping_hand') continue;
-    if (seen.has(item.id)) return true;
-    seen.add(item.id);
-  }
-  return false;
-}
-
-/* ============================================================
-   ★ v12.0: PRESTIGE FUNCTIONS
-   ============================================================ */
-function canPrestige(){
-  const currentPrestige = S.prestigeCount || 0;
-  const reqLevel = getPrestigeLevelRequirement(currentPrestige);
-  return S.level >= reqLevel;
-}
-
-function renderPrestigePanel(){
-  const panel = document.getElementById('panel-prestige');
-  if (!panel) return;
-
-  const currentPrestige = S.prestigeCount || 0;
-  const reqLevel = getPrestigeLevelRequirement(currentPrestige);
-  const nextPrestige = currentPrestige + 1;
-  const nextBonus = getPrestigeBonus(nextPrestige) * 100;
-  const currBonus = getPrestigeBonus(currentPrestige) * 100;
-  const titleInfo = getPrestigeTitle(currentPrestige);
-  const canP = canPrestige();
-
-  panel.innerHTML = `
-    <div class="prestige-hero">
-      <div class="label">♻️ PRESTIGE LEVEL</div>
-      <div class="big-p">${currentPrestige}</div>
-      <div class="judul">${titleInfo.title}</div>
-    </div>
-
-    <div class="prestige-stats">
-      <div class="prestige-stat">
-        💰 Bonus Income
-        <span class="value">+${currBonus}%</span>
-      </div>
-      <div class="prestige-stat">
-        🎯 Prestige Berikutnya
-        <span class="value">+${nextBonus}%</span>
-      </div>
-    </div>
-
-    <div class="prestige-requirements">
-      <h4>📋 Syarat Prestige #${nextPrestige}</h4>
-      <div class="req-row">
-        <span>Level Minimal ${reqLevel}</span>
-        <span class="${S.level >= reqLevel ? 'check':'cross'}">
-          ${S.level >= reqLevel ? '✅':'❌'} Lv.${S.level}
-        </span>
-      </div>
-      <div class="req-row">
-        <span>Uang & Progres</span>
-        <span style="color:#ff8080">⚠️ Akan di-reset</span>
-      </div>
-    </div>
-
-    <button class="prestige-btn" onclick="showPrestigeConfirm()" ${!canP?'disabled':''}>
-      ${canP ? '♻️ PRESTIGE SEKARANG' : `🔒 Butuh Level ${reqLevel}`}
-    </button>
-
-    <div class="prestige-warning">
-      ⚠️ <b>Perhatian:</b> Prestige akan menghapus <b>level, uang, token, diamond, dan skin Legendary</b> kamu.
-      Tapi kamu akan mendapat <b>bonus income permanen +10%</b> dan <b>judul Prestige</b> baru.
-      <br><br>
-      ✅ Yang <b>tidak hilang</b>: Prestige Point, Clan, Teman, Skin Prestige (eksklusif).
-    </div>
-
-    ${currentPrestige > 0 ? `
-      <div class="prestige-stats" style="margin-top:14px">
-        <div class="prestige-stat">
-          🏆 Total Prestige
-          <span class="value">${currentPrestige}</span>
-        </div>
-        <div class="prestige-stat">
-          ⭐ Judul Aktif
-          <span class="value" style="font-size:0.9rem">${titleInfo.title.split(' ').slice(1).join(' ') || '-'}</span>
-        </div>
-      </div>
-    ` : ''}
-
-    <div style="margin-top:14px;font-size:0.7rem;color:#888;text-align:center">
-      Prestige #${nextPrestige} → +${nextBonus}% income<br>
-      Total income sekarang: <b style="color:#ffb300">×${getIncomeMultiplier().toFixed(2)}</b>
-    </div>
-  `;
-}
-
-window.showPrestigeConfirm = function(){
-  if (!canPrestige()){
-    const reqLevel = getPrestigeLevelRequirement(S.prestigeCount || 0);
-    return toast(`🔒 Butuh Level ${reqLevel} untuk prestige`);
-  }
-  document.getElementById('prestigeConfirmModal').classList.add('show');
-};
-window.closePrestigeConfirm = function(){
-  document.getElementById('prestigeConfirmModal').classList.remove('show');
-};
-
-window.confirmPrestige = async function(){
-  document.getElementById('prestigeConfirmModal').classList.remove('show');
-  
-  if (!canPrestige()){
-    return toast('❌ Tidak memenuhi syarat');
-  }
-
-  const currentPrestige = S.prestigeCount || 0;
-  const newPrestige = currentPrestige + 1;
-
-  // ★ Reset state (kecuali yang permanen)
-  S.money = 0;
-  S.token = 0;
-  S.diamond = 0;
-  S.exp = 0;
-  S.level = 1;
-  S.inventory = S.inventory.filter(it => {
-    // Keep: helping_hand, skin prestige
-    if (it.id === 'helping_hand') return true;
-    if (S.prestigeSkinIds && S.prestigeSkinIds.includes(it.id)) return true;
-    return false;
-  });
-  // Reset cooldown
-  S.boostEnd = 0;
-  S.boostCooldown = 0;
-  S.mysteryCooldown = 0;
-  S.mysteryOpened = false;
-  S.autoEnd = 0;
-
-  // ★ Tambah prestige
-  S.prestigeCount = newPrestige;
-  S.prestigePoints = newPrestige;
-  S.totalPrestigeBonus = getPrestigeBonus(newPrestige) * 100;
-
-  // Log
-  S.prestigeHistory = S.prestigeHistory || [];
-  S.prestigeHistory.push({
-    prestige: newPrestige,
-    at: Date.now()
-  });
-
-  await Storage.save(S);
-
-  // Update nama judul di header
-  renderPrestigeTag();
-
-  // Toast
-  const titleInfo = getPrestigeTitle(newPrestige);
-  toast(`♻️ PRESTIGE ${newPrestige}! ${titleInfo.title}`);
-
-  // Efek visual
-  showPrestigeCelebration(newPrestige);
-
-  render();
-};
-
-function showPrestigeCelebration(prestige){
-  // Overlay celebration
-  const overlay = document.createElement('div');
-  overlay.style.cssText = `
-    position:fixed; inset:0;
-    background:radial-gradient(circle, rgba(255,180,0,0.3), rgba(0,0,0,0.9));
-    z-index:9999; display:flex; align-items:center; justify-content:center;
-    flex-direction:column; text-align:center; padding:20px;
-    animation: fadeIn 0.5s;
-  `;
-  overlay.innerHTML = `
-    <div style="font-size:4rem; animation: popUp 1s;">♻️</div>
-    <div style="font-size:2rem; font-weight:bold; color:#ffb300; margin:20px 0; letter-spacing:3px;">
-      PRESTIGE ${prestige}
-    </div>
-    <div style="color:#fff; font-size:1.1rem; margin-bottom:20px;">
-      ${getPrestigeTitle(prestige).title}
-    </div>
-    <div style="color:#ffe0a0; font-size:0.9rem;">
-      Bonus Income: +${getPrestigeBonus(prestige)*100}%
-    </div>
-  `;
-  document.body.appendChild(overlay);
-  setTimeout(() => {
-    overlay.style.transition = 'opacity 0.5s';
-    overlay.style.opacity = '0';
-    setTimeout(() => overlay.remove(), 500);
-  }, 3000);
-}
-
-function renderPrestigeTag(){
-  const el = document.getElementById('prestigeTagHeader');
-  if (!el) return;
-  const prestige = S.prestigeCount || 0;
-  if (prestige === 0){
-    el.innerHTML = '';
-    return;
-  }
-  const title = getPrestigeTitle(prestige);
-  el.innerHTML = `<span class="prestige-badge ${title.cls}" title="${title.title}">♻️ ${prestige}</span>`;
-}
-
-/* ============================================================
    PROFILE / EDIT NAME
    ============================================================ */
 window.showEditNameModal = function(){
@@ -1751,32 +1235,6 @@ document.getElementById('editNameModal').addEventListener('click', (e)=>{
 });
 
 /* ============================================================
-   MODAL APOLOGY & NOTICE
-   ============================================================ */
-window.closeApologyModal = async function(){
-  document.getElementById('apologyModal').classList.remove('show');
-  S.apologyShown = true;
-  await Storage.save(S);
-};
-window.closeEventNoticeModal = async function(){
-  document.getElementById('eventNoticeModal').classList.remove('show');
-  S.eventNoticeShown = true;
-  await Storage.save(S);
-};
-function showApologyModalIfNeeded(hadDuplicates){
-  if (S.apologyShown || !hadDuplicates) return;
-  setTimeout(() => {
-    document.getElementById('apologyModal').classList.add('show');
-  }, 1500);
-}
-function showEventNoticeIfNeeded(){
-  if (S.eventNoticeShown || !shouldShowEventNotice()) return;
-  setTimeout(() => {
-    document.getElementById('eventNoticeModal').classList.add('show');
-  }, 2000);
-}
-
-/* ============================================================
    RENDER
    ============================================================ */
 function render(){
@@ -1793,27 +1251,14 @@ function render(){
   const nameDisplay = document.getElementById('playerNameDisplay');
   if (nameDisplay) nameDisplay.textContent = S.playerName || 'Pemain';
 
-  renderPrestigeTag();
-
   document.getElementById('devActiveTag').style.display = S.devMode ? 'block' : 'none';
 
   const btn = document.getElementById('clickBtn');
   const now = Date.now();
   const info = document.getElementById('boostInfo');
-  const prestigeInfo = document.getElementById('prestigeBonusInfo');
-  
-  // ★ Tampilkan bonus prestige
-  const prestigeBonus = getPrestigeBonus(S.prestigeCount || 0);
-  if (prestigeBonus > 0 && prestigeInfo){
-    prestigeInfo.textContent = `♻️ Bonus Prestige: +${(prestigeBonus*100).toFixed(0)}% income`;
-  } else if (prestigeInfo){
-    prestigeInfo.textContent = '';
-  }
-
   if (S.boostEnd > now){
     btn.classList.add('boost');
-    const boostActual = Math.floor(BOOST_CONFIG.clickPower * getIncomeMultiplier());
-    info.textContent = `🥊 BOOST AKTIF! €${boostActual}/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
+    info.textContent = `🥊 BOOST AKTIF! €${BOOST_CONFIG.clickPower}/klik — sisa ${Math.ceil((S.boostEnd-now)/1000)}s`;
   } else {
     btn.classList.remove('boost');
     info.textContent = '';
@@ -1831,11 +1276,6 @@ function render(){
   const friendPanel = document.getElementById('panel-friend');
   if (friendPanel && !friendPanel.classList.contains('hidden')){
     if (!isUserTypingInFriends()) renderFriendPanel();
-  }
-  
-  const prestigePanel = document.getElementById('panel-prestige');
-  if (prestigePanel && !prestigePanel.classList.contains('hidden')){
-    renderPrestigePanel();
   }
 }
 
@@ -1875,9 +1315,7 @@ function updateAutoUI(now){
   timer.style.color = '#00ffc0';
   
   if (bonus){
-    const min = Math.floor(HELPING_HAND_CONFIG.clickPowerMin * getIncomeMultiplier());
-    const max = Math.floor(HELPING_HAND_CONFIG.clickPowerMax * getIncomeMultiplier());
-    bonus.textContent = `+€${min}-${max}/klik`;
+    bonus.textContent = `+€${HELPING_HAND_CONFIG.clickPowerMin}-${HELPING_HAND_CONFIG.clickPowerMax}/klik`;
   }
 }
 
@@ -1886,8 +1324,7 @@ function doAutoClick(){
   if (S.autoEnd <= now) return;
   const base = HELPING_HAND_CONFIG.clickPowerMin +
                 Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
-  const gain = Math.floor(base * getIncomeMultiplier());
-  S.money += gain;
+  S.money += base;
   addExp(2);
   const btn = document.getElementById('clickBtn');
   btn.style.transform = 'scale(0.97)';
@@ -1915,17 +1352,15 @@ function startAutoLoop(){
 const clickBtn = document.getElementById('clickBtn');
 clickBtn.addEventListener('click', () => {
   const now = Date.now();
-  let baseGain;
+  let gain;
   if (S.autoEnd > now){
-    baseGain = HELPING_HAND_CONFIG.clickPowerMin +
-               Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
+    gain = HELPING_HAND_CONFIG.clickPowerMin +
+           Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
   } else if (S.boostEnd > now){
-    baseGain = BOOST_CONFIG.clickPower;
+    gain = BOOST_CONFIG.clickPower;
   } else {
-    baseGain = 10 + Math.floor(Math.random()*16);
+    gain = 10 + Math.floor(Math.random()*16);
   }
-  // ★ Apply prestige multiplier
-  const gain = Math.floor(baseGain * getIncomeMultiplier());
   S.money += gain;
   addExp(2);
   render(); save();
@@ -2218,7 +1653,6 @@ async function renderClanPanel(){
   const myRole = clan.members[uid].role;
   const memberCount = Object.keys(clan.members).length;
   const isOwner = myRole === 'owner';
-  const isAdmin = myRole === 'admin' || isOwner;
 
   let html = `
     <div class="clan-hero">
@@ -2467,6 +1901,7 @@ window.showTransferConfirm = async function(targetUid, targetName){
   document.getElementById('transferList').innerHTML = `
     <div style="text-align:center;padding:10px">
       <div style="font-size:1rem;margin-bottom:10px">Yakin transfer kepemilikan ke <b>${escapeHtml(targetName)}</b>?</div>
+      <div style="font-size:0.8rem;color:#888;margin-bottom:14px">Kamu akan menjadi Admin setelah ini.</div>
       <div class="modal-actions">
         <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
         <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmTransfer('${targetUid}', '${escapeHtml(targetName)}')">Ya, Transfer</button>
@@ -2843,17 +2278,11 @@ window.openProfile = async function(uid){
     actionHtml = `<button class="btn-primary" style="width:100%;padding:10px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;margin-top:10px" onclick="closeProfileModal();openPrivateChat('${uid}', '${escapeHtml(profile.name)}')">💬 Chat Pribadi</button>`;
   }
 
-  const prestigeTitle = getPrestigeTitle(profile.prestigeCount || 0);
-  const prestigeHtml = profile.prestigeCount > 0 
-    ? `<div class="meta">♻️ Prestige <b>${profile.prestigeCount}</b> — ${prestigeTitle.title}</div>` 
-    : '';
-
   document.getElementById('profileContent').innerHTML = `
     <div class="profile-card">
       <div class="avatar">👤</div>
       <h3>${escapeHtml(profile.name)}</h3>
       <div class="meta">🏆 Level <b>${profile.level}</b></div>
-      ${prestigeHtml}
       <div class="meta">🏰 Clan: <b>[${escapeHtml(profile.clanTag)}] ${escapeHtml(profile.clanName)}</b></div>
       <div class="meta">${statusHtml}</div>
       ${actionHtml}
@@ -3057,22 +2486,16 @@ document.getElementById('transferModal').addEventListener('click', (e)=>{
 document.getElementById('muteModal').addEventListener('click', (e)=>{
   if (e.target.id === 'muteModal') closeMuteModal();
 });
-document.getElementById('prestigeConfirmModal').addEventListener('click', (e)=>{
-  if (e.target.id === 'prestigeConfirmModal') closePrestigeConfirm();
-});
 document.addEventListener('keydown', (e)=>{
   if (e.key === 'Escape'){
     closeResetModal();
     closeDevModal();
     closeCreateClanModal();
     closeEditNameModal();
-    closeApologyModal();
-    closeEventNoticeModal();
     closeProfileModal();
     closePrivateChat();
     closeTransferModal();
     closeMuteModal();
-    closePrestigeConfirm();
   }
 });
 
@@ -3087,7 +2510,6 @@ document.querySelectorAll('.nav button').forEach(b=>{
     document.getElementById('panel-'+b.dataset.panel).classList.remove('hidden');
     if (b.dataset.panel === 'clan') renderClanPanel();
     else if (b.dataset.panel === 'friend') renderFriendPanel();
-    else if (b.dataset.panel === 'prestige') renderPrestigePanel();
     else stopChatListener();
   });
 });
@@ -3103,12 +2525,14 @@ async function initFirebase(){
         currentUid = user.uid;
         isOnline = true;
         updateOnlineTag();
+        console.log('Firebase UID:', currentUid);
         resolve();
       } else {
         try {
           document.getElementById('loadingText').textContent = 'Membuat akun anonim...';
           await signInAnonymously(auth);
         } catch(e){
+          console.error('Auth error:', e);
           isOnline = false;
           updateOnlineTag();
           resolve();
@@ -3141,14 +2565,15 @@ async function init(){
     S.friends = S.friends || {};
     S.friendRequests = S.friendRequests || {};
     S.sentRequests = S.sentRequests || {};
-    S.prestigeCount = S.prestigeCount || 0;
-    S.prestigePoints = S.prestigePoints || 0;
-    S.prestigeSkinIds = S.prestigeSkinIds || [];
-    S.prestigeHistory = S.prestigeHistory || [];
+    // Hapus sisa data prestige dari versi lama
+    delete S.prestigeCount;
+    delete S.prestigePoints;
+    delete S.prestigeSkinIds;
+    delete S.prestigeHistory;
+    delete S.totalPrestigeBonus;
+    delete S.apologyShown;
+    delete S.eventNoticeShown;
   }
-
-  const hadDuplicates = hasDuplicateSkins();
-  if (cleanupDuplicateSkins()) await Storage.save(S);
 
   const now = Date.now();
   if (S.autoEnd > 0 && S.autoEnd <= now){
@@ -3162,7 +2587,7 @@ async function init(){
       for (let i=0; i<maxCatchup; i++){
         const base = HELPING_HAND_CONFIG.clickPowerMin +
                      Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
-        gainedMoney += Math.floor(base * getIncomeMultiplier());
+        gainedMoney += base;
         gainedExp += 2;
       }
       S.money += gainedMoney;
@@ -3183,18 +2608,9 @@ async function init(){
   document.getElementById('loadingScreen').classList.add('hide');
   setTimeout(()=>document.getElementById('loadingScreen').remove(), 600);
 
-  showApologyModalIfNeeded(hadDuplicates);
-  showEventNoticeIfNeeded();
-
   const price = getTokenPrice();
   if (price.active){
     setTimeout(() => toast(`🎉 DISKON ${price.discount}% Token Light aktif!`), 1200);
-  }
-
-  // ★ Tampilkan prestise welcome kalau ada
-  if (S.prestigeCount > 0){
-    const title = getPrestigeTitle(S.prestigeCount);
-    setTimeout(() => toast(`♻️ Prestige ${S.prestigeCount} — ${title.title}`), 1800);
   }
 
   toast('🎮 Selamat bermain!');
