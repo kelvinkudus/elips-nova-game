@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v13.0</title>
+<title>ELIPS NOVA GAME v14.0</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -59,10 +59,10 @@
     50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
   }
   .nav {
-    display:grid; grid-template-columns:repeat(6,1fr); gap:4px; margin-top:10px;
+    display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-top:10px;
   }
   .nav button {
-    padding:9px 2px; font-size:0.62rem; border-radius:10px; border:1px solid #4a3f9f;
+    padding:8px 2px; font-size:0.58rem; border-radius:10px; border:1px solid #4a3f9f;
     background:rgba(40,30,90,0.7); color:#ddd; cursor:pointer;
   }
   .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
@@ -103,9 +103,65 @@
     font-family:inherit;
   }
   textarea { resize:vertical; min-height:60px; }
+
+  /* ====== SKIN STYLES (v14.0) ====== */
+  /* COMMON */
+  .skin-crimson_spark { background:linear-gradient(135deg,#ff3030,#ff6060); border:1px solid #ff5050; }
+  .skin-azure_wave { background:linear-gradient(135deg,#0040c0,#4090ff); border:1px solid #4090ff; }
+  .skin-emerald_leaf { background:linear-gradient(135deg,#008040,#00c060); border:1px solid #00c060; }
+
+  /* RARE (Gradient) */
+  .skin-midnight_pulse { background:linear-gradient(135deg,#001a4d,#0a0050,#2a1060); border:1px solid #5b3fff; }
+  .skin-blaze_runner { background:linear-gradient(135deg,#a01000,#ff5500,#ffb300); border:1px solid #ff5500; }
+  .skin-frost_whisper { background:linear-gradient(135deg,#c8e6ff,#ffffff,#a0d0ff); border:1px solid #a0d0ff; color:#1a1a3a; }
+
+  /* EXCLUSIVE (Gradient + Glossy) */
+  .skin-golden_aura { background:linear-gradient(135deg,#b8860b,#ffd700,#fff4b0); border:1px solid #ffd700; color:#1a1a1a; }
+  .skin-dragon_scale { background:linear-gradient(135deg,#0a4020,#00c060,#ffd700); border:1px solid #ffd700; color:#1a1a1a; }
+  .skin-ocean_depth { background:linear-gradient(135deg,#001a4d,#0040a0,#40c0ff); border:1px solid #4090ff; color:#e0f0ff; }
+
+  /* ETERNAL (Glossy + Glow) */
+  .skin-storm_bringer { background:linear-gradient(135deg,#0040c0,#80c0ff,#ffffff); border:1px solid #a0d0ff; color:#1a1a3a; box-shadow:0 0 15px #80c0ff; }
+  .skin-mystic_crystal { background:linear-gradient(135deg,#5b1a80,#c060ff,#ffc0ff); border:1px solid #c060ff; color:#fff; box-shadow:0 0 15px #c060ff; }
+  .skin-star_forge { background:linear-gradient(135deg,#b8860b,#fff4b0,#ffffff); border:1px solid #ffd700; color:#1a1a1a; box-shadow:0 0 15px #ffd700; }
+
+  /* MYTHIC (Rainbow + Particle + Aura) */
+  .skin-nova_genesis {
+    background:linear-gradient(90deg,#ff2b6b,#ffb300,#00ff90,#5b3fff,#ff2b6b);
+    background-size: 400% 100%;
+    border:2px solid #fff;
+    animation: rainbowMove 3s linear infinite;
+    color:#fff;
+    box-shadow:0 0 25px #ff2b6b, 0 0 50px #ffb300;
+    text-shadow:0 0 5px rgba(0,0,0,0.5);
+  }
+  .skin-eternal_dragon {
+    background:linear-gradient(135deg,#b8860b,#ffd700,#ff5500,#ffd700);
+    background-size: 200% 200%;
+    border:2px solid #ffd700;
+    animation: rainbowMove 4s linear infinite;
+    color:#1a1a1a;
+    box-shadow:0 0 25px #ffd700, 0 0 50px #ff5500;
+  }
+  .skin-celestial_king {
+    background:linear-gradient(135deg,#2a1060,#5b3fff,#c060ff,#ffd700,#5b3fff);
+    background-size: 300% 300%;
+    border:2px solid #fff;
+    animation: rainbowMove 5s linear infinite;
+    color:#fff;
+    box-shadow:0 0 25px #c060ff, 0 0 50px #ffd700;
+  }
+
+  /* Skin Legendary Event (Lama) */
   .skin-plasma { background:linear-gradient(135deg,#001a4d,#0040a0,#0a0050); border:1px solid #4fa8ff; }
   .skin-danish { background:linear-gradient(135deg,#b8860b,#ffd700,#fff4b0); border:1px solid #ffd700; color:#1a1a1a; }
   .skin-emberheart { background:linear-gradient(135deg,#fff,#c8e6ff,#e0c8ff,#ffd700); border:1px solid #e0c8ff; color:#1a1a3a; }
+
+  @keyframes rainbowMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
   .glossy { position:relative; overflow:hidden; }
   .glossy::after {
     content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
@@ -113,17 +169,111 @@
     animation:gloss 3s infinite linear;
   }
   @keyframes gloss { 0%{transform:translateX(-100%) rotate(0);} 100%{transform:translateX(100%) rotate(0);} }
-  .badge { font-size:0.7rem; padding:2px 6px; border-radius:6px; background:#0006; }
-  .diamond-pop {
-    position:fixed; font-size:1.5rem; font-weight:bold; pointer-events:none;
-    color:#7fd4ff; text-shadow:0 0 15px #00e0ff, 0 0 30px #a06bff;
-    animation: popUp 1.5s ease-out forwards; z-index:1000;
+
+  /* ====== SKIN CARD (v14.0) ====== */
+  .skin-card {
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:12px;
+    position:relative;
+    overflow:hidden;
+    font-size:0.85rem;
   }
-  @keyframes popUp {
-    0%   { opacity:0; transform:translate(-50%, 0) scale(0.5); }
-    30%  { opacity:1; transform:translate(-50%, -40px) scale(1.3); }
-    100% { opacity:0; transform:translate(-50%, -120px) scale(1); }
+  .skin-card .skin-name {
+    font-size:1rem;
+    font-weight:bold;
+    margin-bottom:4px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
   }
+  .skin-card .skin-meta {
+    font-size:0.75rem;
+    margin-bottom:6px;
+    opacity:0.85;
+  }
+  .skin-card .skin-price {
+    font-size:0.9rem;
+    font-weight:bold;
+    margin-bottom:8px;
+  }
+  .skin-card .skin-actions {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .skin-card .skin-actions button {
+    padding:6px 12px;
+    font-size:0.75rem;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    background:linear-gradient(135deg,#5b3fff,#a02bff);
+    color:white;
+  }
+  .skin-card .skin-actions button:disabled {
+    background:#444;
+    color:#888;
+    cursor:not-allowed;
+  }
+  .skin-card .skin-actions button.owned-btn {
+    background:linear-gradient(135deg,#00c060,#00ff90);
+    color:#111;
+  }
+  .skin-card .skin-actions button.ended-btn {
+    background:#666;
+    color:#aaa;
+  }
+  .skin-badge {
+    display:inline-block;
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:6px;
+    font-weight:bold;
+    margin-left:6px;
+  }
+  .badge-common { background:rgba(150,150,150,0.4); color:#ddd; }
+  .badge-rare { background:rgba(80,150,255,0.4); color:#b0d0ff; }
+  .badge-exclusive { background:rgba(255,180,0,0.4); color:#ffe0a0; }
+  .badge-eternal {
+    background:linear-gradient(90deg,#ff2b6b,#ffb300,#00ff90,#5b3fff,#ff2b6b);
+    background-size: 300% 100%;
+    color:white;
+    animation: rainbowMove 3s linear infinite;
+  }
+  .badge-mythic {
+    background:linear-gradient(90deg,#ff2b6b,#ffb300,#00ff90,#5b3fff,#ff2b6b);
+    background-size: 400% 100%;
+    animation: rainbowMove 3s linear infinite;
+    color:white;
+    border:1px solid #fff;
+  }
+
+  /* Skin Category Section */
+  .skin-category {
+    margin-bottom:16px;
+  }
+  .skin-category-title {
+    font-size:0.85rem;
+    font-weight:bold;
+    color:#7fd4ff;
+    padding:8px 0;
+    border-bottom:1px dashed #3a2f80;
+    margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .skin-category-title .count {
+    font-size:0.7rem;
+    color:#888;
+  }
+  .skin-category.locked .skin-category-title {
+    color:#888;
+  }
+
+  /* ====== MODAL & OTHERS ====== */
   .auto-panel {
     background:linear-gradient(135deg, rgba(0,200,150,0.15), rgba(0,100,200,0.15));
     border:1px solid #00e0a0;
@@ -505,7 +655,7 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v13.0</div>
+<div class="version">v14.0 — SKIN SHOP & RARITY</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="player-name-display">
   👤 <b id="playerNameDisplay" onclick="showEditNameModal()">Pemain</b>
@@ -534,6 +684,7 @@
 
 <div class="nav">
   <button data-panel="shop" class="active">🛒 Toko</button>
+  <button data-panel="skin">👕 Skin</button>
   <button data-panel="inv">🎒 Inv</button>
   <button data-panel="event">⭐ Event</button>
   <button data-panel="clan">🏰 Clan</button>
@@ -542,6 +693,7 @@
 </div>
 
 <div class="panel" id="panel-shop"></div>
+<div class="panel hidden" id="panel-skin"></div>
 <div class="panel hidden" id="panel-inv"></div>
 <div class="panel hidden" id="panel-event"></div>
 <div class="panel hidden" id="panel-clan"></div>
@@ -629,9 +781,6 @@
     <h2 style="color:#7fd4ff">👤 Edit Profil</h2>
     <label style="font-size:0.75rem;color:#aaa">Nama kamu (3-16 karakter, huruf/angka/underscore)</label>
     <input type="text" id="editNameInput" maxlength="16" placeholder="cth: SangPetualang">
-    <div style="font-size:0.7rem;color:#888;margin-top:4px;margin-bottom:8px">
-      Nama ini akan muncul di chat clan, chat teman, dan daftar member.
-    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
       <button class="btn-primary" onclick="savePlayerName()">Simpan</button>
@@ -659,7 +808,6 @@
     <h2 style="color:#ff4060">🔇 Bisukan Anggota</h2>
     <p style="background:rgba(255,60,90,0.1);border-left-color:#ff4060;color:#ffb0b0;">
       Pilih durasi mute untuk <b id="muteTargetName">Pemain</b>.
-      <br>Anggota yang dibisukan tidak bisa mengirim pesan di chat clan.
     </p>
     <div class="mute-options" id="muteOptions">
       <button data-days="1" onclick="selectMuteDays(1)">🔇 1 Hari</button>
@@ -751,6 +899,124 @@ const HELPING_HAND_CONFIG = {
   duration: 2*60*1000,
   clickPowerMin: 50, clickPowerMax: 80
 };
+
+/* ============================================================
+   v14.0: DATABASE SKIN
+   ============================================================ */
+const SKIN_DB = {
+  // ===== COMMON =====
+  crimson_spark: {
+    id: 'crimson_spark', name: 'Crimson Spark', price: 5000, currency: 'money',
+    rarity: 'COMMON', category: 'Starter', cls: 'skin-crimson_spark', glossy: false,
+    available: true, icon: '🔴'
+  },
+  azure_wave: {
+    id: 'azure_wave', name: 'Azure Wave', price: 7500, currency: 'money',
+    rarity: 'COMMON', category: 'Starter', cls: 'skin-azure_wave', glossy: false,
+    available: true, icon: '🔵'
+  },
+  emerald_leaf: {
+    id: 'emerald_leaf', name: 'Emerald Leaf', price: 10000, currency: 'money',
+    rarity: 'COMMON', category: 'Starter', cls: 'skin-emerald_leaf', glossy: false,
+    available: true, icon: '🟢'
+  },
+
+  // ===== RARE =====
+  midnight_pulse: {
+    id: 'midnight_pulse', name: 'Midnight Pulse', price: 50000, currency: 'money',
+    rarity: 'RARE', category: 'Rare Collection', cls: 'skin-midnight_pulse', glossy: false,
+    available: true, icon: '🌌'
+  },
+  blaze_runner: {
+    id: 'blaze_runner', name: 'Blaze Runner', price: 75000, currency: 'money',
+    rarity: 'RARE', category: 'Rare Collection', cls: 'skin-blaze_runner', glossy: false,
+    available: true, icon: '🔥'
+  },
+  frost_whisper: {
+    id: 'frost_whisper', name: 'Frost Whisper', price: 100000, currency: 'money',
+    rarity: 'RARE', category: 'Rare Collection', cls: 'skin-frost_whisper', glossy: false,
+    available: true, icon: '❄️'
+  },
+
+  // ===== EXCLUSIVE =====
+  golden_aura: {
+    id: 'golden_aura', name: 'Golden Aura', price: 150000, currency: 'money',
+    rarity: 'EXCLUSIVE', category: 'Exclusive Collection', cls: 'skin-golden_aura', glossy: true,
+    available: true, icon: '👑'
+  },
+  dragon_scale: {
+    id: 'dragon_scale', name: 'Dragon Scale', price: 225000, currency: 'money',
+    rarity: 'EXCLUSIVE', category: 'Exclusive Collection', cls: 'skin-dragon_scale', glossy: true,
+    available: true, icon: '🐉'
+  },
+  ocean_depth: {
+    id: 'ocean_depth', name: 'Ocean Depth', price: 300000, currency: 'money',
+    rarity: 'EXCLUSIVE', category: 'Exclusive Collection', cls: 'skin-ocean_depth', glossy: true,
+    available: true, icon: '🌊'
+  },
+
+  // ===== ETERNAL =====
+  storm_bringer: {
+    id: 'storm_bringer', name: 'Storm Bringer', price: 400000, currency: 'money',
+    rarity: 'ETERNAL', category: 'Eternal Collection', cls: 'skin-storm_bringer', glossy: true,
+    available: true, icon: '⚡'
+  },
+  mystic_crystal: {
+    id: 'mystic_crystal', name: 'Mystic Crystal', price: 450000, currency: 'money',
+    rarity: 'ETERNAL', category: 'Eternal Collection', cls: 'skin-mystic_crystal', glossy: true,
+    available: true, icon: '🔮'
+  },
+  star_forge: {
+    id: 'star_forge', name: 'Star Forge', price: 500000, currency: 'money',
+    rarity: 'ETERNAL', category: 'Eternal Collection', cls: 'skin-star_forge', glossy: true,
+    available: true, icon: '🌟'
+  },
+
+  // ===== MYTHIC =====
+  nova_genesis: {
+    id: 'nova_genesis', name: 'Nova Genesis', price: 600000, currency: 'money',
+    rarity: 'MYTHIC', category: 'Mythic Collection', cls: 'skin-nova_genesis', glossy: false,
+    available: true, icon: '🌌'
+  },
+  eternal_dragon: {
+    id: 'eternal_dragon', name: 'Eternal Dragon', price: 600000, currency: 'money',
+    rarity: 'MYTHIC', category: 'Mythic Collection', cls: 'skin-eternal_dragon', glossy: false,
+    available: true, icon: '🐲'
+  },
+  celestial_king: {
+    id: 'celestial_king', name: 'Celestial King', price: 600000, currency: 'money',
+    rarity: 'MYTHIC', category: 'Mythic Collection', cls: 'skin-celestial_king', glossy: false,
+    available: true, icon: '👑'
+  },
+
+  // ===== LEGENDARY EVENT (LAMA, hanya lihat) =====
+  plasma: {
+    id: 'plasma', name: 'Plasma Enduro', price: 50, currency: 'token',
+    rarity: 'RARE', category: 'Legendary Event', cls: 'skin-plasma', glossy: true,
+    available: false, ended: true, icon: '🔵'
+  },
+  danish: {
+    id: 'danish', name: 'Danish Cube', price: 150, currency: 'token',
+    rarity: 'EXCLUSIVE', category: 'Legendary Event', cls: 'skin-danish', glossy: true,
+    available: false, ended: true, icon: '🟡'
+  },
+  emberheart: {
+    id: 'emberheart', name: 'Emberheart', price: 600, currency: 'token',
+    rarity: 'ETERNAL', category: 'Legendary Event', cls: 'skin-emberheart', glossy: true,
+    available: false, ended: true, icon: '⚪'
+  }
+};
+
+/* Rarity Info */
+const RARITY_INFO = {
+  COMMON:    { label: 'COMMON',    color: '#aaa',    badgeClass: 'badge-common' },
+  RARE:      { label: 'RARE',      color: '#4fa8ff', badgeClass: 'badge-rare' },
+  EXCLUSIVE: { label: 'EXCLUSIVE', color: '#ffd700', badgeClass: 'badge-exclusive' },
+  ETERNAL:   { label: 'ETERNAL',   color: '#c060ff', badgeClass: 'badge-eternal' },
+  MYTHIC:    { label: 'MYTHIC',    color: '#ff2b6b', badgeClass: 'badge-mythic' }
+};
+
+const RARITY_ORDER = ['COMMON', 'RARE', 'EXCLUSIVE', 'ETERNAL', 'MYTHIC'];
 
 function getTokenPrice(){
   const now = Date.now();
@@ -899,11 +1165,8 @@ async function fetchUserProfile(uid){
       } catch(e){}
     }
     return {
-      uid,
-      name: data.playerName || 'Pemain',
-      level: data.level || 1,
-      clanName, clanTag,
-      lastOnline: data.lastOnline || 0
+      uid, name: data.playerName || 'Pemain', level: data.level || 1,
+      clanName, clanTag, lastOnline: data.lastOnline || 0
     };
   } catch(e){ return null; }
 }
@@ -1271,6 +1534,7 @@ function render(){
   if (statEl) statEl.textContent = fmt(S.totalDiamondFromLevel || 0);
 
   renderPanels();
+  renderSkinPanel();
   if (!isUserTypingInClan()) renderClanPanel();
   
   const friendPanel = document.getElementById('panel-friend');
@@ -1387,7 +1651,7 @@ function addExp(v){
 }
 
 /* ============================================================
-   TOKO
+   TOKO (UTAMA)
    ============================================================ */
 function renderPanels(){
   const shop = document.getElementById('panel-shop');
@@ -1468,29 +1732,14 @@ function renderPanels(){
     `).join('');
   }
 
-  // Event Panel
+  // Event Panel (Legacy)
   const ev = document.getElementById('panel-event');
   const status = getEventStatus();
-  const skins = [
-    {id:'plasma', name:'Plasma Enduro', price:50, type:'Skin', rarity:'RARE', cls:'skin-plasma'},
-    {id:'danish', name:'Danish Cube', price:150, type:'Skin', rarity:'EXCLUSIVE', cls:'skin-danish'},
-    {id:'ember', name:'Emberheart', price:600, type:'Skin', rarity:'ETERNAL', cls:'skin-emberheart'}
-  ];
+  const eventSkins = ['plasma', 'danish', 'emberheart'].map(id => SKIN_DB[id]);
 
   let statusHtml = '';
-  let countdownHtml = '';
-
   if (status === 'open'){
     statusHtml = `<div class="event-status event-open">⭐ EVENT TERBUKA — 20.00–22.00 WIB</div>`;
-    const wib = new Date(now + (7*60 + new Date().getTimezoneOffset())*60000);
-    const closeTime = new Date(wib);
-    closeTime.setHours(22, 0, 0, 0);
-    const remainMs = closeTime.getTime() - wib.getTime();
-    if (remainMs > 0){
-      const h = Math.floor(remainMs / 3600000);
-      const m = Math.floor((remainMs % 3600000) / 60000);
-      countdownHtml = `<div class="event-countdown">⏰ Event tutup dalam<span class="big">${h}j ${m}m</span></div>`;
-    }
   } else if (status === 'closed'){
     statusHtml = `<div class="event-status event-closed">🔒 Event tertutup. Buka tiap 20.00–22.00 WIB</div>`;
   } else if (status === 'ended'){
@@ -1498,24 +1747,160 @@ function renderPanels(){
   }
 
   ev.innerHTML = `
-    ${statusHtml}${countdownHtml}
-    ${skins.map(sk=>{
+    ${statusHtml}
+    <div class="notice-banner">
+      <b>📢 Info:</b> Skin Legendary Event sekarang ada di tab <b>👕 Skin</b>.
+    </div>
+    ${eventSkins.map(sk=>{
       const owned = S.inventory.some(item => item.id === sk.id);
-      const canBuy = (status === 'open') && !owned && (S.token >= sk.price);
       return `
         <div class="item ${sk.cls} glossy">
           <div class="info">
-            <b>${sk.name}</b><br>${sk.rarity} • ✴️ ${sk.price}
+            <b>${sk.icon} ${sk.name}</b><br>${sk.rarity} • ✴️ ${sk.price}
             ${owned ? '<br><span style="color:#00ff90;font-size:0.75rem">✅ Sudah dimiliki</span>' : ''}
           </div>
-          ${owned ? '<button disabled style="opacity:0.5">Dimiliki</button>'
-                  : `<button onclick="buySkin('${sk.id}')" ${!canBuy?'disabled':''}>${status === 'ended' ? 'Selesai' : (status === 'closed' ? 'Tutup' : 'Beli')}</button>`}
+          <button disabled>${status === 'ended' ? 'Selesai' : 'Lihat'}</button>
         </div>
       `;
     }).join('')}
   `;
 }
 
+/* ============================================================
+   v14.0: TOKO SKIN (BARU)
+   ============================================================ */
+function renderSkinPanel(){
+  const panel = document.getElementById('panel-skin');
+  if (!panel) return;
+
+  // Group skin by category
+  const categories = {};
+  for (const sk of Object.values(SKIN_DB)){
+    if (!categories[sk.category]) categories[sk.category] = [];
+    categories[sk.category].push(sk);
+  }
+
+  // Sort: yang bisa dibeli dulu, lalu event
+  const categoryOrder = [
+    'Starter',
+    'Rare Collection',
+    'Exclusive Collection',
+    'Eternal Collection',
+    'Mythic Collection',
+    'Legendary Event'
+  ];
+
+  let html = `
+    <div class="notice-banner">
+      👕 <b>Toko Skin</b> — Koleksi skin kamu.<br>
+      Beli skin yang tersedia atau lihat skin event yang sudah berakhir.
+    </div>
+  `;
+
+  for (const catName of categoryOrder){
+    const skins = categories[catName];
+    if (!skins || !skins.length) continue;
+
+    const isLegendaryEnded = (catName === 'Legendary Event');
+    const catClass = isLegendaryEnded ? 'locked' : '';
+    const countText = isLegendaryEnded ? 'Berakhir' : `${skins.length} skin`;
+
+    html += `<div class="skin-category ${catClass}">`;
+    html += `<div class="skin-category-title">
+      <span>${isLegendaryEnded ? '🔒' : '📦'} ${catName}</span>
+      <span class="count">${countText}</span>
+    </div>`;
+
+    for (const sk of skins){
+      const owned = S.inventory.some(item => item.id === sk.id);
+      const rarity = RARITY_INFO[sk.rarity] || RARITY_INFO.COMMON;
+
+      // Harga display
+      let priceDisplay = '';
+      if (sk.currency === 'money'){
+        priceDisplay = `€ ${fmt(sk.price)}`;
+      } else if (sk.currency === 'token'){
+        priceDisplay = `✴️ ${sk.price}`;
+      }
+
+      // Status
+      let statusText = '';
+      let btnHtml = '';
+
+      if (isLegendaryEnded){
+        // Event lama - hanya lihat
+        statusText = '<span style="color:#ff8080">🔒 Event Berakhir</span>';
+        btnHtml = `<button class="ended-btn" disabled>Tidak Tersedia</button>`;
+      } else if (owned){
+        statusText = '<span style="color:#00ff90">✅ Sudah Dimiliki</span>';
+        btnHtml = `<button class="owned-btn" disabled>Dimiliki</button>`;
+      } else if (sk.available){
+        statusText = '<span style="color:#00ff90">🟢 Tersedia</span>';
+        btnHtml = `<button onclick="buySkin('${sk.id}')">Beli</button>`;
+      } else {
+        statusText = '<span style="color:#888">⏰ Coming Soon</span>';
+        btnHtml = `<button class="ended-btn" disabled>Coming Soon</button>`;
+      }
+
+      html += `
+        <div class="skin-card ${sk.cls} ${sk.glossy?'glossy':''}">
+          <div class="skin-name">
+            <span>${sk.icon} ${escapeHtml(sk.name)}</span>
+            <span class="skin-badge ${rarity.badgeClass}">${rarity.label}</span>
+          </div>
+          <div class="skin-meta">${statusText}</div>
+          <div class="skin-price">${priceDisplay}</div>
+          <div class="skin-actions">
+            ${btnHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    html += `</div>`;
+  }
+
+  panel.innerHTML = html;
+}
+
+/* ============================================================
+   BELI SKIN (v14.0)
+   ============================================================ */
+window.buySkin = function(id){
+  const sk = SKIN_DB[id];
+  if (!sk) return toast('❌ Skin tidak ditemukan');
+  if (!sk.available) return toast('🔒 Skin tidak tersedia');
+  if (sk.ended) return toast('🏁 Event sudah berakhir');
+
+  const alreadyOwned = S.inventory.some(item => item.id === id);
+  if (alreadyOwned) return toast(`⚠️ Kamu sudah punya ${sk.name}!`);
+
+  // Cek currency
+  if (sk.currency === 'money'){
+    if (S.money < sk.price) return toast(`❌ Uang tidak cukup! Butuh €${fmt(sk.price)}`);
+    S.money -= sk.price;
+  } else if (sk.currency === 'token'){
+    if (S.token < sk.price) return toast(`❌ Token tidak cukup! Butuh ✴️${sk.price}`);
+    S.token -= sk.price;
+  }
+
+  S.inventory.push({
+    id: sk.id,
+    name: sk.name,
+    type: 'Skin',
+    rarity: sk.rarity,
+    skinClass: sk.cls,
+    glossy: sk.glossy,
+    qty: 1
+  });
+
+  toast(`⭐ ${sk.name} dibeli!`);
+  render(); save();
+};
+
+/* ============================================================
+   AKSI TOKO LAIN
+   ============================================================ */
 window.buyToken = function(mode){
   const price = getTokenPrice();
   if (mode === 'money'){
@@ -1570,32 +1955,6 @@ window.buyHelpingHand = function(mode){
     S.inventory.push({ id:'helping_hand', name:'👌 Helping Hand', type:'Consumable', rarity:'UTILITY', qty:1 });
   }
   toast('👌 Helping Hand aktif!');
-  render(); save();
-};
-
-window.buySkin = function(id){
-  const status = getEventStatus();
-  if (status === 'ended') return toast('🏁 Event Legendary telah selesai permanen');
-  if (status !== 'open') return toast('🔒 Event tertutup!');
-
-  const skins = {
-    plasma:{name:'Plasma Enduro', price:50, type:'Skin', rarity:'RARE', cls:'skin-plasma'},
-    danish:{name:'Danish Cube', price:150, type:'Skin', rarity:'EXCLUSIVE', cls:'skin-danish'},
-    ember:{name:'Emberheart', price:600, type:'Skin', rarity:'ETERNAL', cls:'skin-emberheart'}
-  };
-  const sk = skins[id];
-  if (!sk) return;
-
-  const alreadyOwned = S.inventory.some(item => item.id === id);
-  if (alreadyOwned) return toast(`⚠️ Kamu sudah punya ${sk.name}!`);
-  if (S.token < sk.price) return toast('✴️ Token Light tidak cukup!');
-
-  S.token -= sk.price;
-  S.inventory.push({
-    id, name: sk.name, type: sk.type, rarity: sk.rarity,
-    skinClass: sk.cls, glossy: true, qty: 1
-  });
-  toast(`⭐ ${sk.name} dibeli!`);
   render(); save();
 };
 
@@ -2510,6 +2869,7 @@ document.querySelectorAll('.nav button').forEach(b=>{
     document.getElementById('panel-'+b.dataset.panel).classList.remove('hidden');
     if (b.dataset.panel === 'clan') renderClanPanel();
     else if (b.dataset.panel === 'friend') renderFriendPanel();
+    else if (b.dataset.panel === 'skin') renderSkinPanel();
     else stopChatListener();
   });
 });
@@ -2565,7 +2925,7 @@ async function init(){
     S.friends = S.friends || {};
     S.friendRequests = S.friendRequests || {};
     S.sentRequests = S.sentRequests || {};
-    // Hapus sisa data prestige dari versi lama
+    // Bersihkan sisa data lama
     delete S.prestigeCount;
     delete S.prestigePoints;
     delete S.prestigeSkinIds;
