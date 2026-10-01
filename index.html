@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v15.2</title>
+<title>ELIPS NOVA GAME v15.3</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -663,7 +663,7 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v15.2</div>
+<div class="version">v15.3 — STATUS ONLINE FIX</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="dev-active-tag" id="devActiveTag" style="display:none">
   <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
@@ -1113,10 +1113,11 @@ function isUserOnline(uid, lastSeenTs){
   return (Date.now() - lastSeenTs) < ONLINE_THRESHOLD;
 }
 
-// ★ v15.2: Format "X waktu lalu" yang lebih lengkap
+/* ★ v15.3: Format waktu terakhir online yang lebih bagus */
 function timeAgo(ts){
-  if (!ts) return 'lama';
+  if (!ts) return 'tidak diketahui';
   const diff = Date.now() - ts;
+  if (diff < 0) return 'baru saja';
   const sec = Math.floor(diff / 1000);
   const m = Math.floor(diff / 60000);
   const h = Math.floor(m / 60);
@@ -1137,22 +1138,41 @@ function startOnlineHeartbeat(){
   const uid = Storage.getUserId();
   const updateLastSeen = async () => {
     if (!uid || uid === 'local_player') return;
-    try { await set(ref(db, `users/${uid}/lastOnline`), Date.now()); } catch(e){}
+    try {
+      const now = Date.now();
+      // ★ v15.3: Update KEDUA field sekaligus (lastOnline & lastSeen)
+      await set(ref(db, `users/${uid}/lastOnline`), now);
+      await set(ref(db, `users/${uid}/lastSeen`), now);
+    } catch(e){}
   };
   updateLastSeen();
   setInterval(updateLastSeen, 30000);
 }
 
+/* ★ v15.3: Fix - Ambil dari lastOnline ATAU lastSeen */
 async function fetchUserLastSeen(uid){
+  // Cek cache dulu (biar tidak spam Firebase)
   if (onlineUsersCache[uid] && (Date.now() - onlineUsersCache[uid].fetchedAt) < 15000){
     return onlineUsersCache[uid].ts;
   }
   try {
-    const snap = await get(ref(db, `users/${uid}/lastOnline`));
-    const ts = snap.val();
+    // Ambil SELURUH data user, biar bisa fallback ke lastSeen kalau lastOnline kosong
+    const snap = await get(ref(db, `users/${uid}`));
+    const data = snap.val();
+    if (!data){
+      onlineUsersCache[uid] = { ts: null, fetchedAt: Date.now() };
+      return null;
+    }
+    // Prioritas: pakai timestamp yang paling baru di antara kedua field
+    let ts = data.lastOnline || null;
+    if (data.lastSeen && (!ts || data.lastSeen > ts)){
+      ts = data.lastSeen;
+    }
     onlineUsersCache[uid] = { ts, fetchedAt: Date.now() };
     return ts;
-  } catch(e){ return null; }
+  } catch(e){
+    return null;
+  }
 }
 
 async function fetchUserProfile(uid){
@@ -1168,18 +1188,19 @@ async function fetchUserProfile(uid){
         if (clan){ clanName = clan.name || '-'; clanTag = clan.tag || '-'; }
       } catch(e){}
     }
+    // ★ v15.3: Ambil timestamp paling baru
+    let ts = data.lastOnline || null;
+    if (data.lastSeen && (!ts || data.lastSeen > ts)) ts = data.lastSeen;
     return {
       uid, name: data.playerName || 'Pemain', level: data.level || 1,
       bio: data.playerBio || '',
-      clanName, clanTag, lastOnline: data.lastOnline || 0
+      clanName, clanTag, lastOnline: ts || 0
     };
   } catch(e){ return null; }
 }
 
 /* ============================================================
-   ★ v15.2: HITUNG EXP BONUS (×2 setiap level)
-   Base exp klik = +2, ×2 lipat per level
-   Level 1: +2, Level 2: +4, Level 3: +8, Level 5: +32, Level 10: +1024
+   HITUNG EXP BONUS (×2)
    ============================================================ */
 function getExpPerClick(){
   const level = S.level || 1;
@@ -1187,7 +1208,7 @@ function getExpPerClick(){
 }
 
 /* ============================================================
-   ROLL DIAMOND (v15.1)
+   ROLL DIAMOND
    ============================================================ */
 function rollLevelDiamond(){
   const r = Math.random() * 100;
@@ -1245,6 +1266,8 @@ const Storage = {
     } catch(e){ return null; }
   },
   async save(data) {
+    // ★ v15.3: Update lastSeen otomatis sebelum save
+    data.lastSeen = Date.now();
     localStorage.setItem('enova_cache', JSON.stringify(data));
     if (currentUid && isOnline){
       try { await set(ref(db, `users/${currentUid}`), data); } catch(e){}
@@ -1440,9 +1463,12 @@ const FriendStorage = {
               if (clan){ clanName = clan.name || '-'; clanTag = clan.tag || '-'; }
             } catch(e){}
           }
+          // ★ v15.3: Ambil timestamp paling baru
+          let ts = data.lastOnline || null;
+          if (data.lastSeen && (!ts || data.lastSeen > ts)) ts = data.lastSeen;
           results.push({
             uid, name: data.playerName || 'Pemain', level: data.level || 1,
-            clanName, clanTag, lastOnline: data.lastOnline || 0
+            clanName, clanTag, lastOnline: ts || 0
           });
         }
       }
@@ -2293,7 +2319,6 @@ async function renderClanPanel(){
       const isOn = onlineStatuses[muid];
       const dotClass = isOn ? 'on' : 'off';
       const muted = m.mutedUntil && m.mutedUntil > Date.now();
-      // ★ v15.2: Tampilkan waktu terakhir online
       const lastSeenText = isOn ? '' : ` <span style="color:#666;font-size:0.65rem">• ${timeAgo(lastSeenMap[muid])}</span>`;
       
       html += `
@@ -2480,7 +2505,6 @@ window.kickMember = async function(targetUid){
   renderClanPanel();
 };
 
-/* ★ v15.2: FIX TOMBOL BATAL DOBEL */
 window.showTransferModal = async function(){
   if (!S.clanId) return;
   const clan = await ClanStorage.getClan(S.clanId);
@@ -2509,7 +2533,6 @@ window.showTransferModal = async function(){
 
 window.closeTransferModal = function(){
   document.getElementById('transferModal').classList.remove('show');
-  // Tampilkan kembali tombol Batal bawaan
   const defaultActions = document.getElementById('transferDefaultActions');
   if (defaultActions) defaultActions.style.display = 'grid';
 };
@@ -2517,7 +2540,7 @@ window.closeTransferModal = function(){
 window.showTransferConfirm = async function(targetUid, targetName){
   if (!S.clanId) return;
 
-  // ★ v15.2: SEMBUNYIKAN tombol Batal bawaan biar tidak dobel
+  // Sembunyikan tombol Batal bawaan biar tidak dobel
   const defaultActions = document.getElementById('transferDefaultActions');
   if (defaultActions) defaultActions.style.display = 'none';
 
@@ -2535,7 +2558,6 @@ window.showTransferConfirm = async function(targetUid, targetName){
 };
 
 window.cancelTransferConfirm = function(){
-  // Balik ke daftar transfer
   closeTransferModal();
   setTimeout(() => showTransferModal(), 250);
 };
@@ -2547,7 +2569,6 @@ window.confirmTransfer = async function(targetUid, targetName){
   const uid = Storage.getUserId();
   if (clan.members[uid].role !== 'owner') return;
 
-  // ★ v15.2: Loading indicator
   const btn = document.getElementById('transferConfirmBtn');
   if (btn){
     btn.disabled = true;
@@ -2584,7 +2605,6 @@ window.showMuteModal = function(targetUid, targetName){
   document.querySelectorAll('#muteOptions button').forEach(b=>{
     b.classList.toggle('selected', parseInt(b.dataset.days) === 1);
   });
-  // Reset tombol confirm
   const btn = document.getElementById('muteConfirmBtn');
   if (btn){ btn.disabled = false; btn.textContent = 'Bisukan'; }
   document.getElementById('muteModal').classList.add('show');
@@ -2606,7 +2626,6 @@ window.confirmMute = async function(){
   const uid = Storage.getUserId();
   if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
 
-  // ★ v15.2: Loading indicator
   const btn = document.getElementById('muteConfirmBtn');
   if (btn){ btn.disabled = true; btn.textContent = '⏳...'; }
 
@@ -2809,7 +2828,6 @@ async function updateFriendOnlineStatuses(){
     const ts = await fetchUserLastSeen(fuid);
     const online = isUserOnline(fuid, ts);
     if (dot) dot.className = 'online-dot ' + (online ? 'on' : 'off');
-    // ★ v15.2: Tampilkan waktu terakhir online
     if (sub){
       if (online){
         sub.textContent = '🟢 Online';
@@ -2859,7 +2877,6 @@ window.searchFriend = async function(){
     const isSelf = u.uid === myUid;
     const online = isUserOnline(u.uid, u.lastOnline);
     const dotClass = online ? 'on' : 'off';
-    // ★ v15.2: Tampilkan waktu terakhir online
     const statusText = online ? '🟢 Online' : `🕐 ${timeAgo(u.lastOnline)}`;
 
     let actionBtn = '';
@@ -2926,7 +2943,6 @@ window.openProfile = async function(uid){
   const profile = await fetchUserProfile(uid);
   if (!profile) return toast('❌ Tidak ditemukan');
   const online = isUserOnline(uid, profile.lastOnline);
-  // ★ v15.2: Tampilkan waktu terakhir online
   const statusHtml = online 
     ? '<span style="color:#00ff90">🟢 Online</span>' 
     : `<span style="color:#888">🕐 Terakhir online: ${timeAgo(profile.lastOnline)}</span>`;
@@ -2967,7 +2983,6 @@ window.openPrivateChat = async function(otherUid, otherName){
   document.getElementById('privateChatModal').classList.add('show');
   const ts = await fetchUserLastSeen(otherUid);
   const online = isUserOnline(otherUid, ts);
-  // ★ v15.2: Tampilkan waktu terakhir online
   document.getElementById('privateChatStatus').innerHTML = online
     ? '<span style="color:#00ff90">🟢 Online</span>'
     : `<span style="color:#888">🕐 Terakhir online: ${timeAgo(ts)}</span>`;
@@ -3256,6 +3271,15 @@ async function init(){
     delete S.totalPrestigeBonus;
     delete S.apologyShown;
     delete S.eventNoticeShown;
+  }
+
+  // ★ v15.3: Update lastOnline & lastSeen saat init
+  if (currentUid && isOnline){
+    try {
+      const now = Date.now();
+      await set(ref(db, `users/${currentUid}/lastOnline`), now);
+      await set(ref(db, `users/${currentUid}/lastSeen`), now);
+    } catch(e){}
   }
 
   const now = Date.now();
