@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELIPS NOVA GAME v15.1</title>
+<title>ELIPS NOVA GAME v15.2</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
   body {
@@ -58,7 +58,6 @@
     0%,100% { box-shadow:0 0 30px rgba(0,255,180,0.6), 0 0 20px rgba(160,60,255,0.6); }
     50%     { box-shadow:0 0 45px rgba(0,255,180,0.9), 0 0 30px rgba(160,60,255,0.8); }
   }
-  /* ★ v15.1: Multi-Row Nav */
   .nav {
     display:grid; grid-template-columns:repeat(6,1fr); gap:3px; margin-top:10px;
   }
@@ -68,10 +67,7 @@
   }
   .nav button.active { background:linear-gradient(135deg,#5b3fff,#a02bff); color:white; }
   .nav button.empty-tab { border-style:dashed; opacity:0.6; }
-  .nav-row-break {
-    grid-column: 1 / -1;
-    height: 0;
-  }
+  .nav-row-break { grid-column: 1 / -1; height: 0; }
 
   .panel {
     background:rgba(20,15,55,0.85); border:1px solid #3a2f80; border-radius:14px;
@@ -166,7 +162,6 @@
   }
   @keyframes gloss { 0%{transform:translateX(-100%) rotate(0);} 100%{transform:translateX(100%) rotate(0);} }
 
-  /* ====== SKIN CARD ====== */
   .skin-card {
     padding:12px; margin-bottom:10px; border-radius:12px;
     position:relative; overflow:hidden; font-size:0.85rem;
@@ -214,7 +209,6 @@
   }
   .skin-category.locked .skin-category-title { color:#888; }
 
-  /* ====== INVENTORY ====== */
   .inv-tabs {
     display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:10px;
   }
@@ -258,7 +252,6 @@
   }
   .inv-empty { text-align:center; color:#888; padding:30px 10px; font-size:0.85rem; }
 
-  /* ====== PROFIL TAB (v15.1) ====== */
   .profile-tab-card {
     background:linear-gradient(135deg, rgba(100,50,200,0.35), rgba(200,50,150,0.35));
     border:1px solid #a06bff;
@@ -330,7 +323,6 @@
   }
   .profile-edit-btn:active { transform:scale(0.98); }
 
-  /* Placeholder tab */
   .placeholder-box {
     text-align:center;
     padding:60px 20px;
@@ -344,7 +336,6 @@
     opacity:0.4;
   }
 
-  /* ====== MODAL & OTHERS ====== */
   .auto-panel {
     background:linear-gradient(135deg, rgba(0,200,150,0.15), rgba(0,100,200,0.15));
     border:1px solid #00e0a0;
@@ -389,6 +380,10 @@
   .modal-actions button {
     padding:12px; border-radius:10px; border:none; cursor:pointer;
     font-weight:bold; font-size:0.85rem;
+  }
+  .modal-actions button:disabled {
+    opacity:0.6;
+    cursor:not-allowed;
   }
   .btn-cancel {
     background:rgba(120,100,255,0.25); color:#c8c0ff;
@@ -588,7 +583,6 @@
   }
   @keyframes tagPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
 
-  /* FRIEND */
   .online-dot {
     display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px;
   }
@@ -669,7 +663,7 @@
 </div>
 
 <h1>✨ ELIPS NOVA GAME ✨</h1>
-<div class="version">v15.1 — MULTI-ROW NAV</div>
+<div class="version">v15.2</div>
 <div class="online-tag off" id="onlineTag">🔴 Offline Mode</div>
 <div class="dev-active-tag" id="devActiveTag" style="display:none">
   <span class="dev-badge">⚡ DEVELOPER MODE AKTIF ⚡</span>
@@ -694,18 +688,14 @@
   </div>
 </div>
 
-<!-- ★ v15.1: Nav 2 baris -->
 <div class="nav">
-  <!-- Baris 1 -->
   <button data-panel="shop" class="active">🛒 Toko</button>
   <button data-panel="skin">👕 Skin</button>
   <button data-panel="inv">🎒 Inv</button>
   <button data-panel="event">⭐ Event</button>
   <button data-panel="clan">🏰 Clan</button>
   <button data-panel="friend">👥 Teman</button>
-  <!-- Line break -->
   <div class="nav-row-break"></div>
-  <!-- Baris 2 -->
   <button data-panel="redeem">🎁 Redeem</button>
   <button data-panel="profile">👤 Profil</button>
   <button data-panel="empty1" class="empty-tab">📦 Kosong</button>
@@ -744,10 +734,8 @@
   </div>
 </div>
 
-<!-- ★ v15.1: Panel Profil (BARU) -->
 <div class="panel hidden" id="panel-profile"></div>
 
-<!-- ★ v15.1: Panel Kosong (placeholder) -->
 <div class="panel hidden" id="panel-empty1">
   <div class="placeholder-box">
     <div class="icon-big">📦</div>
@@ -784,7 +772,7 @@
     <p>Apakah anda yakin mereset data, ini dapat menghapus semua progres, aset, dan lain-lain yang anda miliki.</p>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeResetModal()">Batal</button>
-      <button class="btn-confirm" onclick="confirmReset()">Ya, Reset</button>
+      <button class="btn-confirm" id="resetConfirmBtn" onclick="confirmReset()">Ya, Reset</button>
     </div>
   </div>
 </div>
@@ -843,7 +831,7 @@
   </div>
 </div>
 
-<!-- Modal Edit Bio (v15.1) -->
+<!-- Modal Edit Bio -->
 <div class="modal-overlay" id="editBioModal">
   <div class="modal-box" style="border-color:#7fd4ff;">
     <h2 style="color:#7fd4ff">📝 Edit Bio</h2>
@@ -867,7 +855,7 @@
       Pilih anggota yang akan menjadi <b>Owner baru</b>. Setelah transfer, kamu akan menjadi <b>Admin</b>.
     </p>
     <div id="transferList" style="max-height:300px; overflow-y:auto;"></div>
-    <div class="modal-actions" style="margin-top:12px">
+    <div class="modal-actions" id="transferDefaultActions" style="margin-top:12px">
       <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
     </div>
   </div>
@@ -887,12 +875,12 @@
     </div>
     <div class="modal-actions" style="margin-top:12px">
       <button class="btn-cancel" onclick="closeMuteModal()">Batal</button>
-      <button class="btn-confirm" onclick="confirmMute()">Bisukan</button>
+      <button class="btn-confirm" id="muteConfirmBtn" onclick="confirmMute()">Bisukan</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Profile (untuk lihat profil teman) -->
+<!-- Modal Profile -->
 <div class="modal-overlay" id="profileModal">
   <div class="modal-box" style="border-color:#a06bff;">
     <h2 style="color:#c47bff">👤 Profil Pemain</h2>
@@ -1054,7 +1042,7 @@ const DEFAULT_STATE = {
   devMode: false, devUsed: false,
   clanId: null,
   playerName: 'Pemain',
-  playerBio: '',           // ★ v15.1
+  playerBio: '',
   friends: {}, friendRequests: {}, sentRequests: {},
   lastOnline: 0, lastSeen: Date.now()
 };
@@ -1125,6 +1113,26 @@ function isUserOnline(uid, lastSeenTs){
   return (Date.now() - lastSeenTs) < ONLINE_THRESHOLD;
 }
 
+// ★ v15.2: Format "X waktu lalu" yang lebih lengkap
+function timeAgo(ts){
+  if (!ts) return 'lama';
+  const diff = Date.now() - ts;
+  const sec = Math.floor(diff / 1000);
+  const m = Math.floor(diff / 60000);
+  const h = Math.floor(m / 60);
+  const d = Math.floor(h / 24);
+  const w = Math.floor(d / 7);
+  const mo = Math.floor(d / 30);
+
+  if (sec < 60) return 'baru saja';
+  if (m < 60) return `${m} menit lalu`;
+  if (h < 24) return `${h} jam lalu`;
+  if (d < 7) return `${d} hari lalu`;
+  if (w < 4) return `${w} minggu lalu`;
+  if (mo < 12) return `${mo} bulan lalu`;
+  return 'lama sekali';
+}
+
 function startOnlineHeartbeat(){
   const uid = Storage.getUserId();
   const updateLastSeen = async () => {
@@ -1169,34 +1177,28 @@ async function fetchUserProfile(uid){
 }
 
 /* ============================================================
-   v15.1: HITUNG EXP BONUS (×3 setiap level)
-   Base exp klik = +2
-   Level 1: +2, Level 2: +6, Level 3: +18, dst.
+   ★ v15.2: HITUNG EXP BONUS (×2 setiap level)
+   Base exp klik = +2, ×2 lipat per level
+   Level 1: +2, Level 2: +4, Level 3: +8, Level 5: +32, Level 10: +1024
    ============================================================ */
 function getExpPerClick(){
-  // exp = 2 × 3^(level-1)
   const level = S.level || 1;
-  return 2 * Math.pow(3, level - 1);
+  return 2 * Math.pow(2, level - 1);
 }
 
 /* ============================================================
-   v15.1: ROLL DIAMOND BARU
-   70% (10-40), 21% (50-60), 8% (90-100), 1% (130-150)
+   ROLL DIAMOND (v15.1)
    ============================================================ */
 function rollLevelDiamond(){
   const r = Math.random() * 100;
   if (r < 70) {
-    // 70%: 10-40
-    return 10 + Math.floor(Math.random() * 31);
+    return 10 + Math.floor(Math.random() * 31);   // 70%: 10-40
   } else if (r < 91) {
-    // 21%: 50-60
-    return 50 + Math.floor(Math.random() * 11);
+    return 50 + Math.floor(Math.random() * 11);   // 21%: 50-60
   } else if (r < 99) {
-    // 8%: 90-100
-    return 90 + Math.floor(Math.random() * 11);
+    return 90 + Math.floor(Math.random() * 11);   // 8%: 90-100
   } else {
-    // 1%: 130-150
-    return 130 + Math.floor(Math.random() * 21);
+    return 130 + Math.floor(Math.random() * 21);  // 1%: 130-150
   }
 }
 
@@ -1517,7 +1519,6 @@ document.getElementById('editNameModal').addEventListener('click', (e)=>{
   if (e.target.id === 'editNameModal') closeEditNameModal();
 });
 
-// Bio
 window.showEditBioModal = function(){
   document.getElementById('editBioModal').classList.add('show');
   document.getElementById('editBioInput').value = S.playerBio || '';
@@ -1529,15 +1530,9 @@ window.closeEditBioModal = function(){
 };
 window.savePlayerBio = async function(){
   const bio = (document.getElementById('editBioInput').value || '').trim();
-
-  if (bio.length > 200){
-    return toast('❌ Bio maksimal 200 karakter');
-  }
-  // Cek emoji (block karakter Unicode di atas U+1F000)
+  if (bio.length > 200) return toast('❌ Bio maksimal 200 karakter');
   const emojiRegex = /[\u{1F000}-\u{1FFFF}]/u;
-  if (emojiRegex.test(bio)){
-    return toast('❌ Bio tidak boleh pakai emoji');
-  }
+  if (emojiRegex.test(bio)) return toast('❌ Bio tidak boleh pakai emoji');
 
   S.playerBio = bio;
   await Storage.save(S);
@@ -1548,7 +1543,6 @@ window.savePlayerBio = async function(){
 document.getElementById('editBioModal').addEventListener('click', (e)=>{
   if (e.target.id === 'editBioModal') closeEditBioModal();
 });
-// Counter bio
 document.addEventListener('input', (e)=>{
   if (e.target.id === 'editBioInput'){
     const counter = document.getElementById('bioCounter');
@@ -1572,11 +1566,10 @@ function render(){
 
   document.getElementById('devActiveTag').style.display = S.devMode ? 'block' : 'none';
 
-  // Info exp bonus
   const expBonusInfo = document.getElementById('expBonusInfo');
   if (expBonusInfo){
     const expPerClick = getExpPerClick();
-    expBonusInfo.textContent = `⚡ +${fmt(expPerClick)} Exp per klik (bonus level)`;
+    expBonusInfo.textContent = `⚡ +${fmt(expPerClick)} Exp per klik`;
   }
 
   const btn = document.getElementById('clickBtn');
@@ -1654,7 +1647,6 @@ function doAutoClick(){
   const base = HELPING_HAND_CONFIG.clickPowerMin +
                 Math.floor(Math.random() * (HELPING_HAND_CONFIG.clickPowerMax - HELPING_HAND_CONFIG.clickPowerMin + 1));
   S.money += base;
-  // ★ v15.1: exp per klik ×3 per level
   addExp(getExpPerClick());
   const btn = document.getElementById('clickBtn');
   btn.style.transform = 'scale(0.97)';
@@ -1692,7 +1684,6 @@ clickBtn.addEventListener('click', () => {
     gain = 10 + Math.floor(Math.random()*16);
   }
   S.money += gain;
-  // ★ v15.1: exp per klik ×3 per level
   addExp(getExpPerClick());
   render(); save();
   clickBtn.style.transform = 'scale(0.95)';
@@ -1787,7 +1778,6 @@ function renderPanels(){
     </div>
   `;
 
-  // Event Panel (Legacy)
   const ev = document.getElementById('panel-event');
   const status = getEventStatus();
   const eventSkins = ['plasma', 'danish', 'emberheart'].map(id => SKIN_DB[id]);
@@ -2064,21 +2054,18 @@ document.getElementById('skinDetailModal').addEventListener('click', (e)=>{
 });
 
 /* ============================================================
-   ★ v15.1: TAB PROFIL
+   TAB PROFIL
    ============================================================ */
 function renderProfilePanel(){
   const panel = document.getElementById('panel-profile');
   if (!panel) return;
 
   const uid = Storage.getUserId();
-  const clan = currentClanData || (S.clanId ? null : null);
 
-  // Ambil info clan
   let clanText = 'Tidak ada';
   if (S.clanId && currentClanData){
     clanText = `[${escapeHtml(currentClanData.tag || '-')}] ${escapeHtml(currentClanData.name || '-')}`;
   } else if (S.clanId){
-    // Kalau data clan belum load, tampil UID dulu
     clanText = 'Memuat...';
   }
 
@@ -2114,12 +2101,10 @@ function renderProfilePanel(){
     </button>
   `;
 
-  // Kalau belum ada data clan, coba load
   if (S.clanId && !currentClanData){
     ClanStorage.getClan(S.clanId).then(c => {
       if (c){
         currentClanData = c;
-        // Re-render kalau panel profil masih terbuka
         const p = document.getElementById('panel-profile');
         if (p && !p.classList.contains('hidden')){
           renderProfilePanel();
@@ -2295,9 +2280,11 @@ async function renderClanPanel(){
 
     const memberUids = members.map(([muid])=>muid);
     const onlineStatuses = {};
+    const lastSeenMap = {};
     await Promise.all(memberUids.map(async (muid) => {
       const ts = await fetchUserLastSeen(muid);
       onlineStatuses[muid] = isUserOnline(muid, ts);
+      lastSeenMap[muid] = ts;
     }));
 
     for (const [muid, m] of members){
@@ -2306,13 +2293,15 @@ async function renderClanPanel(){
       const isOn = onlineStatuses[muid];
       const dotClass = isOn ? 'on' : 'off';
       const muted = m.mutedUntil && m.mutedUntil > Date.now();
+      // ★ v15.2: Tampilkan waktu terakhir online
+      const lastSeenText = isOn ? '' : ` <span style="color:#666;font-size:0.65rem">• ${timeAgo(lastSeenMap[muid])}</span>`;
       
       html += `
         <div class="clan-member-row">
           <div>
             <span class="online-dot ${dotClass}"></span>
             ${isMe?'⭐ ':''}<b>${escapeHtml(m.name||'Pemain')}</b>
-            <span style="color:#aaa;font-size:0.7rem"> • Lv.${m.level||1}</span>
+            <span style="color:#aaa;font-size:0.7rem"> • Lv.${m.level||1}</span>${lastSeenText}
             ${muted ? `<span class="muted-badge">🔇 MUTED</span>` : ''}
           </div>
           <div style="display:flex;gap:4px;flex-wrap:wrap">
@@ -2491,12 +2480,17 @@ window.kickMember = async function(targetUid){
   renderClanPanel();
 };
 
+/* ★ v15.2: FIX TOMBOL BATAL DOBEL */
 window.showTransferModal = async function(){
   if (!S.clanId) return;
   const clan = await ClanStorage.getClan(S.clanId);
   if (!clan) return;
   const uid = Storage.getUserId();
   if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
+
+  // Tampilkan kembali tombol Batal bawaan (kalau sebelumnya hidden)
+  const defaultActions = document.getElementById('transferDefaultActions');
+  if (defaultActions) defaultActions.style.display = 'grid';
 
   const list = document.getElementById('transferList');
   const others = Object.entries(clan.members).filter(([muid]) => muid !== uid);
@@ -2512,23 +2506,40 @@ window.showTransferModal = async function(){
   }
   document.getElementById('transferModal').classList.add('show');
 };
+
 window.closeTransferModal = function(){
   document.getElementById('transferModal').classList.remove('show');
+  // Tampilkan kembali tombol Batal bawaan
+  const defaultActions = document.getElementById('transferDefaultActions');
+  if (defaultActions) defaultActions.style.display = 'grid';
 };
+
 window.showTransferConfirm = async function(targetUid, targetName){
   if (!S.clanId) return;
+
+  // ★ v15.2: SEMBUNYIKAN tombol Batal bawaan biar tidak dobel
+  const defaultActions = document.getElementById('transferDefaultActions');
+  if (defaultActions) defaultActions.style.display = 'none';
+
   document.getElementById('transferList').innerHTML = `
     <div style="text-align:center;padding:10px">
       <div style="font-size:1rem;margin-bottom:10px">Yakin transfer kepemilikan ke <b>${escapeHtml(targetName)}</b>?</div>
       <div style="font-size:0.8rem;color:#888;margin-bottom:14px">Kamu akan menjadi Admin setelah ini.</div>
       <div class="modal-actions">
-        <button class="btn-cancel" onclick="closeTransferModal()">Batal</button>
-        <button class="btn-confirm" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmTransfer('${targetUid}', '${escapeHtml(targetName)}')">Ya, Transfer</button>
+        <button class="btn-cancel" onclick="cancelTransferConfirm()">Batal</button>
+        <button class="btn-confirm" id="transferConfirmBtn" style="background:linear-gradient(135deg,#ffb300,#ff6600);color:#111" onclick="confirmTransfer('${targetUid}', '${escapeHtml(targetName)}')">Ya, Transfer</button>
       </div>
     </div>
   `;
   document.getElementById('transferModal').classList.add('show');
 };
+
+window.cancelTransferConfirm = function(){
+  // Balik ke daftar transfer
+  closeTransferModal();
+  setTimeout(() => showTransferModal(), 250);
+};
+
 window.confirmTransfer = async function(targetUid, targetName){
   if (!S.clanId) return;
   const clan = await ClanStorage.getClan(S.clanId);
@@ -2536,17 +2547,32 @@ window.confirmTransfer = async function(targetUid, targetName){
   const uid = Storage.getUserId();
   if (clan.members[uid].role !== 'owner') return;
 
-  await ClanStorage.updateClan(S.clanId, `members/${targetUid}`, {
-    ...clan.members[targetUid], role:'owner'
-  });
-  await ClanStorage.updateClan(S.clanId, `members/${uid}`, {
-    ...clan.members[uid], role:'admin'
-  });
-  await ClanStorage.updateClan(S.clanId, 'ownerUid', targetUid);
+  // ★ v15.2: Loading indicator
+  const btn = document.getElementById('transferConfirmBtn');
+  if (btn){
+    btn.disabled = true;
+    btn.textContent = '⏳ Memproses...';
+  }
 
-  closeTransferModal();
-  toast(`👑 Kepemilikan clan ditransfer ke ${targetName}`);
-  renderClanPanel();
+  try {
+    await ClanStorage.updateClan(S.clanId, `members/${targetUid}`, {
+      ...clan.members[targetUid], role:'owner'
+    });
+    await ClanStorage.updateClan(S.clanId, `members/${uid}`, {
+      ...clan.members[uid], role:'admin'
+    });
+    await ClanStorage.updateClan(S.clanId, 'ownerUid', targetUid);
+
+    closeTransferModal();
+    toast(`👑 Kepemilikan clan ditransfer ke ${targetName}`);
+    renderClanPanel();
+  } catch(e){
+    if (btn){
+      btn.disabled = false;
+      btn.textContent = 'Ya, Transfer';
+    }
+    toast('❌ Gagal transfer, coba lagi');
+  }
 };
 
 let muteTargetUid = null;
@@ -2558,6 +2584,9 @@ window.showMuteModal = function(targetUid, targetName){
   document.querySelectorAll('#muteOptions button').forEach(b=>{
     b.classList.toggle('selected', parseInt(b.dataset.days) === 1);
   });
+  // Reset tombol confirm
+  const btn = document.getElementById('muteConfirmBtn');
+  if (btn){ btn.disabled = false; btn.textContent = 'Bisukan'; }
   document.getElementById('muteModal').classList.add('show');
 };
 window.closeMuteModal = function(){
@@ -2577,14 +2606,23 @@ window.confirmMute = async function(){
   const uid = Storage.getUserId();
   if (clan.members[uid].role !== 'owner') return toast('Hanya owner');
 
-  const mutedUntil = Date.now() + (muteSelectedDays * 24 * 60 * 60 * 1000);
-  const target = clan.members[muteTargetUid];
-  await ClanStorage.updateClan(S.clanId, `members/${muteTargetUid}`, {
-    ...target, mutedUntil, mutedBy: uid
-  });
-  closeMuteModal();
-  toast(`🔇 ${target.name||'Member'} dibisukan ${muteSelectedDays} hari`);
-  renderClanPanel();
+  // ★ v15.2: Loading indicator
+  const btn = document.getElementById('muteConfirmBtn');
+  if (btn){ btn.disabled = true; btn.textContent = '⏳...'; }
+
+  try {
+    const mutedUntil = Date.now() + (muteSelectedDays * 24 * 60 * 60 * 1000);
+    const target = clan.members[muteTargetUid];
+    await ClanStorage.updateClan(S.clanId, `members/${muteTargetUid}`, {
+      ...target, mutedUntil, mutedBy: uid
+    });
+    closeMuteModal();
+    toast(`🔇 ${target.name||'Member'} dibisukan ${muteSelectedDays} hari`);
+    renderClanPanel();
+  } catch(e){
+    if (btn){ btn.disabled = false; btn.textContent = 'Bisukan'; }
+    toast('❌ Gagal mute, coba lagi');
+  }
 };
 
 window.leaveClan = async function(){
@@ -2771,19 +2809,20 @@ async function updateFriendOnlineStatuses(){
     const ts = await fetchUserLastSeen(fuid);
     const online = isUserOnline(fuid, ts);
     if (dot) dot.className = 'online-dot ' + (online ? 'on' : 'off');
-    if (sub) sub.textContent = online ? '🟢 Online' : (ts ? `🕐 ${timeAgo(ts)}` : '⚫ Offline');
+    // ★ v15.2: Tampilkan waktu terakhir online
+    if (sub){
+      if (online){
+        sub.textContent = '🟢 Online';
+        sub.style.color = '#00ff90';
+      } else if (ts){
+        sub.textContent = `🕐 Terakhir online: ${timeAgo(ts)}`;
+        sub.style.color = '#888';
+      } else {
+        sub.textContent = '⚫ Offline';
+        sub.style.color = '#666';
+      }
+    }
   }
-}
-
-function timeAgo(ts){
-  if (!ts) return 'lama';
-  const diff = Date.now() - ts;
-  const m = Math.floor(diff / 60000);
-  if (m < 1) return 'baru saja';
-  if (m < 60) return `${m}m lalu`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}j lalu`;
-  return `${Math.floor(h/24)}h lalu`;
 }
 
 window.switchFriendTab = function(tab){
@@ -2820,6 +2859,8 @@ window.searchFriend = async function(){
     const isSelf = u.uid === myUid;
     const online = isUserOnline(u.uid, u.lastOnline);
     const dotClass = online ? 'on' : 'off';
+    // ★ v15.2: Tampilkan waktu terakhir online
+    const statusText = online ? '🟢 Online' : `🕐 ${timeAgo(u.lastOnline)}`;
 
     let actionBtn = '';
     if (isSelf) actionBtn = '<button class="btn-small-gray" disabled>Kamu</button>';
@@ -2839,6 +2880,7 @@ window.searchFriend = async function(){
           <span class="online-dot ${dotClass}"></span>
           <span class="name">${escapeHtml(u.name)}</span>
           <div class="sub">Lv.${u.level} • [${escapeHtml(u.clanTag)}] ${escapeHtml(u.clanName)}</div>
+          <div class="sub" style="${online?'color:#00ff90':'color:#888'}">${statusText}</div>
         </div>
         <div class="actions">${actionBtn}</div>
       </div>
@@ -2884,9 +2926,10 @@ window.openProfile = async function(uid){
   const profile = await fetchUserProfile(uid);
   if (!profile) return toast('❌ Tidak ditemukan');
   const online = isUserOnline(uid, profile.lastOnline);
+  // ★ v15.2: Tampilkan waktu terakhir online
   const statusHtml = online 
     ? '<span style="color:#00ff90">🟢 Online</span>' 
-    : `<span style="color:#888">⚫ Offline • ${timeAgo(profile.lastOnline)}</span>`;
+    : `<span style="color:#888">🕐 Terakhir online: ${timeAgo(profile.lastOnline)}</span>`;
   const isSelf = uid === Storage.getUserId();
   const isFriend = S.friends && S.friends[uid];
 
@@ -2924,9 +2967,10 @@ window.openPrivateChat = async function(otherUid, otherName){
   document.getElementById('privateChatModal').classList.add('show');
   const ts = await fetchUserLastSeen(otherUid);
   const online = isUserOnline(otherUid, ts);
+  // ★ v15.2: Tampilkan waktu terakhir online
   document.getElementById('privateChatStatus').innerHTML = online
     ? '<span style="color:#00ff90">🟢 Online</span>'
-    : `<span style="color:#888">⚫ Offline • ${timeAgo(ts)}</span>`;
+    : `<span style="color:#888">🕐 Terakhir online: ${timeAgo(ts)}</span>`;
   stopPrivateChatListener();
   privateChatUnsubscribe = FriendStorage.listenPrivateChat(otherUid, renderPrivateChat);
   if (privateChatTimerInterval) clearInterval(privateChatTimerInterval);
@@ -2936,7 +2980,7 @@ window.openPrivateChat = async function(otherUid, otherName){
     const online2 = isUserOnline(currentPrivateChatUid, ts2);
     document.getElementById('privateChatStatus').innerHTML = online2
       ? '<span style="color:#00ff90">🟢 Online</span>'
-      : `<span style="color:#888">⚫ Offline • ${timeAgo(ts2)}</span>`;
+      : `<span style="color:#888">🕐 Terakhir online: ${timeAgo(ts2)}</span>`;
   }, 10000);
 };
 
@@ -3066,9 +3110,16 @@ document.getElementById('devModal').addEventListener('click', (e)=>{
 /* ============================================================
    RESET
    ============================================================ */
-window.showResetModal = function(){ document.getElementById('resetModal').classList.add('show'); };
+window.showResetModal = function(){
+  const btn = document.getElementById('resetConfirmBtn');
+  if (btn){ btn.disabled = false; btn.textContent = 'Ya, Reset'; }
+  document.getElementById('resetModal').classList.add('show');
+};
 window.closeResetModal = function(){ document.getElementById('resetModal').classList.remove('show'); };
 window.confirmReset = async function(){
+  const btn = document.getElementById('resetConfirmBtn');
+  if (btn){ btn.disabled = true; btn.textContent = '⏳ Memproses...'; }
+  
   document.getElementById('resetModal').classList.remove('show');
   if (S.clanId){
     try {
@@ -3094,6 +3145,7 @@ window.confirmReset = async function(){
   await Storage.save(S);
   toast('🗑️ Data berhasil direset.');
 };
+
 document.getElementById('resetModal').addEventListener('click', (e)=>{
   if (e.target.id === 'resetModal') closeResetModal();
 });
